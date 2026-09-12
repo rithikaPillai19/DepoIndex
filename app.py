@@ -78,10 +78,6 @@ st.markdown("""
         color: #ffffff;
         font-weight: 500;
     }
-    .anchor-highlight {
-        background-color: rgba(210, 153, 34, 0.25);
-        border-left: 3px solid #d29922;
-    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -112,12 +108,12 @@ with st.sidebar:
     st.markdown("### ⚖️ **DepoIndex Workspace**")
     st.caption("Verifiable Deposition Topic Indexer")
     
-    st.markdown("""
+    st.markdown(f"""
     <div class="metric-box">
         <small style="color:#8b949e;">DEPONENT</small><br>
         <strong>Persis S. Yu</strong><br>
         <small style="color:#8b949e;">TOTAL SUBSTANTIVE TOPICS</small><br>
-        <span style="font-size:22px; font-weight:700; color:#58a6ff;">""" + str(len(topics)) + """</span>
+        <span style="font-size:22px; font-weight:700; color:#58a6ff;">{len(topics)}</span>
     </div>
     """, unsafe_allow_html=True)
     
@@ -138,93 +134,128 @@ with st.sidebar:
     selected_topic = topics[selected_idx]
     
     st.markdown("---")
-    st.caption("🔒 **Provenance Guarantee**: Line numbers derived deterministically via verbatim AST string anchoring — zero coordinate hallucination.")
+    st.caption("🔒 **Provenance Guarantee**: Line coordinates resolved deterministically via verbatim AST quote anchors.")
 
 # ---------------------------------------------------------
-# Main Panel: Side-by-Side Audit
+# Main Panel: Multi-Tab Interface
 # ---------------------------------------------------------
-col_left, col_right = st.columns([5, 6], gap="large")
+tab1, tab2 = st.tabs(["🔍 Side-by-Side Audit", "📋 Complete Topic Index Table"])
 
-# Parse coordinates
-start_str = selected_topic.get("start", "")
-end_str = selected_topic.get("end", "")
+with tab1:
+    col_left, col_right = st.columns([5, 6], gap="large")
 
-try:
-    start_page = int(start_str.split("Page ")[1].split(",")[0].strip())
-    start_line = int(start_str.split("Line ")[1].strip())
-except Exception:
-    start_page, start_line = 7, 1
+    start_str = selected_topic.get("start", "")
+    end_str = selected_topic.get("end", "")
 
-try:
-    end_page = int(end_str.split("Page ")[1].split(",")[0].strip())
-    end_line = int(end_str.split("Line ")[1].strip())
-except Exception:
-    end_page, end_line = start_page, start_line
+    try:
+        start_page = int(start_str.split("Page ")[1].split(",")[0].strip())
+        start_line = int(start_str.split("Line ")[1].strip())
+    except Exception:
+        start_page, start_line = 7, 1
 
-anchors = selected_topic.get("anchors", {})
+    try:
+        end_page = int(end_str.split("Page ")[1].split(",")[0].strip())
+        end_line = int(end_str.split("Line ")[1].strip())
+    except Exception:
+        end_page, end_line = start_page, start_line
 
-with col_left:
-    st.markdown("### 📑 Substantive Topic Record")
-    st.markdown(f"## **{selected_topic.get('topic')}**")
-    
-    # Pill badges for coordinates
-    st.markdown(
-        f'<span class="badge-pill">Start: Page {start_page}, Line {start_line}</span>'
-        f'<span class="badge-pill badge-secondary">End: Page {end_page}, Line {end_line}</span>',
-        unsafe_allow_html=True
-    )
-    
-    st.markdown("#### 💡 Supporting Testimony Evidence")
-    st.info(selected_topic.get("supporting_evidence", "No evidence summary provided."))
-    
-    st.markdown("#### ⚓ Verbatim Quote Anchors")
-    st.markdown("**Opening Anchor:**")
-    st.code(f'"{anchors.get("start_quote", "N/A")}"', language="text")
-    st.markdown("**Closing Anchor:**")
-    st.code(f'"{anchors.get("end_quote", "N/A")}"', language="text")
+    anchors = selected_topic.get("anchors", {})
 
-with col_right:
-    # Page selector allows reviewing adjacent pages if topic spans across pages
-    available_pages = list(range(start_page, end_page + 1))
-    if len(available_pages) > 1:
-        chosen_page = st.segmented_control("Viewing Page in Topic Range:", options=available_pages, default=start_page)
-    else:
-        chosen_page = start_page
+    with col_left:
+        st.markdown("### 📑 Substantive Topic Record")
+        st.markdown(f"## **{selected_topic.get('topic')}**")
         
-    st.markdown(f"### 🔍 Transcript Viewer — Page {chosen_page}")
-    
-    page_rows = df_transcript[df_transcript["page"] == chosen_page]
-    
-    if page_rows.empty:
-        st.write("No transcript lines recorded on this page.")
-    else:
-        html_lines = ['<div class="transcript-container">']
+        st.markdown(
+            f'<span class="badge-pill">Start: Page {start_page}, Line {start_line}</span>'
+            f'<span class="badge-pill badge-secondary">End: Page {end_page}, Line {end_line}</span>',
+            unsafe_allow_html=True
+        )
         
-        for _, row in page_rows.iterrows():
-            l_no = int(row["line"])
-            raw_text = row["text"].replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        st.markdown("#### 💡 Supporting Testimony Evidence")
+        st.info(selected_topic.get("supporting_evidence", "No evidence summary provided."))
+        
+        st.markdown("#### ⚓ Verbatim Quote Anchors")
+        st.markdown("**Opening Anchor:**")
+        st.code(f'"{anchors.get("start_quote", "N/A")}"', language="text")
+        st.markdown("**Closing Anchor:**")
+        st.code(f'"{anchors.get("end_quote", "N/A")}"', language="text")
+
+    with col_right:
+        available_pages = list(range(start_page, end_page + 1))
+        if len(available_pages) > 1:
+            chosen_page = st.segmented_control("Viewing Page in Topic Range:", options=available_pages, default=start_page)
+        else:
+            chosen_page = start_page
             
-            # Determine if this line is in the active topic range
-            in_range = False
-            if chosen_page == start_page == end_page:
-                in_range = (start_line <= l_no <= end_line)
-            elif chosen_page == start_page:
-                in_range = (l_no >= start_line)
-            elif chosen_page == end_page:
-                in_range = (l_no <= end_line)
-            elif start_page < chosen_page < end_page:
-                in_range = True
+        st.markdown(f"### 🔍 Transcript Viewer — Page {chosen_page}")
+        
+        page_rows = df_transcript[df_transcript["page"] == chosen_page]
+        
+        if page_rows.empty:
+            st.write("No transcript lines recorded on this page.")
+        else:
+            html_lines = ['<div class="transcript-container">']
+            
+            for _, row in page_rows.iterrows():
+                l_no = int(row["line"])
+                raw_text = str(row["text"]).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
                 
-            line_class = "line-row active-line" if in_range else "line-row"
-            indicator = " ◄" if in_range else ""
-            
-            html_lines.append(
-                f'<div class="{line_class}">'
-                f'<span class="line-num">L{l_no:02d}</span>'
-                f'<span class="line-text">{raw_text}{indicator}</span>'
-                f'</div>'
-            )
-            
-        html_lines.append("</div>")
-        st.markdown("".join(html_lines), unsafe_allow_html=True)
-        st.caption("🟢 Green background indicates the active topic line span as resolved by DepoIndex.")
+                in_range = False
+                if chosen_page == start_page == end_page:
+                    in_range = (start_line <= l_no <= end_line)
+                elif chosen_page == start_page:
+                    in_range = (l_no >= start_line)
+                elif chosen_page == end_page:
+                    in_range = (l_no <= end_line)
+                elif start_page < chosen_page < end_page:
+                    in_range = True
+                    
+                line_class = "line-row active-line" if in_range else "line-row"
+                indicator = " ◄" if in_range else ""
+                
+                html_lines.append(
+                    f'<div class="{line_class}">'
+                    f'<span class="line-num">L{l_no:02d}</span>'
+                    f'<span class="line-text">{raw_text}{indicator}</span>'
+                    f'</div>'
+                )
+                
+            html_lines.append("</div>")
+            st.markdown("".join(html_lines), unsafe_allow_html=True)
+            st.caption("🟢 Green background indicates the active topic line span as resolved by DepoIndex.")
+
+with tab2:
+    st.markdown("### 📋 Complete Chronological Deposition Topic Index")
+    st.caption("Formal 4-column index matching court production requirements.")
+
+    table_records = [
+        {
+            "Topic": t.get("topic"),
+            "Start": t.get("start"),
+            "End": t.get("end"),
+            "Supporting Evidence": t.get("supporting_evidence")
+        }
+        for t in topics
+    ]
+    
+    df_index = pd.DataFrame(table_records)
+
+    st.dataframe(
+        df_index,
+        use_container_width=True,
+        hide_index=True,
+        column_config={
+            "Topic": st.column_config.TextColumn("Topic", width="medium"),
+            "Start": st.column_config.TextColumn("Start", width="small"),
+            "End": st.column_config.TextColumn("End", width="small"),
+            "Supporting Evidence": st.column_config.TextColumn("Supporting Evidence", width="large"),
+        }
+    )
+
+    csv_data = df_index.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="📥 Export Topic Index as CSV",
+        data=csv_data,
+        file_name="persis_yu_topic_index.csv",
+        mime="text/csv"
+    )
