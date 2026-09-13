@@ -1,880 +1,916 @@
 {
   "0_80": [
     {
-      "topic_label": "Deposition Procedure and Witness Instructions",
-      "start_quote": "At the beginning of a deposition, I always make sure that somebody knows kind of how the process works, and one of my first questions to do that is to ask you if you've ever had your deposition taken before.",
-      "end_quote": "I don't want to trick you or ask any questions that you don't understand what I asked.",
-      "evidence_summary": "Counsel explains the deposition process, reminds the witness of the penalty of perjury, instructs her to answer unless instructed otherwise, and clarifies how to handle vague objections."
+      "topic_label": "Deposition Procedure and Instructions",
+      "start_quote": "Q    At the beginning of a deposition, I always make sure that somebody knows kind of how the process works,",
+      "end_quote": "Q    If I ask you a question and you don't understand it, please let me know that, and I'll try to ask a better question.",
+      "evidence_summary": "Counsel explains deposition protocol, perjury warning, how objections should be handled, and the expectation that the witness answer unless instructed otherwise."
     },
     {
       "topic_label": "Witness Health and Ability to Testify",
-      "start_quote": "Another big-picture question, I just want to make sure there's nothing that keeps you from giving your best testimony today, health-wise or anything.",
-      "end_quote": "There -- there is nothing that prevents me from giving my best testimony today.",
-      "evidence_summary": "Counsel asks whether any health issues would impede the witness\u2019s ability to give full testimony; the witness confirms there are none."
+      "start_quote": "Q    Another big-picture question, I just want to make sure there's nothing that keeps you from giving your best testimony today, health-wise or anything.",
+      "end_quote": "Q    Terrific.  Thank you very much.",
+      "evidence_summary": "Counsel confirms the witness has no health issues or other impediments that would affect the quality of her testimony."
     },
     {
       "topic_label": "Expert Retention and Scope of Testimony",
-      "start_quote": "So you had been retained as an expert in that -- in this case; correct?",
-      "end_quote": "Further, I've been asked to examine the loan documents that were used in the PEAKS program in order to opine on whether or not the defects on those loans would be clearly discernible to people or parties engaged in any aspect of student lending.",
-      "evidence_summary": "The witness confirms her retention as an expert and outlines the scope of her testimony: historical overview of ITT Institute practices, 90/10 rule context, and analysis of loan documents for discernible defects."
+      "start_quote": "Q    So you had been retained as an expert in that -- in this case; correct?",
+      "end_quote": "Q    So thank you.",
+      "evidence_summary": "Witness outlines the scope of her engagement: providing historical context on ITT Institute, the for\u2011profit industry, 90/10 rules, and analyzing loan documents from the PEAKS program for potential defects."
     },
     {
-      "topic_label": "Marking Exhibit and Reading Expert Report",
-      "start_quote": "One question is, it appears that you're reading from something. I assume that's your expert report?",
-      "end_quote": "that's a deposition thing.",
-      "evidence_summary": "Counsel identifies the document the witness is reading as her expert report, marks it as Exhibit 1, and requests the witness slow her reading to aid the court reporter and video recording."
+      "topic_label": "Marking and Reading Expert Report Exhibit",
+      "start_quote": "Q    One question is, it appears that you're reading from something. I assume that's your expert report?",
+      "end_quote": "Q    When we start reading, sometimes we read so fast it makes it hard for the court reporter, and also, since this is being recorded on video, it's a little harder to follow when -- when you talk really fast; so just a caution.",
+      "evidence_summary": "Counsel identifies the expert report, marks it as Exhibit\u202f1, and requests the witness read more slowly to ensure accurate transcription and video recording."
     }
   ],
   "65_145": [
     {
-      "topic_label": "Marking Exhibit 1 and Request to Slow Reading Pace",
+      "topic_label": "Marking Exhibit 1 and Reading Speed Instructions",
       "start_quote": "Q    One question is, it appears that you're reading",
       "end_quote": "Q    Terrific.  Thank you.",
-      "evidence_summary": "The attorney asks the witness to confirm the document being read is the expert report, marks it as Exhibit 1, and repeatedly requests the witness speak more slowly to aid the court reporter and video recording."
+      "evidence_summary": "The attorney asks the witness to confirm the document being read is the expert report, marks it as Exhibit\u202f1, and requests the witness slow down his reading to aid the court reporter and video recording."
     },
     {
       "topic_label": "Attorney Status and CV Review",
       "start_quote": "Q    You are an attorney; correct?",
       "end_quote": "A    Okay.",
-      "evidence_summary": "The deponent confirms they are an attorney and the counsel proceeds to display and navigate the witness's curriculum vitae on the screen."
+      "evidence_summary": "The deponent confirms his status as an attorney and the counsel begins to navigate the witness\u2019s curriculum vitae on the screen, preparing to discuss background information."
     },
     {
-      "topic_label": "Position at Student Borrower Protection Center",
-      "start_quote": "Q    You currently are the student -- the",
-      "end_quote": "A    The Student Borrower Protection Center is a National 501(c)(3) organization.",
-      "evidence_summary": "The witness identifies their role as deputy executive director of the Student Borrower Protection Center and describes the organization as a national nonprofit focused on student lending issues."
+      "topic_label": "Role and Mission of the Student Borrower Protection Center",
+      "start_quote": "Q    You currently are the student -- the deputy executive director of the Student Borrower Protection Center.",
+      "end_quote": "A    The Student Borrower Protection Center is a National 501(c)(3) organization.  We work on issues related to student lending and student borrowing, with the goal of alleviating the burden of student debt from our national economy.",
+      "evidence_summary": "The witness describes the organization\u2019s nonprofit status, its focus on student lending issues, and its overarching goal of reducing the national economic burden of student debt."
     },
     {
-      "topic_label": "SBPB Policy Agenda Overview",
-      "start_quote": "Q    What is the policy agenda?",
-      "end_quote": "students' families going into debt.",
-      "evidence_summary": "The witness outlines the Center's policy agenda, covering the student loan safety net, racial equity investigations, predatory lending practices, and the impact of school practices on student and family debt."
+      "topic_label": "Policy Agenda: Safety Net, Racial Equity, and Predatory Lending",
+      "start_quote": "Q    Bullet Point 1 sort of says a little bit about your duties there, and it mentions that you're trying to execute SBPB's policy agenda. What is the policy agenda?",
+      "end_quote": "We also work on issues related to predatory student lending.  And particularly in the private student loan market, we also look -- examine the practices of schools across the country and how they result in -- how their practices result in their students and their students' families going into debt.",
+      "evidence_summary": "The witness outlines the Center\u2019s policy priorities: strengthening the federal student\u2011loan safety net, advancing racial equity by identifying and remedying discrimination, and combating predatory practices in the private student\u2011loan market that push borrowers and families into debt."
     },
     {
       "topic_label": "National Campaign to Cancel Student Loan Debt",
-      "start_quote": "Q    When -- when you reference there \"canceling student loan debt,\" what do you mean?",
-      "end_quote": "A    That is referencing a national campaign that is",
-      "evidence_summary": "The witness explains that the reference to canceling student loan debt pertains to an ongoing national campaign aimed at relieving federal student loan burdens, especially in the context of the COVID\u201119 pandemic."
+      "start_quote": "Q    The second bullet point states that it is a national leader in the campaign to cancel student loan debt. When -- when you reference there \"canceling student loan debt,\" what do you mean?",
+      "end_quote": "A    That is referencing a national campaign that is ongoing in order to address the burdens of federal student loan debt as it regards to the COVID-19 pandemic, and the",
+      "evidence_summary": "The witness explains that the organization leads a nationwide effort to cancel federal student\u2011loan debt, particularly as a response to the financial hardships caused by the COVID\u201119 pandemic."
     }
   ],
   "130_210": [
     {
-      "topic_label": "Examination of Predatory Practices in Private Student Lending",
+      "topic_label": "Predatory Practices in Private Student Lending and School Debt Impact",
       "start_quote": "We also work on issues related to predatory",
-      "end_quote": "Q    Thank you.",
-      "evidence_summary": "The witness describes the organization\u2019s work investigating predatory practices by schools in the private student loan market that lead students and families into debt."
+      "end_quote": "students' families going into debt.",
+      "evidence_summary": "The witness describes work examining predatory practices in the private student loan market and how school policies lead students and families into debt."
     },
     {
       "topic_label": "National Campaign to Cancel Federal Student Loan Debt",
       "start_quote": "When -- when you reference there \"canceling student loan debt,\" what do you mean?",
-      "end_quote": "for borrowers across the country.",
-      "evidence_summary": "The witness explains that the campaign seeks to address federal student loan burdens, referencing President Biden\u2019s proposal to cancel up to $20,000 of federal loans for eligible borrowers."
+      "end_quote": "President Biden's program to cancel up to $20,000 of federal student loans for borrowers across the country.",
+      "evidence_summary": "The witness explains that the organization references a national campaign aimed at addressing federal student loan debt, specifically the Biden administration's $20,000 cancellation proposal."
     },
     {
-      "topic_label": "Development of New Borrower Protections and Policy Advocacy",
-      "start_quote": "The third bullet point talks about leading",
+      "topic_label": "Development of Policy Initiatives and Protections for Student Loan Borrowers",
+      "start_quote": "The third bullet point talks about leading initiatives to develop, pass, and implement new protections for student loan borrowers.",
       "end_quote": "We do research, and then present those findings both publicly and then to policymakers.",
-      "evidence_summary": "The witness outlines deep analysis of the Higher Education Act and CFPB regulations, creation of policy memos, research, and public/policy\u2011maker dissemination to improve fairness for student loan borrowers."
+      "evidence_summary": "The witness outlines deep analysis of the Higher Education Act and CFPB laws, creation of policy memos, research, and public/policy\u2011maker dissemination to improve borrower protections."
     },
     {
-      "topic_label": "Target Audience for Policy Standards and Recommendations",
+      "topic_label": "Intended Recipients of Policy Recommendations (Regulators, Lawmakers, Agencies)",
       "start_quote": "Q    And do these initials strive to come up with standards that lenders should adhere to or schools, or who are they directed at (verbatim)?",
       "end_quote": "I imagine that lenders do also read our materials.",
-      "evidence_summary": "The witness states that the organization\u2019s standards are primarily directed at regulators, federal and state policymakers, the Department of Education, the CFPB, and potentially lenders."
+      "evidence_summary": "The witness states that recommendations are primarily directed at regulators, federal and state policymakers, the Department of Education, CFPB, and potentially lenders."
     },
     {
-      "topic_label": "Successful Advocacy Outcomes and Rulemaking Participation",
+      "topic_label": "Successful Advocacy Achievements (Biden $20k Cancellation, Income\u2011Driven Repayment Rules)",
       "start_quote": "Q    Which ones have been successful?",
+      "end_quote": "the Department of Education's income (unintelligible) --",
+      "evidence_summary": "The witness cites successful advocacy for the Biden $20,000 cancellation, extensive writing on income\u2011driven repayment, and incorporation of recommendations into Department of Education draft rules."
+    },
+    {
+      "topic_label": "Role in 2021 Department of Education Negotiated Rulemaking on Student Loan Affordability",
+      "start_quote": "I was the lead legal aid negotiator in the 2021 negotiator rulemaking at the Department of Education on student loans and affordability.",
       "end_quote": "which -- a number which have been",
-      "evidence_summary": "The witness cites successful advocacy for Biden\u2019s $20,000 loan cancellation, contributions to income\u2011driven repayment rules, and personal involvement as lead negotiator in the 2021 Department of Education rulemaking on student loan affordability."
+      "evidence_summary": "The witness describes serving as lead negotiator during the 2021 rulemaking, participating in multiple rulemakings, and providing feedback that influenced several programmatic regulations."
     }
   ],
   "195_275": [
     {
-      "topic_label": "Lead legal aid negotiator role in 2021 Department of Education rulemaking",
+      "topic_label": "Lead legal aid negotiator in 2021 Department of Education rulemaking",
       "start_quote": "Yes, so I was the lead legal aid negotiator in",
-      "end_quote": "dozen different programmatic regulations.",
-      "evidence_summary": "The witness describes serving as the lead legal aid negotiator for the 2021 rulemaking on student loans, participating in negotiations on roughly a dozen programmatic regulations."
+      "end_quote": "implemented.",
+      "evidence_summary": "The witness describes serving as the lead legal aid negotiator for the 2021 rulemaking on student loans, participating in multiple regulatory proposals and providing feedback that led to implemented regulations."
     },
     {
-      "topic_label": "Advocacy to remove taxation on canceled federal student loans",
-      "start_quote": "Legislatively, you know, Congress doesn't pass a lot of laws, but we have successfully advocated for removing the taxation on -- well, temporarily, during",
-      "end_quote": "all canceled loans, excuse me.",
-      "evidence_summary": "The witness recounts successful advocacy that temporarily eliminated federal tax on all canceled student loans during the COVID period."
+      "topic_label": "Advocacy to remove taxation on canceled student loans (COVID and disability)",
+      "start_quote": "removing the taxation on -- well, temporarily, during",
+      "end_quote": "discharge.",
+      "evidence_summary": "The witness explains work on legislation that temporarily eliminated tax on all canceled federal loans during COVID and earlier efforts to eliminate tax on loans canceled due to disability discharge."
     },
     {
-      "topic_label": "Legislative work on disability discharge tax relief and CARES Act borrower protections",
-      "start_quote": "Prior to that, worked on legislation to eliminate the taxation on loans that were canceled due to disability discharge.",
-      "end_quote": "In particular, I worked on legislation during the passage of the CARES Act in order to ensure that those rules were most protective of student loan borrowers during the pandemic.",
-      "evidence_summary": "The witness explains prior efforts to remove tax on disability\u2011discharged loans and participation in drafting borrower\u2011defense regulations and CARES Act provisions to protect borrowers during the pandemic."
+      "topic_label": "Work on borrower defense regulations and CARES Act protections",
+      "start_quote": "Worked on rules related to the borrower defense regulations, related to",
+      "end_quote": "during the pandemic.",
+      "evidence_summary": "The witness recounts drafting and supporting borrower defense regulations and ensuring CARES Act provisions were maximally protective for student loan borrowers throughout the pandemic."
     },
     {
-      "topic_label": "Comments and participation in Department of Education initiatives targeting loan servicers",
+      "topic_label": "Providing comments to DOE on student loan servicer contracts and RFIs",
       "start_quote": "So I have provided comments to the Department of Education with regards to",
-      "end_quote": "I provided comments in I want to say it was 2015.",
-      "evidence_summary": "The witness details providing written comments on multiple Department of Education requests for information and RFI processes concerning student loan servicer contracts, including a 2015 submission."
+      "end_quote": "on those.",
+      "evidence_summary": "The witness details submitting comments on multiple DOE requests for information and solicitation processes, including RFIs and listening sessions, aimed at influencing contracts with federal student loan servicers."
     },
     {
-      "topic_label": "Substantive content of comments on servicer contracts \u2013 consumer protections and oversight",
+      "topic_label": "Content of comments: consumer protections and oversight for servicers",
       "start_quote": "The nature of the comments that we submitted on the proposal were with regards to",
-      "end_quote": "then some, you know, fairly nuts-and-bolts feedback, such",
-      "evidence_summary": "The witness outlines that the comments emphasized general consumer protections, borrower redress mechanisms, oversight of servicer performance, and practical suggestions such as call\u2011center staffing and language\u2011access requirements."
+      "end_quote": "that sort of thing.",
+      "evidence_summary": "The witness outlines that the comments emphasized general consumer protections, borrower redress mechanisms, oversight of servicer performance, and practical issues such as call\u2011center staffing and language\u2011access requirements."
     },
     {
       "topic_label": "Personal experience (or lack thereof) working for a loan servicer",
-      "start_quote": "Have you ever worked as a loan servicer?",
-      "end_quote": "I have done extensive studying of loan servicers through -- through",
-      "evidence_summary": "When asked about personal employment with a loan servicer, the witness affirms they have never worked for one, though they have studied servicer operations extensively."
+      "start_quote": "I have not.",
+      "end_quote": "through",
+      "evidence_summary": "When asked about personal employment with loan servicers, the witness states they have never worked for or as a loan servicer, though they have studied servicer practices extensively."
     }
   ],
   "260_340": [
     {
-      "topic_label": "Servicing quality and operational considerations",
-      "start_quote": "was paying attention to the quality of the servicing, as",
-      "end_quote": "that sort of thing.",
-      "evidence_summary": "The witness describes monitoring servicer performance, including call\u2011center staffing and other nuts\u2011and\u2011bolts feedback on service quality."
+      "topic_label": "Servicer performance considerations (quality and call center staffing)",
+      "start_quote": "Page 17 Line 22: was paying attention to the quality of the servicing, as",
+      "end_quote": "Page 18 Line 2: time -- times for call center workers, that sort of thing.",
+      "evidence_summary": "The witness describes monitoring servicer quality and the need for adequate call\u2011center staffing and time allocations."
     },
     {
-      "topic_label": "Witness's personal background and experience with loan servicers",
-      "start_quote": "Have you ever worked as a loan servicer?",
-      "end_quote": "to learn about the student loan market.",
-      "evidence_summary": "The witness confirms no direct employment with a loan servicer, notes lack of formal education in servicing, and explains self\u2011directed study of the student\u2011loan market beginning in 2009 as a legal\u2011aid attorney."
+      "topic_label": "Witness's personal experience as a loan servicer",
+      "start_quote": "Page 18 Line 4: Q    Have you ever worked as a loan servicer?",
+      "end_quote": "Page 18 Line 7: A    I have not.",
+      "evidence_summary": "The witness answers that she has never been employed by a loan servicer."
     },
     {
-      "topic_label": "Professional work at the National Consumer Law Center and congressional testimony",
-      "start_quote": "The work that I did at the National Consumer Law Center involved researching laws related to servicing.",
-      "end_quote": "Those were both done in my capacity at the National Consumer Law Center.",
-      "evidence_summary": "The witness outlines research on servicing regulations, contract review, and testifying before the Senate Banking Subcommittee and the House Financial Services Committee on student\u2011loan servicing matters."
+      "topic_label": "Educational background related to loan servicing",
+      "start_quote": "Page 18 Line 8: Q    In any of your education, did you ever study",
+      "end_quote": "Page 18 Line 13: to learn about the student loan market.",
+      "evidence_summary": "The witness states she has no formal education in loan servicing but has studied the student\u2011loan market through her professional work."
+    },
+    {
+      "topic_label": "Entry into the student\u2011loan field",
+      "start_quote": "Page 18 Line 14: Q    And when did you start learning about the student",
+      "end_quote": "Page 18 Line 17: A    I started working in this field in 2009 as a",
+      "evidence_summary": "The witness began working on student\u2011loan issues in 2009 as a legal\u2011aid attorney representing borrowers."
+    },
+    {
+      "topic_label": "Work at the National Consumer Law Center involving loan\u2011servicing research",
+      "start_quote": "Page 18 Line 19: Q    Okay.  With your work at the",
+      "end_quote": "Page 18 Line 24: The -- it also involved reviewing",
+      "evidence_summary": "The witness explains that her NCLC work included researching servicing\u2011related laws, reviewing contracts, and providing comments on RFI requests."
+    },
+    {
+      "topic_label": "Congressional testimony on student\u2011loan servicing",
+      "start_quote": "Page 19 Line 2: I also testified before Congress twice during",
+      "end_quote": "Page 19 Line 14: 2019 on student loan servicing.  Those were both done in",
+      "evidence_summary": "The witness testified before the Senate Banking Subcommittee and the House Financial Services Committee on student\u2011loan servicing matters."
     },
     {
       "topic_label": "Servicer portfolio transfers in the federal student\u2011loan market",
-      "start_quote": "Ms. Yu, in -- in any of your work experience, have you ever dealt with a situation where one loan servicer takes over a student loan portfolio from another loan servicer?",
-      "end_quote": "There have been other smaller loan services which have also left the market and which has resulted in transfers of loan servicing to various different entities.",
-      "evidence_summary": "The witness confirms that servicer takeovers are common, cites roughly a dozen federal transfers, and provides examples such as Navient\u2019s portfolio moving to Maximus/Aidvantage and PHEAA\u2019s portfolio moving to Mohela."
+      "start_quote": "Page 19 Line 16: Q    Ms. Yu, in -- in any of your work experience, have you ever dealt with a situation where one loan servicer takes over a student loan portfolio from another loan servicer?",
+      "end_quote": "Page 20 Line 20: tend to be smaller and less spectacular with fewer",
+      "evidence_summary": "The witness describes frequent servicer\u2011to\u2011servicer portfolio transfers, citing Navient\u2019s exit and transfer to Maximus/Aidvantage, PHEAA\u2019s transfer to Mohela, and other smaller moves."
     },
     {
-      "topic_label": "Private\u2011market student\u2011loan servicer transfers",
-      "start_quote": "Do you have any experience with any of these transfers in the private student loan market?",
-      "end_quote": "Sallie Mae transitioned to Navient.  But like I said, they",
-      "evidence_summary": "The witness indicates limited recollection of large private\u2011market transfers, mentioning the Sallie Mae to Navient transition as a possible example."
+      "topic_label": "Private\u2011market servicer transfers",
+      "start_quote": "Page 20 Line 22: Q    Do you have any experience with any of these transfers in the private student loan market?",
+      "end_quote": "Page 21 Line 1: Sallie Mae transitioned to Navient.  But like I said, they",
+      "evidence_summary": "The witness indicates limited recollection of large private\u2011market transfers, mentioning the Sallie Mae to Navient transition as an example."
     }
   ],
   "325_405": [
     {
-      "topic_label": "Market-wide loan servicing transfers and private sector examples",
-      "start_quote": "There have been other smaller loan services which",
-      "end_quote": "I do not recall -- I do -- I do not recall large",
-      "evidence_summary": "Witness describes how various loan servicers have exited the market, resulting in transfers of loan portfolios, and notes that private\u2011sector transfers (e.g., Sallie Mae to Navient) are typically smaller than federal transfers."
+      "topic_label": "Scale and occurrence of private student loan servicing transfers",
+      "start_quote": "There have been other smaller loan services which have also left the market and which has resulted in transfers of loan servicing to various different entities.",
+      "end_quote": "tend to be smaller and less spectacular with fewer millions of borrowers transferred at any given moment.",
+      "evidence_summary": "The witness describes how smaller loan servicers exit the market, causing loan\u2011servicing transfers that are comparatively modest in size and impact versus federal transfers."
     },
     {
-      "topic_label": "Witness knowledge of data transfer processes and platforms",
-      "start_quote": "these loans as they are packaged to be transferred have to be condensed into data files; right?",
-      "end_quote": "but I am not involved in the day-to-day operation of these",
-      "evidence_summary": "Witness explains the mechanics of servicing data transfers, citing examples such as Navient to Maximus (full platform transfer) and FedLoan to Mohela (data packaging), while stating he is not involved in daily operations."
+      "topic_label": "Witness experience with private\u2011market loan transfers",
+      "start_quote": "Do you have any experience with any of these transfers in the private student loan market?",
+      "end_quote": "There may have been some when Sallie Mae transitioned to Navient.  But like I said, they happen typically on a much smaller scale than on the Federal Student Loan scale.",
+      "evidence_summary": "The witness states he does not recall large private\u2011market transfers, noting only occasional examples such as the Sallie Mae to Navient transition, which were far smaller than federal transfers."
     },
     {
-      "topic_label": "Risks to borrowers from loan\u2011servicing data transfers",
-      "start_quote": "Q    Well, what are those risks?",
-      "end_quote": "to -- to the consumer who they should be discuss -- talking to about their loans at any given moment.",
-      "evidence_summary": "Witness identifies primary risks including data loss, lost payments, lost communications, and borrower confusion about where and how to make payments during a servicer transition."
+      "topic_label": "Details of data\u2011transfer processes between servicers",
+      "start_quote": "And whether they happen on a small scale or a large scale, have you ever been involved in the nuts and bolts of how they transfer the data from one servicer to the other?",
+      "end_quote": "but I am not involved in the day-to-day operation of these loans.",
+      "evidence_summary": "The witness explains that loan data is packaged into files, sometimes whole servicing platforms are moved (e.g., Navient to Maximus), but he is not directly involved in the operational details."
     },
     {
-      "topic_label": "Continuity of servicing after a servicer exits a portfolio",
-      "start_quote": "Q    -- is it generally your experience that if one student loan servicer stops servicing a portfolio, another one will step in and take over?",
-      "end_quote": "I am not aware of any instance where that has",
-      "evidence_summary": "Witness states that, in his experience, another servicer usually steps in when one exits a portfolio and he is unaware of any case where a portfolio was left without a successor."
+      "topic_label": "Risks to borrowers during servicing transfers",
+      "start_quote": "What are those risks?",
+      "end_quote": "Also, there is often confusion amongst borrowers about where to make payments, what they need to -- who they need to interface with, as it is often quite opaque to -- to the consumer who they should be discuss -- talking to about their loans at any given moment.",
+      "evidence_summary": "The witness identifies data loss, lost payments, lost communications, and borrower confusion about payment channels as primary risks associated with loan\u2011servicing transfers."
     },
     {
-      "topic_label": "Regulatory framework governing servicing data transfers",
-      "start_quote": "Q    Are you -- are you aware of any regulations that apply to the manner in which student loan servicing data is supposed to be transferred from the original servicer to the follow-on servicer when there's a change in student loan servicing?",
+      "topic_label": "Continuity of servicing when a portfolio is abandoned",
+      "start_quote": "is it generally your experience that if one student loan servicer stops servicing a portfolio, another one will step in and take over?",
+      "end_quote": "I am not aware of any instance where that has occurred.",
+      "evidence_summary": "The witness asserts that, in his experience, another servicer typically assumes a discontinued portfolio, and he knows of no case where a portfolio was left without a successor."
+    },
+    {
+      "topic_label": "Regulatory requirements for loan\u2011servicing data transfers",
+      "start_quote": "Are you aware of any regulations that apply to the manner in which student loan servicing data is supposed to be transferred from the original servicer to the follow-on servicer when there's a change in student loan servicing?",
       "end_quote": "California State Student Loan Servicing Law I believe has requirements about the data that must be transferred from one servicer to another in -- in a -- when a transfer",
-      "evidence_summary": "Witness notes that various state laws, such as the California Student Loan Servicing Law, impose specific data\u2011transfer requirements on servicers during portfolio transitions."
+      "evidence_summary": "The witness notes that various state laws, such as California\u2019s Student Loan Servicing Law, impose specific data\u2011transfer obligations on servicers during a portfolio handoff."
     }
   ],
   "390_470": [
     {
-      "topic_label": "Servicer abandonment occurrence",
-      "start_quote": "loan servicer stepped away from servicing a portfolio",
-      "end_quote": "I am not aware of any instance where that has occurred.",
-      "evidence_summary": "Witness states he is not aware of any instance where a loan servicer has stepped away from servicing a portfolio without another servicer taking over."
+      "topic_label": "Servicer Abandonment of Portfolio",
+      "start_quote": "loan servicer stepped away from servicing a portfolio and",
+      "end_quote": "I am not aware of any instance where that has",
+      "evidence_summary": "The deponent was asked whether a loan servicer ever stopped servicing a portfolio without a successor and responded that he is not aware of any such instance."
     },
     {
-      "topic_label": "Regulations governing student loan data transfer",
-      "start_quote": "Are you -- are you aware of any regulations that apply to the manner in which student loan servicing data is supposed to be transferred from the original servicer to the follow-on servicer when there's a change in student loan servicing?",
-      "end_quote": "I believe that other states as well, but I don't know them off the top of my head.",
-      "evidence_summary": "Witness cites state laws\u2014specifically the California State Student Loan Servicing Law\u2014as requiring certain data to be transferred between servicers, and notes other states likely have similar statutes though he cannot name them."
+      "topic_label": "Regulatory Requirements for Student\u2011Loan Data Transfer",
+      "start_quote": "Are you -- are you aware of any regulations that",
+      "end_quote": "I believe that other states as well, but I don't",
+      "evidence_summary": "The witness identified that various state laws, such as the California State Student Loan Servicing Law, impose data\u2011transfer requirements when a servicer change occurs, though he could not list all applicable statutes."
     },
     {
-      "topic_label": "Identification of PEAKS loans at ITT",
-      "start_quote": "In this case, of course, we're dealing with the PEAKS loans that were in use at ITT; correct?",
+      "topic_label": "Identification of PEAKS Loans at ITT",
+      "start_quote": "In this case, of course, we're dealing with the",
       "end_quote": "That's correct.",
-      "evidence_summary": "Witness confirms that the loans under discussion are the PEAKS loans that were used by ITT."
+      "evidence_summary": "The attorney confirmed that the loans under discussion were the PEAKS loans used at ITT."
     },
     {
-      "topic_label": "Alleged regulatory violations in Access Group data transfer",
-      "start_quote": "Are you aware of any regulations that were violated when the Access Group transferred the data for the PEAKS loans to my client, Vervent, in 2011?",
-      "end_quote": "I don't have access to the documents of what was transferred and couldn't make an opinion about what rules were or were not violated.",
-      "evidence_summary": "Witness declines to opine on any regulatory violations, stating the issue is outside the scope of his review and he lacks the documents needed to form an opinion."
+      "topic_label": "Alleged Violations in Data Transfer from Access Group to Vervent",
+      "start_quote": "Are you aware of any regulations that were",
+      "end_quote": "couldn't make an opinion about what rules were or were not violated.",
+      "evidence_summary": "When asked whether any regulations were breached during the 2011 transfer of PEAKS loan data from Access Group to Vervent, the witness said the issue was outside his scope and he lacked the documents to form an opinion."
     },
     {
-      "topic_label": "Witness's criminal law and RICO experience",
-      "start_quote": "Okay. Have you ever had a job related to criminal law?",
-      "end_quote": "These cases would have been under -- these would have been student loan related cases.  That's my primary area of expertise.",
-      "evidence_summary": "Witness describes limited criminal law exposure (internship at a DA's office, volunteer teen court, jury service), general awareness of the RICO statute, and occasional involvement in RICO analyses within student\u2011loan cases, totaling a small handful of instances."
+      "topic_label": "Witness's Criminal\u2011Law Experience",
+      "start_quote": "Okay.  Have you ever had a job related to",
+      "end_quote": "I volunteered at a teen court when I was an",
+      "evidence_summary": "The deponent disclosed limited criminal\u2011law background: an internship at a district attorney\u2019s office, work with domestic\u2011violence survivors, and volunteer service at a teen court, but no experience deciding criminal charges."
     },
     {
-      "topic_label": "Familiarity with for\u2011profit colleges",
-      "start_quote": "You provide -- the initial background, you provide an overview of higher education and for-profit colleges.  You have some familiarity with the concept of for-profit colleges in America, I take it?",
+      "topic_label": "Familiarity with the RICO Statute",
+      "start_quote": "What familiar -- familiarity do you have with",
+      "end_quote": "I -- I -- I am generally aware of the RICO",
+      "evidence_summary": "The witness stated he is generally aware of the Racketeer Influenced and Corrupt Organizations (RICO) statute."
+    },
+    {
+      "topic_label": "Experience Evaluating RICO Enterprises",
+      "start_quote": "Have you ever had a job where you helped",
+      "end_quote": "occurred.",
+      "evidence_summary": "He explained that, as a consumer attorney, he has considered whether RICO violations occurred in certain cases."
+    },
+    {
+      "topic_label": "RICO Experience Specific to Student\u2011Loan Cases",
+      "start_quote": "Have you ever had any experience with that in the",
+      "end_quote": "That's my primary",
+      "evidence_summary": "The deponent confirmed that his RICO\u2011related work has been in the context of student\u2011loan litigation, which is his primary area of expertise."
+    },
+    {
+      "topic_label": "Background on For\u2011Profit Colleges",
+      "start_quote": "You provide -- the initial background, you",
       "end_quote": "I do.",
-      "evidence_summary": "Witness affirms he has familiarity with higher education and the for\u2011profit college sector, as reflected in his background overview."
+      "evidence_summary": "The attorney affirmed his familiarity with higher\u2011education and for\u2011profit college concepts, providing an overview as part of his background."
     }
   ],
   "455_535": [
     {
-      "topic_label": "Witness's Experience with Student Loan Cases",
+      "topic_label": "Witness Experience with Student Loan Cases",
       "start_quote": "Q    Have you ever had any experience with that in the context of student loans?",
       "end_quote": "A    A small handful of times.  Less than half a -- less than half a dozen.",
-      "evidence_summary": "The witness confirms limited direct experience handling student loan related cases, stating he has dealt with fewer than six such matters."
+      "evidence_summary": "The witness confirms limited direct experience handling student\u2011loan related cases, describing it as a small handful, fewer than six instances."
     },
     {
-      "topic_label": "Legal Status of For\u2011Profit Colleges and Profit Motive",
-      "start_quote": "You provide -- the initial background, you provide an overview of higher education and for-profit colleges.",
+      "topic_label": "General Knowledge of For\u2011Profit Colleges and Legal Status",
+      "start_quote": "Q    You provide -- the initial background, you",
       "end_quote": "A    That is correct.",
-      "evidence_summary": "The witness acknowledges that there is no law prohibiting for\u2011profit colleges or the act of making a profit from such institutions."
+      "evidence_summary": "The witness acknowledges familiarity with for\u2011profit higher\u2011education institutions and confirms there is no law prohibiting for\u2011profit schools or making a profit."
     },
     {
-      "topic_label": "Witness's Expertise Relating to ITT Education Quality vs. Debt",
+      "topic_label": "Firsthand Experience with ITT Education Quality",
       "start_quote": "Q    Did you have any firsthand experience with what the quality of education was like at IT&T -- ITT?",
-      "end_quote": "A    So the -- so my area of expertise is in student lending, and so the area that I would've examined with regards to ITT is with -- with the debt that students incurred.",
-      "evidence_summary": "The witness never attended ITT and frames his analysis of ITT primarily around student loan debt rather than educational quality."
+      "end_quote": "A    I never attended ITT.",
+      "evidence_summary": "The witness states they have never personally attended ITT, indicating no direct experience with the institution\u2019s educational quality."
     },
     {
-      "topic_label": "Representation of ITT Borrowers and Systemic Issues",
-      "start_quote": "I -- I represented individual borrowers and -- who have a -- I've represented a small number of ITT students; however, my expertise has been looking more broadly at ITT and about the systemic problems that have been identified by regulators, by, also, Senate committees, and so looked systemically at the issues that have been raised by student loan borrowers in those contexts and understanding the ways in which ITT has led students into debt.",
-      "end_quote": "understanding the ways in which ITT has led students into debt.",
-      "evidence_summary": "The witness describes both individual representation of ITT borrowers and broader analysis of systemic regulatory findings linking ITT to student debt problems."
+      "topic_label": "Analysis of ITT Debt Issues and Systemic Problems",
+      "start_quote": "A    So the -- so my area of expertise is in student lending, and so the area that I would've examined with regards to ITT is with -- with the debt that students incurred.",
+      "end_quote": "A    ... understanding the ways in which ITT has led students into debt.",
+      "evidence_summary": "The witness describes representing individual ITT borrowers and reviewing systemic regulator and Senate findings, focusing on how ITT\u2019s practices have generated significant student debt."
     },
     {
-      "topic_label": "Assessment of Benefits vs. Debt Burden for ITT Students",
+      "topic_label": "Evaluation of ITT Educational Benefits vs. Debt Burden",
       "start_quote": "Q    Would it be fair to say that your view about ITT, based on the -- the materials you've reviewed, is that in many occasions the benefits of an ITT education were outweighed by the burdens of debt that students took?",
-      "end_quote": "few students or -- very few students receive the benefits that are promised to them by ITT which is what led them to take on the debt in the first place.",
-      "evidence_summary": "The witness concludes that only a very small number of ITT students obtain the promised educational benefits, implying the debt incurred often exceeds any advantage."
+      "end_quote": "A    ... very few students receive the benefits that are promised to them by ITT which is what led them to take on the debt in the first place.",
+      "evidence_summary": "The witness opines that only a very small number of ITT students obtain the promised benefits, implying that the educational value often does not justify the incurred debt."
     },
     {
-      "topic_label": "Value of an ITT Diploma and Student Outcomes",
+      "topic_label": "Discussion of ITT Diploma Value and Student Outcomes",
       "start_quote": "Q    So it -- it's not your opinion that an ITT diploma is worthless; correct?",
-      "end_quote": "the -- the degree had value -- which I -- I don't -- what",
-      "evidence_summary": "The witness indicates that ITT graduates typically earn less than high\u2011school graduates, face high dropout rates, and questions the overall value of the diploma."
+      "end_quote": "A    ... large number of folks -- even if one were to say that the -- the degree had value -- which I -- I don't -- what",
+      "evidence_summary": "The witness clarifies that while the ITT diploma may have some value, data shows graduates often earn less than high\u2011school graduates and face high dropout rates, casting doubt on overall worth."
     }
   ],
   "520_600": [
     {
-      "topic_label": "Economic outcomes of ITT graduates vs high school diploma",
-      "start_quote": "folks who attend a for-profit college and get a diploma, such as that from ITT, typically earn less than they did even with just a high school diploma.",
-      "end_quote": "I know is the data around earnings, and I know about the data around retention.",
-      "evidence_summary": "The witness states that ITT graduates on average earn less than individuals with only a high\u2011school diploma, citing earnings and retention data."
-    },
-    {
-      "topic_label": "High dropout and retention rates at ITT and other for\u2011profit schools",
-      "start_quote": "I think beyond that, there's also issues about",
+      "topic_label": "Economic outcomes and dropout rates of ITT students",
+      "start_quote": "folks who attend a school -- that folks who attend a for-profit college and get a diploma, such as that from ITT, typically earn less than they did even with just a high school diploma.",
       "end_quote": "ITT and other for-profit schools have extraordinarily high dropout rates.",
-      "evidence_summary": "The witness highlights that ITT and similar for\u2011profit institutions experience very high student dropout rates, indicating poor retention."
+      "evidence_summary": "The witness states that ITT graduates generally earn less than they would with only a high\u2011school diploma and that ITT, like other for\u2011profit schools, exhibits very high student dropout rates."
     },
     {
-      "topic_label": "Request for statistics on ITT degree completion rates",
-      "start_quote": "what statistics are you aware of about how many -- what percentage of ITT students ended up getting degrees as opposed to those who did not get degrees?",
-      "end_quote": "If you'll -- I -- I'm going to refer to my report because I believe that I have this date.",
-      "evidence_summary": "Counsel asks the witness to provide specific percentages of ITT students who earn degrees versus those who do not; the witness says he will consult his report."
+      "topic_label": "Request for and reference to ITT retention statistics",
+      "start_quote": "So what -- what statistics are you aware of about how many -- what percentage of ITT students ended up getting degrees as opposed to those who did not get degrees?",
+      "end_quote": "looked at the retention rates at ITT.",
+      "evidence_summary": "The attorney asks for specific degree\u2011completion statistics; the witness replies that the Senate HELP Committee examined ITT\u2019s retention rates and can refer to that report."
     },
     {
-      "topic_label": "Senate HELP Committee report on ITT retention",
-      "start_quote": "the Senate HELP Committee looked specifically at ITT and looked at the retention rates at ITT.",
-      "end_quote": "They did a report in -- they released a report in 2012 which was based upon a two-year investigation into a number of for-profit institutions.",
-      "evidence_summary": "The witness references a 2012 Senate HELP Committee investigation that examined ITT\u2019s retention rates among other for\u2011profit schools."
-    },
-    {
-      "topic_label": "Default rates as indicator of educational value at ITT",
-      "start_quote": "the other metric besides retention that is important to look at when -- when judging the quality of the degree ... is to look at the default rates at an institution, and so ITT had a notably high default rate which indicates that -- which is a good indicator that students were not getting the value",
-      "end_quote": "the value of the education which they were taking on the loans to get.",
-      "evidence_summary": "The witness explains that ITT\u2019s high loan default rates signal that graduates are not obtaining sufficient economic benefit from their education."
+      "topic_label": "Default rates as indicator of ITT degree value",
+      "start_quote": "The other metric besides retention that is important to look at when -- when judging the quality of the degree and the quality of -- on whether borrowers experienced -- or students rather experienced a valuable experience is to look at the default rates at an institution, and so ITT had a notably high default rate which indicates that --",
+      "end_quote": "students were not getting the value of the education which they were taking on the loans to get.",
+      "evidence_summary": "The witness explains that, beyond retention, high default rates at ITT suggest students did not obtain sufficient value from their education to repay loans."
     },
     {
       "topic_label": "Whether every ITT degree is worthless",
       "start_quote": "one is just, it -- it is not your opinion that every degree from ITT was worthless; is that fair?",
-      "end_quote": "I have no way of -- of evaluating every single degree. What I have is looking at market-wide data available about the outcomes of ITT students.",
-      "evidence_summary": "Counsel asks if the witness believes all ITT degrees are worthless; the witness replies he cannot evaluate each degree individually and relies on aggregate outcome data."
+      "end_quote": "looking at market-wide data available about the outcomes of ITT students.",
+      "evidence_summary": "When asked if all ITT degrees are worthless, the witness says he cannot evaluate each degree individually and relies on aggregate market data on student outcomes."
     },
     {
-      "topic_label": "Hypothetical of an ITT graduate earning double pre\u2011attendance income",
-      "start_quote": "If there is an ITT student and they got a degree and made more than twice as much as they made after graduating from ITT than before they attended ITT, would you consider that to be an unusual experience with an ITT student?",
-      "end_quote": "If there is an ITT student and they got a degree and made more than twice as much as they made after graduating from ITT than before they attended ITT, would you consider that to be an unusual experience with an ITT student?",
-      "evidence_summary": "Counsel poses a hypothetical scenario asking whether a graduate who doubles his earnings post\u2011ITT represents an outlier."
+      "topic_label": "Hypothetical of an ITT graduate earning double post\u2011degree",
+      "start_quote": "Okay.  How about this:  If there is an ITT student and they got a degree and made more than twice as much as they made after graduating from ITT than before they attended ITT, would you consider that to be an unusual experience with an ITT student?",
+      "end_quote": "would you consider that to be an unusual experience with an ITT student?",
+      "evidence_summary": "The attorney poses a hypothetical scenario asking whether a graduate who doubles earnings after obtaining an ITT degree represents an atypical outcome."
     }
   ],
   "585_665": [
     {
-      "topic_label": "Assessment of ITT Degree Value",
-      "start_quote": "-- one is just, it -- it is not your opinion that every degree from ITT was worthless; is that fair?",
-      "end_quote": "I have no way of -- of evaluating",
-      "evidence_summary": "The witness is asked whether it is fair to say all ITT degrees were worthless and responds that she cannot evaluate each degree individually, noting reliance on market-wide outcome data."
+      "topic_label": "Worthlessness of ITT Degrees",
+      "start_quote": "it is not your opinion that every degree from ITT was worthless; is that fair?",
+      "end_quote": "MR. BLOOD:  Vague --",
+      "evidence_summary": "The attorney asks whether the witness believes every ITT degree is worthless. The witness replies that they cannot evaluate each degree individually and rely on market-wide outcome data."
     },
     {
-      "topic_label": "Hypothetical Outlier Earnings",
+      "topic_label": "Hypothetical Outlier Earnings Scenario",
       "start_quote": "If there is an ITT student and they got a degree and made more than twice as much as they made after graduating from ITT than before they attended ITT, would you consider that to be an unusual experience with an ITT student?",
-      "end_quote": "That would be an outlier experience.",
-      "evidence_summary": "The attorney poses a hypothetical where a graduate earns double their pre\u2011ITT salary; the witness characterizes such a case as an outlier and notes difficulty recalling the exact hypothetical details."
+      "end_quote": "Sure.  I'll go back and ask it more simply --",
+      "evidence_summary": "The counsel presents a hypothetical where an ITT graduate earns double their pre\u2011ITT salary, asking if this is unusual. The witness characterizes it as an outlier but notes difficulty recalling the exact hypothetical details."
     },
     {
-      "topic_label": "Aggregate Metrics Over Individual Anecdotes",
-      "start_quote": "that's why I think it's important to look at the aggregate field and to look big-picture at what is happening throughout the field.",
-      "end_quote": "the rates of -- of default, for example.",
-      "evidence_summary": "The witness explains that individual success stories are less instructive than field\u2011wide data such as graduation, retention, and default rates when evaluating ITT outcomes."
-    },
-    {
-      "topic_label": "Definition of \"Outlier\" and ITT Misrepresentations",
-      "start_quote": "But when you -- when you've used the term \"outlier\" -- and you've used it a couple times -- what do you mean by that?",
-      "end_quote": "known for misrepresenting the quality of its education,",
-      "evidence_summary": "The witness clarifies that \"outlier\" means a non\u2011typical experience and describes ITT as a notoriously bad institution that engaged in flagrant misrepresentations about educational quality."
+      "topic_label": "Definition of \"Outlier\" and Big\u2011Picture Metrics",
+      "start_quote": "Sure.  But when you've used the -- the term \"outlier\" -- and you've used it a couple times -- what do you mean by that?",
+      "end_quote": "important to recognize is that across the field ITT is",
+      "evidence_summary": "The witness explains that \"outlier\" means a non\u2011typical experience, contrasting it with the overall poor reputation of ITT. Emphasis is placed on looking at aggregate data\u2014graduation, retention, and default rates\u2014rather than individual anecdotes."
     }
   ],
   "650_730": [
     {
-      "topic_label": "ITT's alleged misrepresentations about education quality and outcomes",
-      "start_quote": "It is not the typical experience.",
+      "topic_label": "ITT's Misrepresentations About Education Quality",
+      "start_quote": "It is not the typical experience.  The typical",
       "end_quote": "the practices of the institution.",
-      "evidence_summary": "The witness characterizes ITT as a notoriously bad school that habitually makes flagrant misrepresentations regarding the quality of its education, the value of its degree, job placement rates, and graduate salaries, noting these factors as the most important data when assessing the institution's practices."
+      "evidence_summary": "The witness characterizes ITT as a notoriously bad institution that engaged in flagrant misrepresentations regarding the quality of its education, the value of its degree, job placement rates, and graduate salaries, noting these factors as critical for assessing the institution's practices."
     },
     {
-      "topic_label": "Vervent defendants' knowledge and role in ITT misrepresentations",
+      "topic_label": "Vervent Defendants' Involvement in ITT Misrepresentations",
       "start_quote": "-- are you aware of any of the Vervent defendants being involved in that practice by ITT?",
-      "end_quote": "the defendant Vervent would've had access to when -- when communicating with borrowers about their loans that were made with regards to ITT.",
-      "evidence_summary": "The witness states she is not aware that Vervent representatives made the misrepresentations themselves, but asserts they would have known them when soliciting loan payments. She cites the Senate HELP Committee Report, the CFPB complaint, and secret\u2011shopper investigations as sources showing Vervent had access to the misrepresentation information while communicating with borrowers about ITT\u2011related loans."
+      "end_quote": "So those are all evidence that I -- the defendant Vervent would've had access to when -- when communicating with borrowers about their loans that were made with regards to ITT.",
+      "evidence_summary": "When questioned about Vervent's role, the witness says she is not aware that Vervent representatives made the misrepresentations themselves but asserts they would have known them while collecting loan payments, citing the Senate HELP Committee Report, CFPB complaint, and secret shopper investigations as sources that Vervent could have accessed."
     }
   ],
   "715_795": [
     {
-      "topic_label": "Value of ITT degree for typical borrowers",
-      "start_quote": "Q    We were talking a bit about what benefits somebody might've gotten from an ITT degree.",
-      "end_quote": "THE WITNESS:  I think also -- I mean, as -- as we were discussing before, that you can't draw a direct correlation between the salary that someone earns afterwards than to -- directly to that degree.  But I think to the point you're making, most people did not -- most -- most people did not get value from their ITT degrees, if they completed at all.",
-      "evidence_summary": "The witness explains that a direct correlation between earning a degree from ITT and higher post\u2011graduation salary cannot be established and asserts that most ITT graduates did not receive value from their degrees."
+      "topic_label": "General Value of ITT Degree",
+      "start_quote": "We were talking a bit about what benefits somebody might've gotten from an ITT degree.",
+      "end_quote": "most people did not get value from their ITT degrees, if they completed at all.",
+      "evidence_summary": "The witness explained that a direct correlation between earning a degree and higher post\u2011graduation salary cannot be drawn and noted that most ITT graduates did not receive value from their degrees."
     },
     {
-      "topic_label": "Outlier borrowers with double earnings and data limitations",
-      "start_quote": "Q    So if somebody did get a degree and then made twice as much, if not more, money after graduating than they were making prior to attending ITT, they would be \"outliers\"; correct, to use your term?",
-      "end_quote": "THE WITNESS:  Yeah, I mean, the problem -- the problem with the question is that I don't have any data about what you're saying that the -- the borrower -- this borrower made prior to attending ITT.  So that's -- I think -- I can't answer the question with the information that you've given me.",
-      "evidence_summary": "The line of questioning focuses on whether students who earn twice as much after graduation are outliers. The witness objects, citing the lack of data on borrowers' pre\u2011ITT earnings, and states she cannot answer the hypothetical without that information."
+      "topic_label": "Outlier Earnings Hypothetical and Data Limitations",
+      "start_quote": "So if somebody did get a degree and then made twice as much, if not more, money after graduating than they were making prior to attending ITT, they would be \"outliers\"; correct, to use your term?",
+      "end_quote": "I can't answer the question with the information that you've given me.",
+      "evidence_summary": "The witness was asked whether a graduate who earned twice as much after ITT would be an outlier. The witness indicated the question is incomplete because she lacks data on the borrower's pre\u2011ITT earnings and therefore cannot answer."
     }
   ],
   "780_860": [
     {
-      "topic_label": "Salary Growth and Outlier Status of ITT Graduates",
+      "topic_label": "Outlier Status of ITT Graduates Based on Salary Changes",
       "start_quote": "degree and, B, they made more than twice after graduating",
       "end_quote": "that is not the typical experience of an ITT graduate.",
-      "evidence_summary": "The witness is asked whether borrowers who earned twice as much after graduating from ITT are outliers. She explains she lacks pre\u2011ITT earnings data, notes wide salary variance among borrowers, and ultimately states that a graduate earning $80,000 a year is not typical of an ITT graduate."
+      "evidence_summary": "The witness explains that without baseline salary data for borrowers before attending ITT, she cannot determine whether a post\u2011graduation salary of $80,000 (or a doubling of income) represents an outlier; she concludes such earnings are not typical for ITT graduates."
     },
     {
-      "topic_label": "Vervent Defendants' Non\u2011Origination Role in PEAKS Loans",
-      "start_quote": "you're -- you're familiar with when people entered into the -- their -- their PEAKS loans was generally in 2010;",
+      "topic_label": "Vervent Defendants' Involvement with the PEAKS Loan Portfolio",
+      "start_quote": "you're -- you're familiar with when people entered into the -- their -- their PEAKS loans was generally in 2010; correct?",
       "end_quote": "defendants took the portfolio after most of those loans",
-      "evidence_summary": "The witness confirms that the PEAKS loans were originated in 2010\u20112011 and that the Vervent defendants did not become involved until late 2011, after the loans had been originated, indicating Vervent was not part of the origination process."
+      "evidence_summary": "The witness acknowledges that the PEAKS loans were originated in 2010\u20112011 and that Vervent did not become involved until late 2011, after most loans had been originated, indicating Vervent\u2019s role was limited to later portfolio acquisition rather than origination."
     }
   ],
   "845_925": [
     {
-      "topic_label": "Vervent defendants' involvement in origination of PEAKS loans",
-      "start_quote": "Q    Okay.  Are you aware that the Vervent defendants did not got involved with the PEAKS portfolio until very late in 2011, and that was after all of the PEAKS loans were originated?",
-      "end_quote": "A    The -- the Vervent defendants -- based upon my analysis of the documents here, the -- the Vervent defendants took the portfolio after most of those loans were originated.",
-      "evidence_summary": "The witness confirms that Vervent did not participate in originating the PEAKS loans and only acquired the portfolio after most loans had already been originated."
+      "topic_label": "Vervent Involvement in Origination vs Servicing of PEAKS Loans",
+      "start_quote": "Are you aware that the Vervent defendants did not got involved with the PEAKS portfolio until very late in 2011, and that was after all of the PEAKS loans were originated?",
+      "end_quote": "Are you aware of any loans that originated after the Vervent defendants took over the servicing",
+      "evidence_summary": "The witness confirms that Vervent did not participate in originating the PEAKS loans and only acquired the portfolio after most loans were originated; the witness does not know of any loans originated after Vervent assumed servicing."
     },
     {
-      "topic_label": "Loans originated after Vervent took over servicing",
-      "start_quote": "Q    Are you aware of any loans that originated after the Vervent defendants took over the servicing (unintelligible).",
-      "end_quote": "A    That was -- that was outside the scope of my review, and I -- I don't know the answer to that question.",
-      "evidence_summary": "The witness states the question is outside the scope of his review and he cannot answer whether any loans originated after Vervent assumed servicing."
+      "topic_label": "Vervent Role in Recruiting Students to ITT",
+      "start_quote": "Are you aware of the Vervent defendants playing any role in recruiting students to ITT?",
+      "end_quote": "No, they would not.",
+      "evidence_summary": "The witness states that Vervent (as a servicer) was not involved in recruiting students; its function was limited to facilitating communications and payments, not loan origination or recruitment."
     },
     {
-      "topic_label": "Vervent role in recruiting students to ITT",
-      "start_quote": "Q    Okay.  Are you aware of the Vervent defendants playing any role in recruiting students to ITT?",
-      "end_quote": "A    No, they would not.",
-      "evidence_summary": "The witness affirms that Vervent did not have any role in recruiting students for ITT."
+      "topic_label": "Witness Qualification and Review of PEAKS Loan Materials",
+      "start_quote": "You've reviewed a lot of material about the PEAKS loans; is that correct?",
+      "end_quote": "Yes, I -- I am qualified to provide an opinion on the materials that I reviewed.",
+      "evidence_summary": "The witness affirms having reviewed extensive PEAKS loan documentation and asserts that she is qualified to give opinions based on that review."
     },
     {
-      "topic_label": "Witness qualification to opine on PEAKS loans",
-      "start_quote": "Q    You've reviewed a lot of material about the PEAKS loans; is that correct?",
-      "end_quote": "A    Yes, I -- I am qualified to provide an opinion on the materials that I reviewed.",
-      "evidence_summary": "The witness acknowledges having reviewed the PEAKS loan materials and asserts he is qualified to give an opinion based on that review."
-    },
-    {
-      "topic_label": "Whether PEAKS loans were ever determined unenforceable",
-      "start_quote": "Q    Okay.  And do you believe that at some point the PEAKS loans became invalid and unenforceable?",
-      "end_quote": "A    There was -- there was not a legal determination made about the enforceability, to the best of my",
-      "evidence_summary": "The witness indicates that, to his knowledge, no legal determination has been made declaring the PEAKS loans invalid or unenforceable."
+      "topic_label": "Enforceability/Invalidity of PEAKS Loans",
+      "start_quote": "Do you believe that at some point the PEAKS loans became invalid and unenforceable?",
+      "end_quote": "There was not a legal determination made about the enforceability, to the best of my",
+      "evidence_summary": "The witness indicates that, to her knowledge, no legal determination has been made declaring the PEAKS loans unenforceable or invalid."
     }
   ],
   "910_990": [
     {
       "topic_label": "Legal Determination of PEAKS Loan Enforceability",
-      "start_quote": "Q    Okay.  And do you believe that at some point the PEAKS loans became invalid and unenforceable?",
-      "end_quote": "A    There was -- there was not a legal determination made about the enforceability, to the best of my recollection.",
-      "evidence_summary": "The witness states that, to his knowledge, no court or regulatory body formally ruled the PEAKS loans invalid or unenforceable; the issue was raised repeatedly but never resulted in a definitive legal determination."
+      "start_quote": "Okay.  And do you believe that at some point the PEAKS loans became invalid and unenforceable?",
+      "end_quote": "There was -- there was not a legal determination made about the enforceability, to the best of my recollection.",
+      "evidence_summary": "The witness is asked whether the PEAKS loans ever became invalid or unenforceable and responds that, to his recollection, no formal legal determination on enforceability was ever made."
     },
     {
       "topic_label": "CFPB Settlement and Cancellation of PEAKS Loans (Fall 2020)",
-      "start_quote": "Q    And that occurred in the fall of 2020; correct?",
-      "end_quote": "Q    And before that, are you aware of any court or other governmental agency that ordered that collections should stop on the PEAKS loans?",
-      "evidence_summary": "The witness confirms the fall\u20112020 Consumer Financial Protection Bureau settlement in which the PEAKS loan program agreed to cancel outstanding loans, and notes that this settlement, not a legal ruling, ended the enforceability issue."
+      "start_quote": "For the -- in the case of the Consumer Financial Protection Bureau case, that reached a settlement and so no legal determination was made, as I understand it, because they reached a settlement in which the PEAKS loan program agreed to cancel any outstanding loans.",
+      "end_quote": "That's correct.",
+      "evidence_summary": "The witness explains that the CFPB case settled in fall 2020, resulting in the PEAKS loan program agreeing to cancel all outstanding loans, and notes that the settlement precluded a formal legal ruling on enforceability."
     },
     {
-      "topic_label": "2016 ITT Bankruptcy Order to Cease Collection on PEAKS Loans",
-      "start_quote": "THE WITNESS:  So I'm trying to be careful because I don't have the bankruptcy documents in front of me, but I know that there was at some point -- at -- at some point there was instructions to cease collecting on the loans,",
-      "end_quote": "Q    Well, it's -- it's not my understanding that the 2016 bankruptcy made any ruling that the collections should stop on the PEAKS loans at that time.",
-      "evidence_summary": "The witness recalls that the ITT bankruptcy trustee instructed Vervent to cease collection on CUSO loans and believes a similar instruction was given for PEAKS loans, but acknowledges no written record in his report and that the bankruptcy did not formally rule the loans unenforceable."
+      "topic_label": "Court or Agency Orders to Cease Collection (Bankruptcy Context)",
+      "start_quote": "And before that, are you aware of any court or other governmental agency that ordered that collections should stop on the PEAKS loans?",
+      "end_quote": "No, it does not say that.",
+      "evidence_summary": "The line of questioning shifts to whether any court or governmental agency, such as the 2016 ITT bankruptcy trustee, ordered a halt to collections on PEAKS loans; the witness indicates his report does not contain such an order."
     },
     {
-      "topic_label": "Scope of Witness Report and Material Defects in PEAKS Loan Documents",
-      "start_quote": "Q    Do you have an opinion as to whether the PEAKS loans were unenforceable at some point before the fall of 2020 when the Consumer Financial Protection Bureau made its ruling or made its order as part of the settlement?",
-      "end_quote": "A    ... there are material defects in the loan documents with regards -- which could impact the enforceability of these loans.",
-      "evidence_summary": "The witness explains that assessing enforceability is outside the scope of his report; however, he identifies material defects in the loan applications that could affect enforceability, indicating potential weaknesses in the documentation."
+      "topic_label": "Scope of Witness Report Regarding Enforceability",
+      "start_quote": "Okay.  So there was the question of whether anybody had determined -- had made a determination that the -- the PEAKS loans were unenforceable, I guess it's a legal matter.",
+      "end_quote": "Whether or not the loans were enforceable is outside the scope of my report.",
+      "evidence_summary": "The witness clarifies that assessing the enforceability of the PEAKS loans is beyond the scope of his prepared report, which focuses on document review rather than legal conclusions."
+    },
+    {
+      "topic_label": "Material Defects in PEAKS Loan Documents",
+      "start_quote": "However, what I can say is, looking at the documents -- so looking specifically at the loan application, for example -- is that there are -- that there are material defects in the loan documents with regards -- which could impact the enforceability of these loans.",
+      "end_quote": "For example, we have the PEAKS loan documents.",
+      "evidence_summary": "The witness identifies material defects in the PEAKS loan application and related documents, noting that such deficiencies could affect the loans' enforceability."
     }
   ],
   "975_1055": [
     {
-      "topic_label": "Scope of Expert Testimony",
+      "topic_label": "Scope of Expert Report and Identification of Material Defects",
       "start_quote": "So what I've been asked to do in this case is to",
-      "end_quote": "However, what I can say is, looking at the",
-      "evidence_summary": "The witness explains that his engagement is limited to reviewing PEAKS loan documents for material defects and expressly states that opining on loan enforceability is outside the scope of his report."
+      "end_quote": "there are material defects in the loan documents with regards -- which could impact the enforceability of these loans.",
+      "evidence_summary": "The witness explains that his assignment is limited to reviewing PEAKS loan documents, noting material defects that could affect enforceability, but he does not assess enforceability itself."
     },
     {
-      "topic_label": "Missing Loan Documentation",
+      "topic_label": "Absence of Approval and Disclosure Documents in PEAKS Loans",
       "start_quote": "So we have only the loan application, but not any of the",
-      "end_quote": "borrower may have attempted to cancel",
-      "evidence_summary": "The witness notes that only the loan application is available and that approval documents, final disclosures, and other essential paperwork are absent, which could affect a borrower\u2019s right to rescind."
+      "end_quote": "borrower may have attempted to cancel their loans and --",
+      "evidence_summary": "The witness points out that only the loan application is available; approval documents and final disclosures are missing, which would have shown loan terms and cancellation windows."
     },
     {
-      "topic_label": "Material Defects and Enforceability Concerns",
-      "start_quote": "So certainly, within the loans -- within the loan documents that I have examined, there are questions about",
-      "end_quote": "could lead to the conclusion that these loans are unenforceable.",
-      "evidence_summary": "The witness identifies material defects in the examined documents and asserts that such deficiencies raise serious questions about the loans\u2019 enforceability and validity."
+      "topic_label": "Witness Stance on Not Opining on Enforceability",
+      "start_quote": "So certainly, within the loans -- within the loan documents that I have examined, there are questions about the enforceability of these loans, which I don't have --",
+      "end_quote": "which is outside the scope of my report.",
+      "evidence_summary": "Through a series of Q&A, the witness repeatedly clarifies that he is not retained to opine on whether the loans are enforceable, only that the documents contain defects raising enforceability concerns."
     },
     {
-      "topic_label": "Expert Opinion on Invalidity/Unenforceability",
-      "start_quote": "It is my opinion that there are serious defects",
-      "end_quote": "It is not enforceable.",
-      "evidence_summary": "When asked directly, the witness states his opinion that the missing and defective documents render the PEAKS loans invalid and therefore unenforceable."
+      "topic_label": "Expert Opinion that Missing Documentation Renders Loans Invalid",
+      "start_quote": "Is your opinion -- is it your opinion that the PEAKS loans were invalid and unenforceable at some point?",
+      "end_quote": "If those pieces do -- in fact do not exist, then there is no valid loan.",
+      "evidence_summary": "When asked directly, the witness states his opinion that serious defects\u2014specifically missing required documents\u2014make the loans potentially invalid and unenforceable."
     },
     {
-      "topic_label": "Truth in Lending Act Documentation Requirements",
-      "start_quote": "when the loan is originated there needs to be three separate pieces of information",
-      "end_quote": "and those pieces -- those documents need",
-      "evidence_summary": "The witness outlines the TILA requirement that three specific pieces of information must be provided at loan origination, implying that the absent documents violate statutory standards."
+      "topic_label": "Required Documentation Under Truth in Lending Act",
+      "start_quote": "the basic terms of the, you know -- so the -- the -- under the Truth in Lending Act, when the loan is originated there needs to be three separate pieces of information, and those pieces -- those documents need",
+      "end_quote": "those documents need",
+      "evidence_summary": "The witness outlines the TILA requirement that three distinct pieces of information must be provided at loan origination, implying that their absence contributes to the identified defects."
     }
   ],
   "1040_1120": [
     {
-      "topic_label": "Validity of PEAKS loans due to missing required documentation",
-      "start_quote": "Is your opinion -- is it your opinion that the",
-      "end_quote": "Q    So when you were reviewing this issue, did you --",
-      "evidence_summary": "The witness opines that PEAKS loans are likely invalid and unenforceable because essential documents required under the Truth in Lending Act\u2014such as the promissory note, loan terms, and borrower signature\u2014are missing. Without these three pieces of information, the loan cannot be considered valid."
+      "topic_label": "Validity of PEAKS Loans Due to Missing Documentation",
+      "start_quote": "Is your opinion -- is it your opinion that the PEAKS loans were invalid and unenforceable at some point?",
+      "end_quote": "All of those documents are critical to understanding whether or not this loan exists and whether or not that loan is enforceable.",
+      "evidence_summary": "The witness opines that the PEAKS loans are likely invalid because essential documents\u2014promissory notes, loan terms, and borrower signatures\u2014are missing, making it impossible to confirm the loans were properly originated."
     },
     {
-      "topic_label": "Scope of expert review regarding Access Group disclosures and Vervent\u2019s responsibilities",
-      "start_quote": "did you ever ask if the Access Group had these disclosures",
-      "end_quote": "the defendants, Vervent, had included these disclosures.",
-      "evidence_summary": "The witness explains that his review was limited to documents held by Vervent and did not include the Access Group. He was asked to determine whether Vervent\u2019s files contained the required disclosures, not to investigate the Access Group\u2019s separate disclosures."
+      "topic_label": "Scope of Review Regarding Access Group Disclosures and Vervent's Obligations",
+      "start_quote": "Q    So when you were reviewing this issue, did you -- did you ever ask if the Access Group had these disclosures that you're concerned about?",
+      "end_quote": "A    That's -- that's correct.  That was outside the scope of my report.",
+      "evidence_summary": "The witness explains that his review was limited to documents held by Vervent and did not include investigating whether the Access Group provided required disclosures, noting uncertainty about applicable California Student Loan Servicing Law and confirming it was outside his report\u2019s scope."
     },
     {
-      "topic_label": "Potential applicability of California Student Loan Servicing Law and its exclusion from the expert report",
-      "start_quote": "Q    Are you aware of any regulation that requires Vervent to have the disclosures that were made by the Access Group?",
-      "end_quote": "That's -- that's correct.  That was outside the scope of my report.",
-      "evidence_summary": "The witness acknowledges a possible requirement under the California Student Loan Servicing Law for document transfer but states he has no law text before him and did not review that statute when preparing his report. He confirms the report does not opine on compliance with that law, as it was outside the scope of his engagement."
+      "topic_label": "Report Does Not Address Compliance with California Loan Servicing Law",
+      "start_quote": "Q    And your report does not provide any opinion about whether or not that law was complied with; correct?",
+      "end_quote": "THE WITNESS:  That was outside the scope of -- of my report.",
+      "evidence_summary": "The witness confirms that his expert report contains no opinion on compliance with the California Student Loan Servicing Law, reiterating that evaluating that law was beyond the scope of his engagement."
     }
   ],
   "1105_1185": [
     {
-      "topic_label": "Scope of Expert Report Regarding California Loan Servicing Law",
-      "start_quote": "Q    So that California law about loan servicing was not a law you reviewed when preparing your report; correct?",
-      "end_quote": "A    That was outside the scope of my report, correct.",
-      "evidence_summary": "The witness confirms that California loan\u2011servicing law was not reviewed and that the report contains no opinion on compliance with that law, stating it was outside the scope of the expert analysis."
+      "topic_label": "Scope of Report Regarding California Loan Servicing Law",
+      "start_quote": "So that California law about loan servicing was not a law you reviewed when preparing your report; correct?",
+      "end_quote": "That was outside the scope of my report, correct.",
+      "evidence_summary": "The witness confirms that California loan\u2011servicing law was outside the scope of the report and that no opinion was offered on compliance with that law."
     },
     {
-      "topic_label": "Opinion on Enforceability of PEAKS Loans",
-      "start_quote": "Q    Are you aware of any definitive proof that the PEAKS loans were unenforceable?",
-      "end_quote": "THE WITNESS: So that -- that again is outside the -- the scope of what I was asked to review.",
-      "evidence_summary": "The attorney asks for proof of unenforceability; the witness notes the question calls for a legal conclusion and reiterates that such matters are outside the scope of the review."
+      "topic_label": "Inquiry About Definitive Proof of PEAKS Loan Unenforceability",
+      "start_quote": "Are you aware of any definitive proof that the PEAKS loans were unenforceable?",
+      "end_quote": "Vague. Calls for a legal conclusion.",
+      "evidence_summary": "The witness indicates the question is vague and calls for a legal conclusion, noting that providing such proof is outside the scope of the review."
     },
     {
-      "topic_label": "Vervent's Access to Loan Documents and Interest Rate Information",
-      "start_quote": "Q    Is it your testimony you believe that Vervent never knew what the interest rates were on these loans?",
-      "end_quote": "A    I -- my understanding is that they had -- they imported a -- a spreadsheet from a prior servicer which indicated what it would be.",
-      "evidence_summary": "The witness clarifies that Vervent did not have the original loan documents showing interest rates, but relied on a spreadsheet from a prior servicer; the witness did not state that Vervent never knew the rates."
+      "topic_label": "Vervent's Access to Loan Documents and Knowledge of Interest Rates",
+      "start_quote": "What I was asked to look at is the documents that Vervent would have had access to which it would have used to rely when communicating to student loan borrowers about -- about the terms and conditions of their loans.",
+      "end_quote": "I did not say that Vervent did not have information on the interest rates on the loans.",
+      "evidence_summary": "The witness explains that Vervent lacked the original loan documents showing interest rates, relied on a spreadsheet from a prior servicer, and therefore could not definitively provide interest\u2011rate information to borrowers."
     },
     {
       "topic_label": "Alleged Failure to Provide Required Final Disclosures to PEAKS Borrowers",
-      "start_quote": "Q    Do you believe that there was a wide-scale failure to provide the PEAKS borrowers with the final disclosures required by law with respect to their loans?",
-      "end_quote": "A    I don't have access to the information that borrowers were provided at the time.  What I have -- the information that I have is that in the records those -- those further disclosures do not exist and were not provided to the defendants.",
-      "evidence_summary": "The witness indicates lack of access to borrower\u2011provided disclosures and states that, based on the records reviewed, the required final disclosures do not appear to exist or were not supplied to the defendants."
+      "start_quote": "Do you believe that there was a wide-scale failure to provide the PEAKS borrowers with the final disclosures required by law with respect to their loans?",
+      "end_quote": "those further disclosures do not exist and were not provided to the defendants.",
+      "evidence_summary": "The witness states they have no access to borrower\u2011provided information but, based on records, the required final disclosures appear to be missing and were not supplied to the defendants."
     }
   ],
   "1170_1250": [
     {
-      "topic_label": "Vervent's Access to Loan Documentation",
+      "topic_label": "Vervent's Lack of Access to Borrower Loan Documents",
       "start_quote": "However, you know, if a borrower were to ask, you",
       "end_quote": "As part -- that's my understanding from the",
-      "evidence_summary": "The witness explains that Vervent did not have access to borrowers' loan documents and therefore could not provide proof of loan existence."
+      "evidence_summary": "The witness explains that Vervent did not have the borrowers' loan documentation and therefore could not provide proof of loan existence."
     },
     {
-      "topic_label": "Provision of Final Disclosures to PEAKS Borrowers",
-      "start_quote": "Do you believe that there was a wide-scale failure to provide the PEAKS borrowers with the final disclosures required by law with respect to their loans?",
-      "end_quote": "those further disclosures do not exist and were not provided to the defendants.",
-      "evidence_summary": "The witness states he lacks the information on what borrowers received, but his records show the required final disclosures are absent and were not supplied to the defendants."
+      "topic_label": "Alleged Wide\u2011Scale Failure to Provide Final Disclosures",
+      "start_quote": "Q    Do you believe that there was a wide-scale",
+      "end_quote": "provided to the defendants.",
+      "evidence_summary": "The witness states he has no access to borrower\u2011provided disclosures and believes the records show the required final disclosures do not exist or were not given to the defendants."
     },
     {
-      "topic_label": "Scope of Witness Report on Final Disclosures",
-      "start_quote": "The final disclosures.  What is your opinion as",
-      "end_quote": "That is outside the scope of -- of -- of -- of my report and not -- not what I was asked to review or had access to information about.",
-      "evidence_summary": "The witness clarifies that evaluating whether final disclosures were sent is beyond the scope of his report and beyond the information he reviewed."
+      "topic_label": "Witness\u2019s Opinion on Whether Disclosures Were Sent",
+      "start_quote": "Q    Okay.  Do you -- but I'm asking, what -- what is",
+      "end_quote": "A    I don't --",
+      "evidence_summary": "When asked for his opinion on whether the final disclosures were actually sent, the witness declines to answer, citing lack of information."
     },
     {
-      "topic_label": "Effect of Missing Disclosures on Loan Validity and Borrower Cancellation Right",
-      "start_quote": "I believe in your report you -- you state that if these disclosures were not made, the loans would be invalid and the borrowers would have the right to cancel the loans; is that correct?",
-      "end_quote": "Yes, that's -- that's correct.  That sounds like something I would say.",
-      "evidence_summary": "The witness confirms that, according to his report, failure to provide required disclosures would render the loans invalid and give borrowers a right to cancel."
+      "topic_label": "Scope of Witness\u2019s Report and Access to Disclosure Information",
+      "start_quote": "Q    The final disclosures.  What is your opinion as",
+      "end_quote": "access to information about.",
+      "evidence_summary": "The witness clarifies that reviewing whether disclosures were sent is outside the scope of his report and beyond the information he reviewed."
     },
     {
-      "topic_label": "Timing of Borrower Right to Cancel Due to Non\u2011Receipt of Final Disclosure",
-      "start_quote": "How long after a borrower has failed to receive the final disclosures would they have the right to cancel the loan?",
-      "end_quote": "the final disclosure, then they have an infinite right to cancel up until the point -- up until three days in which they receive that disclosure.",
-      "evidence_summary": "The witness explains that the right to cancel arises when the borrower receives the final disclosure; if the disclosure is never received, the borrower retains an indefinite right to cancel until three days after any eventual receipt."
+      "topic_label": "Legal Effect of Missing Final Disclosures (Loan Invalidity)",
+      "start_quote": "Q    I believe in your report you -- you state that if",
+      "end_quote": "Yes, that's -- that's correct.",
+      "evidence_summary": "The witness confirms that, according to his report, if final disclosures were not made, the loans would be invalid and borrowers would have the right to cancel them."
     },
     {
-      "topic_label": "Consequences of Loan Cancellation Upon Failure to Receive Disclosures",
-      "start_quote": "And when you say cancel the loan, is what would happen there be that the -- the loan would be canceled, any amounts that either the student or the school received would go back to the lender, and then any obligations under the loan agreement would no longer exist?",
+      "topic_label": "Timing of Borrower\u2019s Right to Cancel When Disclosures Are Missing",
+      "start_quote": "Q    How long after a borrower has failed to receive",
+      "end_quote": "the right to cancel the loan begins when the consumer receives the final disclosure.",
+      "evidence_summary": "The witness explains that the right to cancel arises when the borrower receives the final disclosure; if the disclosure is never received, the right to cancel remains indefinitely, up to three days after receipt."
+    },
+    {
+      "topic_label": "Consequences of Loan Cancellation Due to Missing Disclosures",
+      "start_quote": "Q    And when you say cancel the loan, is what would",
       "end_quote": "That sounds right.",
-      "evidence_summary": "The witness confirms that cancellation would void the loan, require return of any funds to the lender, and eliminate all borrower obligations under the loan agreement."
+      "evidence_summary": "The witness describes that cancellation would return any funds to the lender and terminate all obligations under the loan agreement."
     },
     {
-      "topic_label": "Enforceability of Loans Originated Without Required Disclosures",
-      "start_quote": "Let's say that these PEAKS loans -- the ones that were originated in 2010, let's say they -- they were originated in March of 2010 and no disclosures were made, then they would be unenforceable loans at what point in",
+      "topic_label": "Enforceability of Loans Originated Without Initial Disclosures",
+      "start_quote": "Q    Okay.  And if a loan was faulty because of a",
       "end_quote": "then they would be unenforceable loans at what point in",
-      "evidence_summary": "The witness is asked to speculate on when loans originated without any required disclosures would become unenforceable; the discussion centers on the timing of unenforceability."
+      "evidence_summary": "The line of questioning explores whether loans originated in 2010 without any disclosures would be unenforceable from the time of origination."
     }
   ],
   "1235_1315": [
     {
       "topic_label": "Effect of Missing Initial Disclosures on Loan Enforceability",
-      "start_quote": "Okay.  And if a loan was faulty because of a failure to make disclosures at the beginning of the loan,",
+      "start_quote": "Q    Okay.  And if a loan was faulty because of a failure to make disclosures at the beginning of the loan,",
       "end_quote": "And so under that -- that loan -- that loan would not exist, I guess, is -- is my answer.",
-      "evidence_summary": "The witness explains that without the required disclosures at origination, the loan is considered non\u2011existent and therefore unenforceable."
+      "evidence_summary": "The witness explains that without the required initial disclosures a loan is considered non\u2011existent and therefore unenforceable from the outset."
     },
     {
-      "topic_label": "Borrower Right to Cancel When Disclosures Missing but Funds Disbursed",
-      "start_quote": "Okay.  But what if -- what if there was a loan and there's a record that the school got the money?",
+      "topic_label": "Borrower Right to Cancel When Disclosures Were Not Provided but Funds Disbursed",
+      "start_quote": "Q    Okay.  But what if -- what if there was a loan and there's a record that the school got the money?",
       "end_quote": "Yes, they would have to right to cancel that loan if they never received the disclosure.",
-      "evidence_summary": "Even if the school received the loan proceeds, the witness states the borrower retains the right to cancel the loan when the required disclosures were never provided."
+      "evidence_summary": "Even when the school received the loan proceeds, the witness states the student retains the right to cancel the loan if the required disclosures were never given."
     },
     {
       "topic_label": "Grace Period for Providing Required Disclosures",
-      "start_quote": "And is there some sort of grace period for how long they get to receive the disclosure?",
+      "start_quote": "Q    And is there some sort of grace period for how long they get to receive the disclosure?",
       "end_quote": "I would believe that it is less than that, but I don't remember off the top of my head.",
-      "evidence_summary": "The witness acknowledges a statutory time window for delivering disclosures, suggests it is under three months, but cannot recall the exact duration."
+      "evidence_summary": "The witness acknowledges a statutory time window for delivering disclosures, believes it is under three months, but cannot recall the exact duration."
     },
     {
-      "topic_label": "Other Post\u2011Origination Factors Affecting Loan Enforceability",
-      "start_quote": "Okay.  And are you aware of anything that occurred after the loans were originated, aside from this failure to provide disclosures, that would have rendered them unenforceable at some later time?",
-      "end_quote": "that students have an under- -- or borrowers, consumers have an understanding of the total cost of credit.",
-      "evidence_summary": "The witness identifies additional enforceability issues such as CFPB actions, alleged misrepresentations, and violations of the Truth in Lending Act that could render loans unenforceable after origination."
+      "topic_label": "Other Post\u2011Origination Factors That Could Render Loans Unenforceable",
+      "start_quote": "Q    Okay.  And are you aware of anything that occurred after the loans were originated, aside from this failure to provide disclosures, that would have rendered them unenforceable at some later time?",
+      "end_quote": "is -- you know, and then -- and follows a procedure in",
+      "evidence_summary": "The witness identifies additional elements\u2014such as CFPB enforcement actions, misrepresentations, and lack of truthful information\u2014that could affect a loan\u2019s enforceability after origination."
     }
   ],
   "1300_1380": [
     {
-      "topic_label": "Origination Practices and Disclosures Impacting Loan Enforceability",
-      "start_quote": "or not.  Certainly at the origination would impact the --",
-      "end_quote": "that could also impact the enforceability of the loan as well.",
-      "evidence_summary": "Witness explains that issues at loan origination\u2014such as misleading borrowers, lack of proper information, and violations of the Truth in Lending Act\u2014can affect the enforceability of student loans."
+      "topic_label": "Factors Affecting Enforceability of Loans (Origination, Disclosures, TILA)",
+      "start_quote": "For example, what we have with the -- with the",
+      "end_quote": "that could also impact the enforceability of the loan as",
+      "evidence_summary": "The witness explains that issues at origination\u2014such as misleading borrowers, lack of proper disclosures, and violations of the Truth in Lending Act\u2014can affect the enforceability of student loans."
     },
     {
-      "topic_label": "Post\u2011Origination Events and CFPB Settlement Rendering Loans Unenforceable",
+      "topic_label": "Post\u2011Origination Events and CFPB Settlement Impact on Enforceability",
       "start_quote": "Q    So you've been through the file.  Are you aware",
-      "end_quote": "they were then no longer enforceable loans as well.",
-      "evidence_summary": "Witness acknowledges findings by the CFPB and Department of Education that occurred after origination and notes that loan cancellations under the CFPB settlement made those loans unenforceable."
+      "end_quote": "were then no longer enforceable loans as well.",
+      "evidence_summary": "The witness discusses findings by the CFPB and the Department of Education that occurred after loan origination, noting that loan cancellations under the CFPB settlement rendered the loans unenforceable."
     },
     {
       "topic_label": "CFPB Settlement Findings Regarding Vervent Defendants",
       "start_quote": "Q    And that CFPB settlement, did you read it?",
-      "end_quote": "That was not the focus of their investigation.",
-      "evidence_summary": "Witness confirms having read the CFPB settlement but states it did not assign fault to any Vervent defendants concerning the PEAKS loans."
+      "end_quote": "of their investigation.",
+      "evidence_summary": "The witness confirms having read the CFPB settlement but states that it did not attribute fault to any Vervent defendants and was not the focus of the investigation."
     },
     {
-      "topic_label": "Public Reports of Abusive Recruiting and ITT Practices; No Regulatory Shutdown",
+      "topic_label": "Public Reports of Abusive Recruiting and ITT\u2019s Continued Operation",
       "start_quote": "Q    Okay.  On page 11 of your report, at line 6 --",
       "end_quote": "ITT remained in business following these events.",
-      "evidence_summary": "Witness references publicly available reports of abusive recruiting and financial\u2011aid practices at ITT, notes that no court or agency order barred ITT, and confirms ITT continued operating."
+      "evidence_summary": "The witness acknowledges public reports of abusive recruiting and financial\u2011aid practices involving ITT, but notes that no court or agency order halted ITT\u2019s business and the school continued to operate."
     },
     {
       "topic_label": "Department of Education Title\u202fIV Loans to ITT Despite Alleged Fraud",
       "start_quote": "Q    But in fact, even the federal government provided",
       "end_quote": "rules that have evolved over time.",
-      "evidence_summary": "Witness acknowledges that the federal government continued to provide Title\u202fIV student loans to ITT, critiques the Department of Education\u2019s standards, and describes historical leniency toward institutions later deemed fraudulent."
+      "evidence_summary": "The witness confirms ITT\u2019s participation in the Title\u202fIV program after the controversies and argues that the Department of Education has historically provided loans to institutions later deemed fraudulent, prompting evolving regulatory standards."
     }
   ],
   "1365_1445": [
     {
-      "topic_label": "Department of Education loan standards and lack of seal of approval",
-      "start_quote": "that I think the Department of Education needed tougher standards in terms of who it provided Title IV loans to.",
-      "end_quote": "that there is some sort of seal of approval by the federal government about the quality of the education or the practices by the institution.",
-      "evidence_summary": "The witness explains that the Department of Education should have stricter criteria for Title IV loan eligibility, notes a historical pattern of loans to fraudulent schools, and emphasizes that federal loan availability does not constitute a quality endorsement for ITT or similar institutions."
+      "topic_label": "Government Loan Provision Not a Seal of Approval",
+      "start_quote": "the fact that the government provides loans to these students I think",
+      "end_quote": "there is some sort of seal of approval",
+      "evidence_summary": "The witness explains that federal Title\u202fIV loan eligibility does not indicate institutional quality and that many industry participants understand the loans are not a government endorsement."
     },
     {
-      "topic_label": "Witness report on ITT abusive practices and regulatory actions",
+      "topic_label": "Historical Abusive Practices in For\u2011Profit Schools",
+      "start_quote": "the Department of Education needed tougher standards in terms of who it provided Title IV loans to.",
+      "end_quote": "there were abusive practices in the eighties and the nineties and again in 2000.",
+      "evidence_summary": "The witness describes a long history of the Department of Education providing loans to fraudulent institutions and cites decades\u2011long abusive practices across many schools."
+    },
+    {
+      "topic_label": "Purpose and Content of Witness\u2019s Report on ITT",
       "start_quote": "So the purpose of the report that I provided was to demonstrate the widespread abusive practices",
-      "end_quote": "there were news reports about, you know, fraudulent activity by ITT which was known to many of the participants in the -- in the student loan industry,",
-      "evidence_summary": "The witness describes the content of a report highlighting ITT's abusive practices, references whistleblower suits, DOJ involvement, Department of Education investigations, and the eventual closure of ITT and cancellation of its federal loans."
+      "end_quote": "fraudulent activity by ITT which was known to many of the participants in the student loan industry",
+      "evidence_summary": "The witness outlines that their report was intended to document ITT\u2019s abusive practices, whistleblower allegations, DOJ investigations, and the eventual closure and loan cancellations."
     }
   ],
   "1430_1510": [
     {
-      "topic_label": "ITT Practices Leading to Closure",
+      "topic_label": "ITT Practices and Regulatory Investigations",
       "start_quote": "and -- and I think -- and, in fact, a lot of the practices",
-      "end_quote": "all remaining federal loans on the program.",
-      "evidence_summary": "Witness describes that the same practices cited in whistleblower suits, DOJ investigations, and early probes were the ones that caused the Department of Education findings and the eventual shutdown of ITT and cancellation of its federal loans."
+      "end_quote": "the closure of ITT and the -- the findings by the Department of Education, which led to the cancelation of all remaining federal loans on the program.",
+      "evidence_summary": "Witness describes the same questionable practices cited in the whistleblower suit, DOJ investigations, and Department of Education findings that ultimately caused ITT\u2019s closure and the cancellation of its federal loan program."
     },
     {
-      "topic_label": "Purpose of Report on Industry Knowledge of ITT",
-      "start_quote": "So I think the purpose -- the -- the report that",
+      "topic_label": "Knowledge of ITT Practices Within the Industry",
+      "start_quote": "So I think the purpose -- the -- the report that I was asked to give was about what people knew about ITT and its practices.",
       "end_quote": "this information in my report.",
-      "evidence_summary": "Witness explains that the report was intended to capture what industry participants, whistleblowers, and investigators knew about ITT\u2019s alleged fraudulent activities and related regulatory scrutiny."
+      "evidence_summary": "Witness explains that the report\u2019s purpose was to convey what industry participants, whistleblowers, and investigators knew about ITT\u2019s alleged fraudulent activities."
     },
     {
-      "topic_label": "PEAKS Program Central to Investigations",
-      "start_quote": "Okay.  Now we'll move on to the -- you start referencing how the PEAKS program itself was central to several investigations.",
+      "topic_label": "PEAKS Program Central to Multiple Investigations",
+      "start_quote": "Q    Okay.  Now we'll move on to the -- you start referencing how the PEAKS program itself was central to several investigations.",
       "end_quote": "A    Yes.",
-      "evidence_summary": "Counsel redirects the testimony to the PEAKS loan program, noting its significance in multiple investigations discussed later in the deposition."
+      "evidence_summary": "Attorney redirects the testimony to discuss how the PEAKS loan program was a focal point of several regulatory and civil investigations."
     },
     {
       "topic_label": "2012 CFPB Civil Investigative Demand and Resulting Complaints",
-      "start_quote": "You reference a 2012 Consumer Financial Protection Bureau Civil Investigative Demand --",
-      "end_quote": "And then there was another which followed related to the PEAKS Trust.  And",
-      "evidence_summary": "Witness confirms that the Civil Investigative Demand led to two CFPB complaints\u2014one against ITT and a second concerning the PEAKS Trust\u2014providing context for subsequent regulatory actions."
+      "start_quote": "Q    You reference a 2012 Consumer Financial Protection Bureau Civil Investigative Demand --",
+      "end_quote": "A    So there were -- there were two Consumer Financial Protection Bureau complaints.",
+      "evidence_summary": "Witness confirms that the 2012 CFPB Civil Investigative Demand led to two separate complaints: one against ITT and another related to the PEAKS Trust."
     },
     {
-      "topic_label": "CFPB Findings on Vervent Defendants\u2019 Servicing of PEAKS Loans",
-      "start_quote": "Did -- regardless of which one it was, did the CFPB ever make any findings that the Vervent defendants did anything wrong with respect to their servicing of the PEAKS loans?",
-      "end_quote": "Not that I -- I -- not that I am publicly -- that I am publicly aware of.",
-      "evidence_summary": "Witness states that the CFPB\u2019s focus was on ITT\u2019s origination activities, and that no public findings have been made indicating wrongdoing by the Vervent defendants in servicing the PEAKS loans."
+      "topic_label": "CFPB Findings Regarding Vervent Defendants\u2019 Servicing of PEAKS Loans",
+      "start_quote": "Q    Did -- regardless of which one it was, did the CFPB ever make any findings that the Vervent defendants did anything wrong with respect to their servicing of the PEAKS loans?",
+      "end_quote": "A    Not that I -- I -- not that I am publicly -- that I am publicly aware of.",
+      "evidence_summary": "Witness states that the CFPB\u2019s focus was on ITT\u2019s origination activities and that, to his knowledge, the agency made no public findings of wrongdoing by Vervent defendants concerning PEAKS loan servicing."
     }
   ],
   "1495_1575": [
     {
-      "topic_label": "CFPB Investigation Findings Regarding Vervent Defendants",
+      "topic_label": "CFPB Investigation Focus and Vervent Defendants' Alleged Wrongdoing",
       "start_quote": "The focus of the -- of the CFPB was primarily on",
-      "end_quote": "I am not aware of any public findings.  What I",
-      "evidence_summary": "The witness explains that the CFPB complaint centered on ITT and loan origination, not on Vervent. He states he is unaware of any public findings of wrongdoing by Vervent and cannot comment on any private findings."
+      "end_quote": "to which I cannot speak.",
+      "evidence_summary": "The witness explains that the CFPB investigation centered on ITT and loan origination, asserts no public findings of wrongdoing against Vervent defendants, and indicates lack of knowledge about any private findings."
     },
     {
-      "topic_label": "SEC Investigation Findings Regarding Vervent Defendants and Borrower Payments",
+      "topic_label": "SEC Investigation of PEAKS Loans and Vervent Defendants' Role",
       "start_quote": "And the next thing is an SEC investigation of the",
       "end_quote": "the SEC raised with respect to the Vervent defendants' conduct with respect to the payments that ITT made on",
-      "evidence_summary": "The witness indicates the SEC investigation focused on payments made on behalf of borrowers, a role in which Vervent was involved. He does not have the SEC complaint in front of him, cannot recall specific allegations, but notes the SEC expressed concern about those payments, though he cannot confirm any explicit findings against Vervent."
+      "evidence_summary": "The witness discusses the SEC's inquiry into PEAKS loans, notes uncertainty about specific findings against Vervent, refrains from speculation without the complaint in hand, and acknowledges the SEC's concern over borrower payment practices involving the defendants."
     }
   ],
   "1560_1640": [
     {
-      "topic_label": "SEC Concerns About Vervent Payments",
-      "start_quote": "Are you aware of any issue the SEC raised with respect to the Vervent defendants' conduct with respect to the payments that ITT made on behalf of borrowers?",
+      "topic_label": "SEC Concerns About Vervent's Role in Borrower Payments",
+      "start_quote": "specifically highlighted the role that Vervent played in",
       "end_quote": "I don't remember.",
-      "evidence_summary": "The witness was asked whether the SEC had raised any issues regarding Vervent defendants' conduct related to ITT's payments on borrowers' behalf; the witness could not recall any specific SEC findings."
+      "evidence_summary": "The witness is asked whether the SEC raised any issues regarding payments that ITT made on behalf of borrowers and Vervent's involvement. The discussion notes the SEC\u2019s focus on direct or indirect payments, and the witness ultimately states they do not recall any specific SEC issue."
     },
     {
-      "topic_label": "CFPB February 2014 Suit Against ITT Over PEAKS Loans",
-      "start_quote": "So then there's the February 2014 Consumer Financial Protection Bureau's suit against ITT over high-pressure tactics and predatory loans, including the PEAKS loans.",
-      "end_quote": "Do you see that?",
-      "evidence_summary": "The line of questioning introduced the CFPB's 2014 enforcement action against ITT for high\u2011pressure sales tactics and predatory lending involving the PEAKS loan program."
+      "topic_label": "CFPB February 2014 Suit Against ITT and Related Settlements",
+      "start_quote": "So then there's the February 2014 Consumer Financial Protection Bureau's suit against ITT",
+      "end_quote": "And then you reference:  In 2014, over one dozen",
+      "evidence_summary": "The conversation shifts to the CFPB\u2019s 2014 action against ITT for high\u2011pressure sales tactics and the PEAKS loan program, including discussion of the 2020 and 2019 settlements, the focus on ITT\u2019s origination practices, and how those matters relate to Vervent\u2019s later servicing role."
     },
     {
-      "topic_label": "Settlement Details and Vervent Wrongdoing Findings",
-      "start_quote": "And in that settlement, was there any finding that the Vervent defendants did anything wrong?",
-      "end_quote": "The CFPB's settlement was, again, focused on the high-pressure sales tactics and predatory lending practices of ITT which is what led to the origination of the PEAKS loans that Vervent was servicing but was not -- yeah.",
-      "evidence_summary": "The witness explained that the CFPB settlement centered on ITT\u2019s conduct, not on Vervent, and that no finding of wrongdoing was attributed to Vervent in the settlement."
-    },
-    {
-      "topic_label": "Vervent\u2019s Role: Servicing vs Origination and CID",
+      "topic_label": "Vervent\u2019s Non\u2011Origination Servicing Role and Civil Investigative Demand",
       "start_quote": "Vervent was -- Vervent was served with a Civil Investigative Demand in 2012 or 2013 I believe.",
-      "end_quote": "As a servicer, it would not be involved in the origination of the loans.",
-      "evidence_summary": "The witness clarified that Vervent received a Civil Investigative Demand prior to its servicing role and affirmed that Vervent acted only as a servicer, not as an originator of the PEAKS loans."
+      "end_quote": "Okay.  Thanks.",
+      "evidence_summary": "The witness confirms that Vervent was not involved in originating the PEAKS loans, only in servicing them, and notes that Vervent received a Civil Investigative Demand prior to its participation in the program."
     }
   ],
   "1625_1705": [
     {
-      "topic_label": "Vervent Participation vs Origination of PEAKS Loans",
+      "topic_label": "Vervent's role in PEAKS loan program and origination vs servicing",
       "start_quote": "Q    Yeah, so that predated Vervent's participation in",
-      "end_quote": "A    As a servicer, it would not be involved in the origination of the loans.",
-      "evidence_summary": "Witness confirms that Vervent's involvement in the PEAKS loan program began after the loans were originated and that Vervent, as a servicer, did not participate in loan origination."
+      "end_quote": "A    The -- Vervent, as I understand, was not -- was not involved in the origination.  As a servicer, it would not be involved in the origination of the loans.",
+      "evidence_summary": "Witness confirms that Vervent entered the PEAKS loan program after the loans were originated and that, as a servicer, Vervent was not involved in loan origination."
     },
     {
-      "topic_label": "State Attorneys General Investigations of ITT and Vervent Findings",
-      "start_quote": "And then you reference:  In 2014, over one dozen",
-      "end_quote": "A    To -- to my knowledge, their findings were -- were focused on the behavior of a -- of ITT.",
-      "evidence_summary": "Witness acknowledges multiple state AG investigations into ITT for fraud and deceptive marketing, states that the investigations focused on ITT, and indicates no public findings of wrongdoing against Vervent."
+      "topic_label": "State attorneys general investigations of ITT and findings regarding Vervent",
+      "start_quote": "Q    And then you reference:  In 2014, over one dozen",
+      "end_quote": "A    I don't know what those dates would have -- what findings they may have made internally and not release publicly.",
+      "evidence_summary": "Witness acknowledges 2014 investigations of ITT by multiple state AGs, states the investigations focused on ITT, and indicates no public findings of wrongdoing by Vervent, though internal findings are unknown."
     },
     {
-      "topic_label": "U.S. Department of Education Investigations and Role of Servicers",
+      "topic_label": "Department of Education investigations of loan servicers and relation to Vervent",
       "start_quote": "Q    Okay.  Are you aware of the U.S. Department of Education ever making any findings that Vervent behaved inappropriately with respect to the PEAKS loans?",
-      "end_quote": "A    It investigates -- it certainly investigates the -- I don't know if that's the correct word, but certainly, it -- it contracts with its own servicers, and certainly, I -- it does look into and make adjustments on borrowers' accounts based upon the behavior of those loan servicers.  The -- the Department of Education is not a -- it's not a financial regulator like the Consumer Financial Protection Bureau or state attorneys general.",
-      "evidence_summary": "Witness explains that the Department of Education\u2019s investigations focus on ITT\u2019s loan-making behavior, not on Vervent, and clarifies that the Department is not a financial regulator but does monitor servicer performance and adjust borrower accounts as needed."
+      "end_quote": "A    The Department of Education is not a -- it's not a financial regulator like the Consumer Financial Protection Bureau or state attorneys general.",
+      "evidence_summary": "Witness explains that the Department of Education\u2019s findings focus on ITT\u2019s behavior, not Vervent\u2019s, and clarifies that the Department is not a financial regulator."
     },
     {
-      "topic_label": "Recess and Off\u2011Record Period",
-      "start_quote": "MR. BLOOD:  And John, we're a little past an hour.",
-      "end_quote": "THE VIDEOGRAPHER:  We are going back on the record at 3:23 P.M.",
-      "evidence_summary": "The deposition took a brief recess; the videographer noted the off\u2011record time and the resumption of the on\u2011record session."
-    },
-    {
-      "topic_label": "Penalty of Perjury Reminder",
+      "topic_label": "Perjury warning and inquiry about professional investigations",
       "start_quote": "Q    Ms. Yu, you understand you're still under penalty of perjury; correct?",
-      "end_quote": "A    Correct.",
-      "evidence_summary": "Counsel reminded the witness that she remains under penalty of perjury and the witness affirmed."
-    },
-    {
-      "topic_label": "Witness\u2019s Prior Participation in Investigations",
-      "start_quote": "Q    You have -- in your professional life, you've participated in a great many investigations; correct?",
       "end_quote": "A    Can you say more -- what do you mean by both",
-      "evidence_summary": "Counsel asked the witness to confirm her extensive experience with investigations; the witness requested clarification of the question."
+      "evidence_summary": "Counsel reminds witness of perjury penalty and asks about the witness\u2019s participation in numerous investigations, prompting clarification."
     }
   ],
   "1690_1770": [
     {
-      "topic_label": "Witness Acknowledges Perjury Penalty",
-      "start_quote": "Q    Ms. Yu, you understand you're still under penalty of perjury; correct?",
+      "topic_label": "Off\u2011record recess and return to record",
+      "start_quote": "THE VIDEOGRAPHER:  We are going off the record at",
+      "end_quote": "record at 3:23 P.M.",
+      "evidence_summary": "The videographer announces the start of an off\u2011record period at 3:06\u202fP.M. and later indicates the deposition resumes on the record at 3:23\u202fP.M."
+    },
+    {
+      "topic_label": "Perjury warning and acknowledgment",
+      "start_quote": "Q    Ms. Yu, you understand you're still under penalty",
       "end_quote": "A    Correct.",
-      "evidence_summary": "The attorney confirms the witness is still subject to the perjury penalty and the witness affirms this status."
+      "evidence_summary": "Counsel reminds Ms. Yu that she remains under penalty of perjury and she confirms her understanding."
     },
     {
-      "topic_label": "Definition and Scope of \"Investigation\" and Witness's Role",
-      "start_quote": "Q    You have -- in your professional life, you've participated in a great many investigations; correct?",
-      "end_quote": "THE WITNESS: I would say that part of the work that I do sometimes involves investigating situations. I don't think I would describe myself as an investigator.",
-      "evidence_summary": "The line of questioning seeks to define what the witness means by \"investigation\" and whether she considers herself a professional investigator; the witness clarifies she conducts research and analysis but does not view herself as an investigator."
+      "topic_label": "Witness\u2019s understanding of \u201cinvestigation\u201d and self\u2011characterization",
+      "start_quote": "Q    You have -- in your professional life, you've",
+      "end_quote": "don't think I would describe myself as an investigator.",
+      "evidence_summary": "Counsel asks about the witness\u2019s experience with investigations; the witness clarifies she conducts research and document review but does not consider herself a professional investigator."
     },
     {
-      "topic_label": "Witness's Knowledge of ITT and PEAKS Investigations",
-      "start_quote": "Q    Thank you.  But you are familiar with, as I -- I can tell from your report, you mentioned several investigators into ITT and the PEAKS program; correct?",
-      "end_quote": "A    I did not have a personal role in any of those investigations.",
-      "evidence_summary": "The witness acknowledges awareness of multiple investigations into ITT and the PEAKS program but states she had no personal involvement in any of them."
+      "topic_label": "Witness\u2019s involvement in ITT and PEAKS investigations",
+      "start_quote": "Q    But you are familiar with, as I -- I can tell",
+      "end_quote": "investigations.",
+      "evidence_summary": "Counsel confirms the witness\u2019s awareness of prior investigations into ITT and the PEAKS program and the witness states she had no personal role in any of those investigations."
     },
     {
-      "topic_label": "Whether an Investigation Implies Wrongdoing",
-      "start_quote": "Q    Does the fact that there's an investigation mean that something wrong has definitely occurred?",
-      "end_quote": "THE WITNESS: I think we can have evidence of wrongdoing.",
-      "evidence_summary": "The attorney probes the logical link between an investigation and actual misconduct; the witness explains that investigations are initiated to determine wrongdoing and that evidence of wrongdoing may exist."
+      "topic_label": "Whether an investigation implies wrongdoing",
+      "start_quote": "Q    Does the fact that there's an investigation mean",
+      "end_quote": "wrongdoing has occurred; correct?",
+      "evidence_summary": "Counsel probes if the existence of an investigation automatically indicates misconduct; the witness explains investigations are initiated to determine if wrongdoing exists, and until concluded, no finding of wrongdoing is available."
     },
     {
-      "topic_label": "Vervent's Cessation of PEAKS Loan Servicing",
-      "start_quote": "Q    Okay.  Are -- are you aware of any investigation that in your opinion meant that Vervent had to stop servicing the PEAKS loans?",
-      "end_quote": "THE WITNESS: I'm sorry, can you say that one",
-      "evidence_summary": "The line of questioning asks whether any investigation caused Vervent to halt servicing PEAKS loans; the witness requests clarification, indicating the question was not fully answered."
+      "topic_label": "Potential Vervent cessation of PEAKS loan servicing",
+      "start_quote": "Q    Okay.  Are -- are you aware of any investigation",
+      "end_quote": "THE WITNESS:  I'm sorry, can you say that one",
+      "evidence_summary": "Counsel asks whether any investigation led Vervent to stop servicing PEAKS loans; the witness requests clarification, indicating the line of inquiry is still unresolved."
     }
   ],
   "1755_1835": [
     {
-      "topic_label": "Purpose of Investigations and Evidence of Wrongdoing",
-      "start_quote": "That is why an investigation occurs, in order to find out whether or not wrongdoing has occurred.",
+      "topic_label": "Purpose of investigations and evidence of wrongdoing",
+      "start_quote": "That is why an investigation occurs, in order to",
       "end_quote": "I think we can have evidence of wrongdoing.",
       "evidence_summary": "The witness explains that investigations are conducted to determine if wrongdoing occurred and asserts that evidence of wrongdoing can exist even before a formal finding."
     },
     {
-      "topic_label": "Vervent\u2019s Decision to Continue or Stop Servicing PEAKS Loans",
+      "topic_label": "Whether Vervent had to stop servicing PEAKS loans due to an investigation",
       "start_quote": "Are -- are you aware of any investigation that in your opinion meant that Vervent had to stop servicing the PEAKS loans?",
-      "end_quote": "the information -- the information -- sorry, let me -- let me start this phrase again. I think that there is information which Vervent had in which those -- in which those investigations were looking at which raised serious questions about the enforceability of the loan and whether or not Vervent was forced to stop collecting on those loans.",
-      "evidence_summary": "The witness discusses whether any investigation required Vervent to cease servicing the PEAKS loans, noting that investigations raised questions about loan enforceability but did not automatically compel Vervent to stop collecting."
+      "end_quote": "forced to stop collecting on those loans. Vervent",
+      "evidence_summary": "The witness discusses that merely having investigations does not automatically require Vervent to cease servicing; instead, specific information from those investigations raised questions about loan enforceability, but Vervent chose to continue collecting."
     },
     {
-      "topic_label": "Definition and Core Functions of Loan Servicing",
+      "topic_label": "Definition and core functions of loan servicing versus collecting",
       "start_quote": "There's \"servicing\" loans, and there's \"collecting\" on loans, and there -- there's definitely a relation between the two.  But a loan servicer, their job is to accept payment on the loans and pass those payments on to the lender; correct?",
       "end_quote": "But yes, it includes those -- those that you just listed.",
-      "evidence_summary": "The witness defines loan servicing as accepting borrower payments and forwarding them to the lender, while acknowledging additional functions beyond payment collection."
+      "evidence_summary": "The witness confirms that a servicer\u2019s primary role is to accept borrower payments and forward them to the lender, while also acknowledging additional servicer responsibilities."
     },
     {
-      "topic_label": "Additional Servicer Functions (Tracking, Advising, Interface Role)",
+      "topic_label": "Additional servicer functions (tracking, advising, borrower interface)",
       "start_quote": "And the -- some of the other functions include keeping track of borrower addresses; correct?",
       "end_quote": "servicers are basically the main interface between the student loan borrower and the loan holder.",
-      "evidence_summary": "The witness enumerates other servicer duties such as tracking borrower data, managing payments, advising borrowers on loan options, and serving as the primary point of contact between borrowers and loan holders."
+      "evidence_summary": "The witness enumerates other servicer duties such as maintaining borrower contact information, tracking payments, providing loan advice, and acting as the primary point of contact between borrowers and the loan holder."
     },
     {
-      "topic_label": "Regulatory Requirement to Cease Servicing During School Investigations",
+      "topic_label": "Regulatory requirement to cease servicing when a school is under investigation",
       "start_quote": "Are -- are you aware of any regulation or statute that requires a servicer to stop servicing loans because they're aware that a school is being investigated?",
-      "end_quote": "it -- there are certainly laws that talk about the communications, whether or not it's (unintelligible) --",
-      "evidence_summary": "The witness states there is no specific law mandating cessation of servicing when a school is investigated, but notes that misrepresenting loan enforceability could constitute an unfair or deceptive practice under existing consumer protection statutes."
+      "end_quote": "There is not a law that specifically states it in-- in those ways; however, it is an unfair and deceptive practice to demand -- to, you know, misrepresent the enforceability of a loan.",
+      "evidence_summary": "The witness states that no specific statute mandates cessation of servicing due to a school investigation, though misrepresenting loan enforceability could constitute an unfair or deceptive practice under existing consumer protection laws."
     }
   ],
   "1820_1900": [
     {
-      "topic_label": "Regulatory requirement for servicers to cease servicing when school under investigation",
+      "topic_label": "Regulatory Requirement for Servicers to Cease Service When School Under Investigation",
       "start_quote": "Are -- are you aware of any regulation or statute that requires a servicer to stop servicing loans because they're aware that a school is being investigated?",
-      "end_quote": "There is not a law that specifically states it in-- in those ways; however, it is",
-      "evidence_summary": "The witness explains that no specific statute obligates a loan servicer to stop servicing a borrower\u2019s loan solely because the borrower\u2019s school is under investigation."
+      "end_quote": "it is an unfair and deceptive practice to demand -- to, you know, misrepresent the enforceability of a loan.",
+      "evidence_summary": "The witness explains that no specific law mandates a servicer to stop servicing loans solely because a school is being investigated, but such action could constitute an unfair or deceptive practice under broader consumer protection statutes."
     },
     {
-      "topic_label": "Unfair and deceptive practice claims regarding demand for payment on potentially unenforceable loans",
-      "start_quote": "specifically states it in-- in those ways; however, it is an unfair and deceptive practice to demand -- to, you know, misrepresent the enforceability of a loan.",
-      "end_quote": "Whether or not it's an unfair or deceptive practice to demand payments on a loan that you have a reason to believe is unenforceable.",
-      "evidence_summary": "The witness discusses that, while no explicit law mandates cessation of servicing, demanding payment on a loan believed to be unenforceable may constitute an unfair or deceptive practice under various consumer protection statutes."
+      "topic_label": "Unfair/Deceptive Practices and Applicable Laws Regarding Unenforceable Loans",
+      "start_quote": "Whether or not it's an unfair or deceptive practice to demand payments on a loan that you have a reason to believe is unenforceable.",
+      "end_quote": "different laws which -- which could, but there are none that are the precise -- provide the precise wording that you asked about.",
+      "evidence_summary": "The witness discusses that while multiple statutes address unfair or deceptive conduct in loan communications, none provide the exact language the questioner seeks; the focus is on the general prohibition against demanding payment on potentially unenforceable loans."
     },
     {
-      "topic_label": "Legal status and settlement of PEAKS loans \u2013 unenforceability determination",
+      "topic_label": "PEAKS Loans Unenforceability and Settlement Outcome",
       "start_quote": "When was the PEAKS loans deemed unenforceable as a matter of law, Ms. Yu?",
-      "end_quote": "cancelation of the loans which means that they, you know, were then unenforceable.",
-      "evidence_summary": "The witness states she is unaware of any judicial ruling deeming the PEAKS loans unenforceable, but notes that the CFPB\u2011PEAKS loan trust settlement in fall 2020 resulted in loan cancellations, rendering them unenforceable thereafter."
+      "end_quote": "the settlement between the loan -- between the CFPB and the PEAKS loan trust which -- which resulted in the cancelation of the loans which means that they, you know, were then unenforceable.",
+      "evidence_summary": "The witness states she is unaware of any judicial ruling deeming the loans unenforceable, but notes that the 2020 CFPB\u2011PEAKS loan trust settlement effectively cancelled the loans, rendering them unenforceable thereafter."
     },
     {
-      "topic_label": "Alleged post\u2011settlement violations by Vervent defendants",
+      "topic_label": "Vervent Defendants\u2019 Compliance with Settlement Post\u2011Fall 2020",
       "start_quote": "Are you aware of any conduct on the part of the Vervent defendants that violated the terms of that settlement in terms of collection or servicing the PEAKS loans after the fall of 2020?",
       "end_quote": "I am not aware of any activity of -- of the defendant after -- after that period.",
-      "evidence_summary": "The witness indicates she has no knowledge of any Vervent\u2011related collection or servicing actions that breached the settlement after the fall\u20112020 cancellation of the PEAKS loans."
+      "evidence_summary": "The witness indicates she has no knowledge of any post\u2011settlement collection or servicing actions by Vervent that would breach the settlement terms."
     },
     {
-      "topic_label": "Evidence of unenforceability of PEAKS loans prior to fall 2020",
-      "start_quote": "And you're also not aware of any time before the fall of 2020 when the PEAKS loans had been deemed unenforceable; correct?",
-      "end_quote": "It's my opinion that there was evidence to suggest that the loans might be unenforceable.",
-      "evidence_summary": "The witness acknowledges that, although no formal determination existed before fall 2020, there was evidence suggesting the PEAKS loans could have been unenforceable."
+      "topic_label": "Evidence of PEAKS Loans Potential Unenforceability Prior to Fall 2020",
+      "start_quote": "In your opinion, there is evidence that the loans might be unenforceable --",
+      "end_quote": "It was -- there was a question.",
+      "evidence_summary": "The witness acknowledges that, while no formal determination existed before fall 2020, there was evidence suggesting the PEAKS loans could be unenforceable, leaving the matter open to interpretation."
     }
   ],
   "1885_1965": [
     {
-      "topic_label": "Absence of Public Determination of PEAKS Loan Unenforceability Prior to Fall\u202f2020",
+      "topic_label": "Prior Determination of Unenforceability Before Fall 2020",
       "start_quote": "whether there had been any determination that -- prior to the fall of 2020 that the loans were unenforceable",
-      "end_quote": "There is -- that no court or government agency made a public determination or publicly released findings prior to 2020.",
-      "evidence_summary": "Counsel asked whether any court or governmental agency had publicly determined that the PEAKS loans were unenforceable before fall\u202f2020. The witness responded that no such public determination existed, and she could not comment on any internal findings."
+      "end_quote": "made a public determination or publicly released findings prior to 2020",
+      "evidence_summary": "Counsel asked whether any court or governmental agency had publicly determined the PEAKS loans were unenforceable before fall 2020. The witness affirmed that no such public determination existed, noting she could not speak to internal findings."
     },
     {
-      "topic_label": "Expert Opinion that PEAKS Loans Were Unenforceable at Origination Due to Missing Disclosures",
+      "topic_label": "Scope of Expert Opinion When No Public Determination Exists",
+      "start_quote": "And if you can't speak to it, then you have no opinion of it as an expert in this case; correct?",
+      "end_quote": "if they didn't say it publicly, it is outside the scope of my expert report",
+      "evidence_summary": "The attorney highlighted that without a public agency or court finding, the expert lacks a basis to opine on unenforceability. The witness agreed, stating that matters not publicly disclosed are outside the scope of her expert report."
+    },
+    {
+      "topic_label": "Unenforceability at Origination Due to Lack of Required Disclosures",
       "start_quote": "In your opinion, Ms. Yu, if the PEAKS loan were -- loans were unenforceable, they were unenforceable at the outset, at their origination, because they lacked the requisite disclosures in order to be viable enforceable loans; is that correct?",
-      "end_quote": "There is nothing in the record to base an opinion about activities that occurred afterwards about the enforceability.",
-      "evidence_summary": "The witness was asked whether, assuming the loans were unenforceable, that status existed at the loans\u2019 outset because required disclosures were absent. She affirmed that without the requisite documents a loan cannot exist to be enforced, and noted she has no record\u2011based basis to opine on any later events that might affect enforceability."
+      "end_quote": "There is nothing in the record to base an opinion about activities that occurred afterwards about the enforceability",
+      "evidence_summary": "Counsel sought the expert\u2019s view that the loans were unenforceable from the start because required disclosures were missing. The witness confirmed this view and noted she has no record\u2011based basis to comment on any later events that might affect enforceability."
     }
   ],
   "1950_2007": [
     {
-      "topic_label": "Origination disclosures and enforceability of loans",
+      "topic_label": "Origination Disclosures and Enforceability of Loans",
       "start_quote": "at the outset, at their origination, because they lacked",
-      "end_quote": "There is nothing in the record to base an opinion about activities that occurred afterwards about the enforceability.",
-      "evidence_summary": "The witness confirms that enforceability hinges on proper origination disclosures; he has no record of post\u2011origination events that would render the loans unenforceable."
+      "end_quote": "about the enforceability.",
+      "evidence_summary": "The witness confirms that loans lacking required origination disclosures are not viable or enforceable, and states there is no record to form an opinion on post\u2011origination activities affecting enforceability."
     },
     {
-      "topic_label": "Speculation on impact if Vervent had not serviced PEAKS loans",
+      "topic_label": "Speculation on PEAKS Loans if Vervent Did Not Service Them",
       "start_quote": "And do you have any opinion about what would've",
       "end_quote": "I -- I don't have an opinion about what would've happened to the PEAKS loans.",
-      "evidence_summary": "When asked to hypothesize about the outcome of PEAKS loans had Vervent not serviced them, the witness declines to speculate, stating he has no opinion."
+      "evidence_summary": "When asked to speculate on the outcome of the PEAKS loans had Vervent refused to service them, the witness declines to give an opinion, citing speculation."
     },
     {
-      "topic_label": "Whether investigations revealed issues with Vervent servicing",
-      "start_quote": "In your review of the various investigations into the PEAKS loans program, did you note that anybody had any issues with any of the actual servicing that the Vervent defendants did?",
+      "topic_label": "Issues with Vervent\u2019s Servicing of PEAKS Loans",
+      "start_quote": "In your review of the various investigations into",
       "end_quote": "I do not recall.  I -- yeah, I don't recall.",
-      "evidence_summary": "The witness is asked if any investigations identified problems with Vervent's loan servicing; he cannot recall any such issues."
+      "evidence_summary": "The attorney asks whether the witness noted any problems with Vervent\u2019s servicing of the PEAKS loans in the investigations reviewed; the witness cannot recall any such issues."
     },
     {
-      "topic_label": "Closing and off\u2011record statement",
-      "start_quote": "The REPORTER:  Okay.  Can we go off the record?",
-      "end_quote": "We are going off the record at 3:42 P.M., and this concludes today's testimony given by Persis Yu.",
-      "evidence_summary": "The deposition concludes with the parties agreeing to go off the record, marking the end of the testimony."
+      "topic_label": "Closing and Off\u2011Record Procedure",
+      "start_quote": "THE REPORTER:  Okay.  Can we go off the record?",
+      "end_quote": "(Whereupon, the deposition concluded at 3:42 P.M.)",
+      "evidence_summary": "The deposition moves to an off\u2011record segment and then concludes at 3:42\u202fP.M."
     }
   ]
 }
