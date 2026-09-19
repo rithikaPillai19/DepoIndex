@@ -11,10 +11,10 @@ def parse_deposition_pdf(pdf_path: str) -> pd.DataFrame:
     - line (int: 1 to 25)
     - text (clean line dialogue)
     """
-    reader = PdfReader(pdf_path)
-    records = []
-    global_id = 0
-    line_pattern = re.compile(r"^\s*(\d{1,2})\s+(.*?)(?:\s+\d{2}:\d{2})?$")
+    reader = PdfReader(pdf_path) #Read Pdf file
+    records = [] #Store extracted lines
+    global_id = 0#Identifier for lines
+    line_pattern = re.compile(r"^\s*(\d{1,2})\s+(.*?)(?:\s+\d{2}:\d{2})?$")#expression to match lines with line number and content
 
     for page_idx, page in enumerate(reader.pages):
         text = page.extract_text()
@@ -30,7 +30,7 @@ def parse_deposition_pdf(pdf_path: str) -> pd.DataFrame:
                 break
         if page_num is None:
             page_num = page_idx + 1
-        if page_num < 7 or page_num > 88:
+        if page_num < 7 or page_num > 88:#from page 7 to page 88 only
             continue
 
         for line_str in raw_lines:
