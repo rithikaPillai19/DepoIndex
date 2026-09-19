@@ -14,7 +14,8 @@ Standard LLM pipelines fail at transcript indexing because models hallucinate li
 4. **Interactive Verification UI:** A Streamlit interface enables litigation teams to cross-reference every index entry with original transcript lines in real time.
 
 ---
-
+## Deployed Site Link
+https://depoindex-rithikapillai.streamlit.app/
 ## Setup & Reproduction
 
 ### Prerequisites
