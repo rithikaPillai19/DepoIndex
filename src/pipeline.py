@@ -35,7 +35,7 @@ def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_loo
 
         candidate_end = next_gid
 
-    # Snap cleanly to the witness answer
+    # Snap cleanly to a witness answer line ('A ' or 'A.')
     for test_gid in range(candidate_end, end_gid, -1):
         line_text = str(df.iloc[test_gid]["text"]).strip()
         if line_text.startswith("A ") or line_text.startswith("A."):
@@ -61,10 +61,15 @@ def run_pipeline():
     current_idx = 0
     raw_candidates = []
 
+    print(f"\n=======================================================")
     print(f"--- Running 4-Pillar Validated DepoIndex on {total_lines} Lines ---")
+    print(f"=======================================================\n")
 
     while current_idx < total_lines:
         end_idx = min(current_idx + chunk_size, total_lines)
+        pct = int((current_idx / total_lines) * 100)
+        print(f"[{pct:02d}%] Analyzing Lines {current_idx} to {end_idx}...", flush=True)
+
         chunk_slice = df.iloc[current_idx:end_idx]
         chunk_text = "\n".join([
             f"Page {r['page']} Line {r['line']}: {r['text']}"
@@ -88,7 +93,7 @@ def run_pipeline():
                 search_window=chunk_size + overlap
             )
 
-            # Defensive Safeguards: Inversion protection & narrow span expansion
+            # Defensive Coordinate Inversion Guard & Expansion
             if start_res.get("global_id") is not None and end_res.get("global_id") is not None:
                 if end_res["global_id"] < start_res["global_id"]:
                     end_res = start_res.copy()
@@ -120,7 +125,7 @@ def run_pipeline():
             if not p4_ok: 
                 failures.append(f"Pillar 4 (Evidence): {p4_msg}")
 
-            # 3. Collect Candidate or Trigger Fallback
+            # 3. Collect Candidate Entry or Trigger Fallback
             if not failures:
                 raw_candidates.append({
                     "topic": item.topic,
@@ -144,10 +149,12 @@ def run_pipeline():
                     {"topic": item.topic, "evidence": item.evidence_summary},
                     start_res, end_res, failures
                 )
-                print(f"  [Fallback Triggered]: {item.topic} -> {failures}")
+                print(f"  [Fallback Triggered]: {item.topic} -> {failures}", flush=True)
                 raw_candidates.append(fallback_entry)
 
         current_idx += (chunk_size - overlap)
+
+    print("\nProcessing deduplication and boundary resolution across candidate entries...", flush=True)
 
     # Sort strictly by physical appearance in transcript
     raw_candidates.sort(key=lambda x: x.get("start_gid", 0))
@@ -185,7 +192,7 @@ def run_pipeline():
 
         final_cleaned.append(entry)
 
-    # Export Final Structured Deliverables
+    # Export Final Deliverables
     os.makedirs("output", exist_ok=True)
     with open("output/topic_index.json", "w", encoding="utf-8") as f:
         json.dump(final_cleaned, f, indent=2)
@@ -203,7 +210,7 @@ def run_pipeline():
     with open("output/topic_index.md", "w", encoding="utf-8") as f:
         f.write("\n".join(md_lines))
 
-    print(f"\n✓ Completed: {len(final_cleaned)} distinct topics indexed with clean boundaries.")
+    print(f"✓ Completed: {len(final_cleaned)} distinct topics indexed across Pages 7–88.\n", flush=True)
 
 if __name__ == "__main__":
     run_pipeline()

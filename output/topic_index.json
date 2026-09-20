@@ -1,1 +1,427 @@
-[]
+[
+  {
+    "topic": "Deposition Protocol, Ground Rules & Perjury Warning",
+    "start": "Page 7, Line 5",
+    "end": "Page 8, Line 23",
+    "start_gid": 4,
+    "end_gid": 37,
+    "supporting_evidence": "The examiner establishes ground rules, including the penalty of perjury, waiting for questions to end, handling objections, and ensuring the witness is physically able to testify.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 91.43,
+      "end_score": 100.0
+    },
+    "anchors": {
+      "start_quote": "At the beginning of a deposition, I always make sure that somebody knows kind of how the process works, and one of my first questions to do that is to ask you if you've ever had your deposition taken before.",
+      "end_quote": "Terrific.  Thank you very much."
+    }
+  },
+  {
+    "topic": "Expert Witness Retention & Scope of Assignment",
+    "start": "Page 8, Line 24",
+    "end": "Page 9, Line 17",
+    "start_gid": 38,
+    "end_gid": 56,
+    "supporting_evidence": "The witness confirms her retention as an expert and describes her scope of work, which includes providing context on the school, a historical overview of ITT and the for-profit industry regarding 90/10 rules, and examining PEAKS loan documents for discernible defects.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 92.45,
+      "end_score": 90.91
+    },
+    "anchors": {
+      "start_quote": "So you had been retained as an expert in that -- in this case; correct?",
+      "end_quote": "Further, I've been asked to examine the loan documents that were used in the PEAKS program in order to opine on whether or not the defects on those loans would be clearly discernible to people or parties engaged in any aspect of student lending."
+    }
+  },
+  {
+    "topic": "Marking Expert Report as Exhibit 1",
+    "start": "Page 10, Line 3",
+    "end": "Page 10, Line 23",
+    "start_gid": 67,
+    "end_gid": 87,
+    "supporting_evidence": "The examiner identifies the document the witness is reading as her expert report and formally marks it as Exhibit 1 to the deposition transcript.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 88.14,
+      "end_score": 76.47
+    },
+    "anchors": {
+      "start_quote": "One question is, it appears that you're reading from something.  I assume that's your expert report?",
+      "end_quote": "(Exhibit 1 was marked for identification.)"
+    }
+  },
+  {
+    "topic": "Witness Educational and Professional Background at SBPC",
+    "start": "Page 11, Line 2",
+    "end": "Page 14, Line 14",
+    "start_gid": 90,
+    "end_gid": 177,
+    "supporting_evidence": "The examiner reviews the witness's CV, confirming her role as Deputy Executive Director of the Student Borrower Protection Center (SBPC), and discusses the organization's policy agenda, including student loan safety nets, racial equity, predatory lending, and debt cancellation campaigns.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 100.0,
+      "end_score": 85.19
+    },
+    "anchors": {
+      "start_quote": "You are an attorney; correct?",
+      "end_quote": "So -- so I guess that's a broad question, but yes, we have been successful in a number of our initiatives."
+    }
+  },
+  {
+    "topic": "Department of Education Negotiated Rulemaking",
+    "start": "Page 15, Line 13",
+    "end": "Page 15, Line 21",
+    "start_gid": 201,
+    "end_gid": 209,
+    "supporting_evidence": "The witness describes their role as the lead legal aid negotiator in the 2021 Department of Education negotiated rulemaking regarding student loan affordability, noting that they negotiated regulations for about a dozen programmatic areas.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 81.55,
+      "end_score": 89.39
+    },
+    "anchors": {
+      "start_quote": "I was the lead legal aid negotiator in the 2021 negotiator rulemaking at the Department of Education on student loans and affordability.",
+      "end_quote": "I have been -- participated in a number of different rulemakings and provided feedback to -- to the Department of Education, which -- a number which have been implemented."
+    }
+  },
+  {
+    "topic": "Public Comments on Loan Servicer Solicitation RFIs",
+    "start": "Page 17, Line 3",
+    "end": "Page 17, Line 7",
+    "start_gid": 241,
+    "end_gid": 245,
+    "supporting_evidence": "The witness confirms providing comments to the Department of Education regarding Requests for Information (RFIs) and solicitation processes for federal student loan servicers, including reviewing contracts and participating in listening sessions.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 93.55,
+      "end_score": 87.88
+    },
+    "anchors": {
+      "start_quote": "I've provided comments during the -- I -- the most recent RFI on their student loan servicing proposals.",
+      "end_quote": "They're not regulations; they're not subject to notice and comment, but I have provided input and have reviewed those contracts."
+    }
+  },
+  {
+    "topic": "Personal Work Experience as Loan Servicer",
+    "start": "Page 18, Line 4",
+    "end": "Page 18, Line 12",
+    "start_gid": 267,
+    "end_gid": 275,
+    "supporting_evidence": "The witness explicitly states they have never worked as or for a loan servicer and did not study loan servicing in their formal education, though they have gained expertise through professional work in the student loan market.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 100.0,
+      "end_score": 89.39
+    },
+    "anchors": {
+      "start_quote": "Have you ever worked as a loan servicer?",
+      "end_quote": "In my -- in my formal education, no. I have done extensive studying of loan servicers through -- through the expertise that I've -- that I've worked on and gained to learn about the student loan market."
+    }
+  },
+  {
+    "topic": "Borrower Complaints and Servicing Transfer Risks",
+    "start": "Page 19, Line 17",
+    "end": "Page 22, Line 24",
+    "start_gid": 305,
+    "end_gid": 387,
+    "supporting_evidence": "The witness discusses the frequency of loan portfolio transfers between servicers in the federal student loan context, citing specific examples such as Navient transferring to Maximus/Aidvantage and PHEAA/FedLoan transferring to Mohela. The witness discusses the frequency of loan servicing transfers in both federal and private markets, citing examples like Navient to Maximus and FedLoan to Mohela. She details specific risks to borrowers during these transfers, including data loss, lost payments, and confusion regarding payment recipients.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 89.39,
+      "end_score": 100.0
+    },
+    "anchors": {
+      "start_quote": "Ms. Yu, in -- in any of your work experience, have you ever dealt with a situation where one loan servicer takes over a student loan portfolio from another loan servicer?",
+      "end_quote": "Also, loans are sometimes transferred from time to time."
+    }
+  },
+  {
+    "topic": "Statutory and Regulatory Data Transfer Requirements",
+    "start": "Page 23, Line 10",
+    "end": "Page 23, Line 17",
+    "start_gid": 398,
+    "end_gid": 405,
+    "supporting_evidence": "The examiner asks about regulations governing data transfer between servicers. The witness identifies the California State Student Loan Servicing Law as having specific requirements for data transfer during servicing changes.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 90.91,
+      "end_score": 85.22
+    },
+    "anchors": {
+      "start_quote": "Are you -- are you aware of any regulations that apply to the manner in which student loan servicing data is supposed to be transferred from the original servicer to the follow-on servicer when there's a change in student loan servicing?",
+      "end_quote": "I believe that other states as well, but I don't know them off the top of my head."
+    }
+  },
+  {
+    "topic": "Criminal Law Background and RICO Familiarity",
+    "start": "Page 24, Line 14",
+    "end": "Page 26, Line 13",
+    "start_gid": 427,
+    "end_gid": 476,
+    "supporting_evidence": "The witness describes her limited criminal law experience, including an internship at a District Attorney's Office and volunteering at teen court. She confirms general awareness of the RICO statute and experience considering RICO violations in student loan cases, but states that providing a legal opinion on a RICO enterprise was outside the scope of her expert report. The examiner questions the witness about their professional experience with RICO violations and enterprises, specifically in the context of student loans. The witness confirms having handled a small number of such cases but states that providing a legal opinion on RICO was outside the scope of their expert report.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 75.0,
+      "end_score": 88.24
+    },
+    "anchors": {
+      "start_quote": "Have you ever had a job related to criminal law?",
+      "end_quote": "This was -- that was outside the scope of my report."
+    }
+  },
+  {
+    "topic": "ITT For-Profit Educational Quality and Degree Value",
+    "start": "Page 27, Line 13",
+    "end": "Page 28, Line 15",
+    "start_gid": 501,
+    "end_gid": 528,
+    "supporting_evidence": "The examination explores the witness's views on the value of ITT degrees. The witness argues that while they cannot judge educational quality directly, data shows that ITT graduates often earn less than high school graduates and face high dropout and default rates, suggesting the debt burden outweighs the benefits for most students.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 87.27,
+      "end_score": 100.0
+    },
+    "anchors": {
+      "start_quote": "Did you have any firsthand experience with what the quality of education was like at IT&T -- ITT?",
+      "end_quote": "Sure."
+    }
+  },
+  {
+    "topic": "ITT For-Profit Educational Quality and Degree Value",
+    "start": "Page 31, Line 12",
+    "end": "Page 38, Line 17",
+    "start_gid": 600,
+    "end_gid": 779,
+    "supporting_evidence": "The witness discusses metrics for judging ITT's educational quality, specifically citing high default rates as an indicator that students did not receive value from their education. The discussion includes the concept of 'outlier' experiences where individual students might earn more, but the aggregate data suggests ITT was a 'notoriously bad institution' that misrepresented the quality of education and job placement rates.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 92.68,
+      "end_score": 90.0
+    },
+    "anchors": {
+      "start_quote": "other metric besides retention that is important to look at when -- when judging the quality of the degree and the quality of -- on whether borrowers experienced -- or students rather experienced a valuable experience is to look at the default rates at an institution, and so ITT had a notably high default rate which indicates that -- which is a good indicator that students were not getting the value from which they -- the value of the education which they were taking on the loans to get.",
+      "end_quote": "So if somebody did get a degree and then made twice as much, if not more, money after graduating than they were making prior to attending ITT, they would be"
+    }
+  },
+  {
+    "topic": "Outlier Graduate Earnings Hypotheticals",
+    "start": "Page 38, Line 18",
+    "end": "Page 42, Line 2",
+    "start_gid": 780,
+    "end_gid": 864,
+    "supporting_evidence": "The examiner poses hypotheticals regarding ITT graduates who earn significantly more than the average, specifically a scenario involving a jump from minimum wage to $80,000, to establish that such outcomes are outliers rather than typical.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 92.45,
+      "end_score": 90.0
+    },
+    "anchors": {
+      "start_quote": "Would it be fair to say that if somebody went to ITT, got a degree, and then made quite a bit more than they made prior to attending ITT, that they would've gotten more of a benefit than was typical for an ITT student?",
+      "end_quote": "Based upon the data that is available, that that is not the typical experience of an ITT graduate."
+    }
+  },
+  {
+    "topic": "Servicing vs. Origination Legal Distinction",
+    "start": "Page 42, Line 12",
+    "end": "Page 44, Line 11",
+    "start_gid": 874,
+    "end_gid": 923,
+    "supporting_evidence": "The examination distinguishes between loan origination and servicing, establishing that Vervent defendants were not involved in the origination of PEAKS loans or the recruitment of students, but rather in servicing responsibilities.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 90.91,
+      "end_score": 100.0
+    },
+    "anchors": {
+      "start_quote": "Are you aware that the Vervent defendants did not got involved with the PEAKS portfolio until very late in 2011, and that was after all of the PEAKS loans were originated?",
+      "end_quote": "No, they would not."
+    }
+  },
+  {
+    "topic": "Analysis Scope and Review of PEAKS Loan Documents",
+    "start": "Page 44, Line 13",
+    "end": "Page 44, Line 20",
+    "start_gid": 925,
+    "end_gid": 932,
+    "supporting_evidence": "The witness confirms reviewing PEAKS loan materials and asserts qualification to provide opinions based on that review.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 93.46,
+      "end_score": 89.29
+    },
+    "anchors": {
+      "start_quote": "You've reviewed a lot of material about the PEAKS loans; is that correct?",
+      "end_quote": "Yes, I -- I am qualified to provide an opinion on the materials that I reviewed."
+    }
+  },
+  {
+    "topic": "Consumer Financial Protection Bureau (CFPB) Settlement and Findings",
+    "start": "Page 45, Line 18",
+    "end": "Page 45, Line 22",
+    "start_gid": 955,
+    "end_gid": 959,
+    "supporting_evidence": "The witness discusses the CFPB case, noting it ended in a settlement in fall 2020 where the PEAKS program agreed to cancel outstanding loans, rather than a legal determination of unenforceability.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 89.39,
+      "end_score": 100.0
+    },
+    "anchors": {
+      "start_quote": "For the -- in the case of the Consumer Financial Protection Bureau case, that reached a settlement and so no legal determination was made, as I understand it, because they reached a settlement in which the PEAKS loan program agreed to cancel any outstanding loans.",
+      "end_quote": "That's correct."
+    }
+  },
+  {
+    "topic": "Enforceability and Material Defects in PEAKS Loan Documents",
+    "start": "Page 47, Line 9",
+    "end": "Page 56, Line 16",
+    "start_gid": 996,
+    "end_gid": 1228,
+    "supporting_evidence": "The witness states that while determining enforceability is outside the scope of the report, the reviewed documents contain material defects (missing pieces) that raise questions about the validity and enforceability of the loans. The witness testifies that there are serious defects in the PEAKS loan documentation, specifically the absence of promissory notes, terms, and borrower signatures, which raises questions about the validity and enforceability of the loans. The witness clarifies that while they do not opine on final enforceability, the missing documents mean Vervent could not definitively prove loan terms like interest rates to borrowers.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 90.38,
+      "end_score": 89.39
+    },
+    "anchors": {
+      "start_quote": "Do you have an opinion as to whether the PEAKS loans were unenforceable at some point between -- at some point before the fall of 2020 when the Consumer Financial Protection Bureau made its ruling or made its order as part of the settlement?",
+      "end_quote": "It is my opinion that there are serious defects in the documentations which raise questions about the validity because certain -- because certain documents do not exist and because certain pieces do not exist. If those pieces do -- in fact do not exist, then there is no valid loan."
+    }
+  },
+  {
+    "topic": "Truth in Lending Act (TILA) Required Disclosures",
+    "start": "Page 56, Line 17",
+    "end": "Page 59, Line 25",
+    "start_gid": 1229,
+    "end_gid": 1312,
+    "supporting_evidence": "The witness discusses the legal requirement for final disclosures under the Truth in Lending Act, the consequences of their absence (loan invalidity and right to cancel), and the timing of these disclosures.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 91.8,
+      "end_score": 88.29
+    },
+    "anchors": {
+      "start_quote": "Do you believe that there was a wide-scale failure to provide the PEAKS borrowers with the final disclosures required by law with respect to their loans?",
+      "end_quote": "I would believe that it is less than that, but I don't remember off the top of my head."
+    }
+  },
+  {
+    "topic": "Enforceability and Material Defects in PEAKS Loan Documents",
+    "start": "Page 60, Line 1",
+    "end": "Page 61, Line 5",
+    "start_gid": 1313,
+    "end_gid": 1342,
+    "supporting_evidence": "The examination explores how the failure to provide required disclosures renders loans unenforceable or invalid, and discusses other potential events in the loan lifecycle that could impact enforceability.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 89.29,
+      "end_score": 90.38
+    },
+    "anchors": {
+      "start_quote": "I believe in your report you -- you state that if these disclosures were not made, the loans would be invalid and the borrowers would have the right to cancel the loans; is that correct?",
+      "end_quote": "There are any number of events that can happen after -- hypothetically, after the origination of a loan that could also impact the enforceability of the loan as well."
+    }
+  },
+  {
+    "topic": "Consumer Financial Protection Bureau (CFPB) Settlement and Findings",
+    "start": "Page 61, Line 25",
+    "end": "Page 74, Line 23",
+    "start_gid": 1362,
+    "end_gid": 1685,
+    "supporting_evidence": "The witness confirms reading the CFPB settlement and clarifies that the findings did not attribute fault to the Vervent defendants, noting the settlement's focus was on other aspects of the loans. The witness confirms reading the CFPB settlement and states that the CFPB's focus was primarily on ITT and loan origination, with no public findings of wrongdoing by the Vervent defendants regarding their servicing of PEAKS loans. The witness discusses the CFPB's Civil Investigative Demand, the subsequent complaints against ITT and the PEAKS Trust, and the 2019/2020 settlements. The witness clarifies that the CFPB's focus was on ITT's origination practices and that no public findings of wrongdoing were made against the Vervent defendants. The witness confirms that a CFPB investigation occurred alongside Vervent's participation in the PEAKS loan program and that Vervent was served with a Civil Investigative Demand (CID) in 2012 or 2013.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 100.0,
+      "end_score": 89.39
+    },
+    "anchors": {
+      "start_quote": "And that CFPB settlement, did you read it?",
+      "end_quote": "That was not in my understanding the -- the findings of the CFPB settlement.  That was not the focus of their -- of their investigation."
+    }
+  },
+  {
+    "topic": "Department of Education Enforcement Actions and Closure of ITT",
+    "start": "Page 75, Line 6",
+    "end": "Page 75, Line 10",
+    "start_gid": 1693,
+    "end_gid": 1697,
+    "supporting_evidence": "The witness states that Department of Education findings regarding the PEAKS loans were focused primarily on the behavior of ITT (the school) rather than Vervent (the servicer), and notes that the Department investigates loan servicers but is not a financial regulator like the CFPB.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 89.39,
+      "end_score": 90.91
+    },
+    "anchors": {
+      "start_quote": "Are you aware of the U.S. Department of Education ever making any findings that Vervent behaved inappropriately with respect to the PEAKS loans?",
+      "end_quote": "Similarly, the Department of Education's findings are based upon the -- the -- the behavior of ITT as it was making the loans that Vervent was servicing, but it was focused primarily on ITT."
+    }
+  },
+  {
+    "topic": "Enforceability and Material Defects in PEAKS Loan Documents",
+    "start": "Page 79, Line 10",
+    "end": "Page 80, Line 1",
+    "start_gid": 1796,
+    "end_gid": 1812,
+    "supporting_evidence": "The witness opines that while the mere fact of investigations did not necessarily require Vervent to stop servicing, the information gathered raised serious questions about the enforceability of the loans, yet Vervent affirmatively chose to continue collecting and maintaining its contract.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 90.38,
+      "end_score": 90.91
+    },
+    "anchors": {
+      "start_quote": "Was -- was there -- at any point, was there an investigation that occurred and because that investigation occurred, you believe Vervent definitely should have stopped servicing the PEAKS loans at that moment?",
+      "end_quote": "Vervent affirmatively chose to continue collecting on those loans and to continue their contract with ITT and the PEAKS loans trust."
+    }
+  },
+  {
+    "topic": "Servicing vs. Origination Legal Distinction",
+    "start": "Page 80, Line 8",
+    "end": "Page 81, Line 7",
+    "start_gid": 1819,
+    "end_gid": 1843,
+    "supporting_evidence": "The witness distinguishes between the specific act of collecting payments and the broader role of a loan servicer, which includes tracking borrower data, advising on repayment options, and serving as the primary interface between the borrower and the loan holder.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 87.88,
+      "end_score": 90.91
+    },
+    "anchors": {
+      "start_quote": "There's \"servicing\" loans, and there's \"collecting\" on loans, and there -- there's definitely a relation between the two.",
+      "end_quote": "So there's a number of different functions of which the servicers -- I mean, servicers are basically the main interface between the student loan borrower and the loan holder."
+    }
+  },
+  {
+    "topic": "Enforceability and Material Defects in PEAKS Loan Documents",
+    "start": "Page 82, Line 7",
+    "end": "Page 87, Line 1",
+    "start_gid": 1868,
+    "end_gid": 1987,
+    "supporting_evidence": "The examination focuses on when the PEAKS loans were deemed unenforceable. The witness clarifies that no judicial determination existed prior to the fall 2020 CFPB settlement. She opines that if the loans lacked requisite disclosures, they were unenforceable from their origination because the documents failed to establish the existence of a valid loan. The examiner questions the witness regarding the timing of when PEAKS loans became unenforceable. The witness clarifies that if the loans are unenforceable due to a lack of requisite disclosures at origination, they were unenforceable from the outset, and notes that post-origination activities were outside the scope of her report.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 88.5,
+      "end_score": 92.42
+    },
+    "anchors": {
+      "start_quote": "When was the PEAKS loans deemed unenforceable as a matter of law, Ms. Yu?",
+      "end_quote": "Right. That if the -- that if the requisite -- I mean, the documents are evidence that a loan exists and if a loan exists -- if the loan fails to exist, then the -- then there's nothing to enforce."
+    }
+  },
+  {
+    "topic": "Consumer Financial Protection Bureau (CFPB) Settlement and Findings",
+    "start": "Page 87, Line 12",
+    "end": "Page 87, Line 20",
+    "start_gid": 1998,
+    "end_gid": 2006,
+    "supporting_evidence": "The examiner asks the witness to review various investigations and settlements related to the PEAKS loans program to determine if any findings indicated issues with Vervent's servicing practices. The witness requests clarification on the question.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 90.91,
+      "end_score": 92.45
+    },
+    "anchors": {
+      "start_quote": "In your review of the various investigations into the PEAKS loans program, did you note that anybody had any issues with any of the actual servicing that the Vervent defendants did?",
+      "end_quote": "You've reviewed a lot of investigations relating to the PEAKS loans, and I was just asking whether in your review of those investigations and their findings and their various settlements whether you noticed that anybody had any issues with the way that Vervent did the servicing on the loans."
+    }
+  }
+]

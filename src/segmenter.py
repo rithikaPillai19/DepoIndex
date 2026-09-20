@@ -1,13 +1,13 @@
 import os
 import json
+import re
 from dotenv import load_dotenv
 from groq import Groq
 from pydantic import BaseModel, Field
 from typing import List
 
 load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-
+client = Groq(api_key=os.getenv("GROQ_API_KEY"), timeout=30.0)
 CANONICAL_TAXONOMY = [
     "Deposition Protocol, Ground Rules & Perjury Warning",
     "Expert Witness Retention & Scope of Assignment",
@@ -39,51 +39,61 @@ CANONICAL_TAXONOMY = [
 ]
 
 class MacroTopicSpan(BaseModel):
-    topic: str = Field(..., description="The macro-topic name selected from the Canonical Taxonomy.")
-    start_quote: str = Field(..., description="Exact opening sentence of the examination.")
-    end_quote: str = Field(..., description="Exact concluding sentence of the examination.")
-    evidence_summary: str = Field(..., description="Substantive 1-3 sentence factual synthesis of testimony.")
+    topic: str = Field(..., description="The macro-topic name from the taxonomy.")
+    start_quote: str = Field(..., description="Exact verbatim opening sentence.")
+    end_quote: str = Field(..., description="Exact verbatim closing sentence.")
+    evidence_summary: str = Field(..., description="Substantive factual synthesis.")
+
+def _robust_json_extract(text: str) -> dict:
+    if not text:
+        return {"topics": []}
+    # Strip markdown backticks
+    text = re.sub(r"^```(?:json)?", "", text.strip(), flags=re.MULTILINE)
+    text = re.sub(r"```$", "", text.strip(), flags=re.MULTILINE).strip()
+    
+    # Locate first { and last }
+    first_brace = text.find("{")
+    last_brace = text.rfind("}")
+    if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
+        return json.loads(text[first_brace:last_brace + 1])
+    return json.loads(text)
 
 def extract_macro_topics(chunk_text: str) -> List[MacroTopicSpan]:
-    system_prompt = f"""
-You are a senior litigation analyst indexing a sworn deposition.
-Select ONLY from this canonical taxonomy:
+    prompt = f"""You are a legal indexer. Inspect this transcript chunk and identify which of these topics are actively examined:
 {json.dumps(CANONICAL_TAXONOMY, indent=2)}
 
-STRICT BOUNDARY & SPAN RULES:
-1. NEVER output a topic that lasts only 1-3 lines.
-2. 'start_quote': The opening question introducing the subject.
-3. 'end_quote': The FINAL question/answer in the transcript where the attorney concludes this entire line of questioning before changing subjects. 
-   - DO NOT stop at the witness's first short answer (like "I have not" or "No").
-   - Look ahead to where the topic actually finishes across the whole dialogue block.
-4. If an exchange lasts fewer than 5 lines, DO NOT create a separate topic. Merge it into the surrounding substantive topic.
+Rules:
+1. Return ONLY topics from the list that appear in the chunk.
+2. If none appear, return: {{"topics": []}}
+3. 'start_quote': Verbatim sentence where inquiry starts.
+4. 'end_quote': Verbatim sentence where inquiry concludes.
+5. Provide a concise evidence_summary.
 
-OUTPUT FORMAT:
-Return a valid json object:
-{{
-  "topics": [
-    {{
-      "topic": "<Exact taxonomy title>",
-      "start_quote": "<First question introducing the topic>",
-      "end_quote": "<Last sentence concluding the full line of questioning>",
-      "evidence_summary": "<Detailed factual synthesis>"
-    }}
-  ]
-}}
-"""
+Transcript:
+{chunk_text}
+
+Respond STRICTLY with raw valid JSON:
+{{"topics": [{{"topic": "Name", "start_quote": "...", "end_quote": "...", "evidence_summary": "..."}}]}}"""
+
     try:
         completion = client.chat.completions.create(
-            model="openai/gpt-oss-120b",
+            model="qwen/qwen3.8-27b",
             messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Return a json object analyzing this deposition segment:\n{chunk_text}"}
+                {"role": "user", "content": prompt}
             ],
-            response_format={"type": "json_object"},
-            temperature=0.0
+            temperature=0.0,
+            max_tokens=1500
         )
-        payload = json.loads(completion.choices[0].message.content)
-        raw_topics = payload.get("topics", payload if isinstance(payload, list) else [])
-        return [MacroTopicSpan(**t) for t in raw_topics if t.get("topic") in CANONICAL_TAXONOMY]
+        raw_content = completion.choices[0].message.content or ""
+        payload = _robust_json_extract(raw_content)
+        raw_topics = payload.get("topics", [])
+        
+        valid = []
+        for t in raw_topics:
+            if isinstance(t, dict) and t.get("topic") in CANONICAL_TAXONOMY:
+                valid.append(MacroTopicSpan(**t))
+        return valid
+
     except Exception as e:
         print(f"[Extraction Warning]: {e}")
         return []
