@@ -2,15 +2,17 @@ import json
 import os
 import pandas as pd
 from typing import List, Dict, Any
+
 from src.parser import parse_deposition_pdf
+from src.indexer import build_document_page_index
 from src.segmenter import extract_macro_topics, CANONICAL_TAXONOMY
 from src.resolver import ProvenanceResolver
 from src.validator import DepoIndexValidator
 
 def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_lookahead: int = 35) -> int:
     """
-    Prevents single-exchange collapse by expanding the boundary forward
-    through contiguous questioning on the same topic until an answer concludes the block.
+    Expands boundary forward through contiguous questioning on the same subject
+    until a witness answer concludes the block, avoiding single-exchange collapse.
     """
     current_span = end_gid - start_gid + 1
     if current_span >= 5:
@@ -27,7 +29,6 @@ def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_loo
         row_text = str(df.iloc[next_gid]["text"]).strip()
         upper_text = row_text.upper()
 
-        # Stop expanding if a formal break or topic shift occurs
         if any(marker in upper_text for marker in [
             "EXHIBIT", "RECESS", "OFF THE RECORD", "WHEREUPON", "FURTHER EXAMINATION"
         ]):
@@ -35,7 +36,7 @@ def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_loo
 
         candidate_end = next_gid
 
-    # Snap cleanly to a witness answer line ('A ' or 'A.')
+    # Ensure ending cleanly on a witness answer line ('A ' or 'A.')
     for test_gid in range(candidate_end, end_gid, -1):
         line_text = str(df.iloc[test_gid]["text"]).strip()
         if line_text.startswith("A ") or line_text.startswith("A."):
@@ -44,10 +45,21 @@ def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_loo
     return candidate_end
 
 def run_pipeline():
+    pdf_path = "data/Persis_Yu_Deposition_Problem_statement.pdf"
     transcript_file = "data/parsed_transcript.json"
-    if not os.path.exists(transcript_file):
-        parse_deposition_pdf("data/Persis_Yu_Deposition_Problem_statement.pdf")
+    page_index_file = "data/page_index.json"
 
+    # Step 0: Ensure Transcript Parsing
+    if not os.path.exists(transcript_file):
+        print("Parsing Deposition PDF into structured transcript...")
+        parse_deposition_pdf(pdf_path)
+
+    # Step 1: Hierarchical Coarse Page Index (The 300-Page Book Pattern)
+    if not os.path.exists(page_index_file):
+        print("Generating Coarse Page-Level Catalog Index...")
+        build_document_page_index(pdf_path, output_path=page_index_file)
+
+    # Step 2: Load Parsed Transcript Data
     with open(transcript_file, "r", encoding="utf-8") as f:
         transcript_data = json.load(f)
 
@@ -65,6 +77,7 @@ def run_pipeline():
     print(f"--- Running 4-Pillar Validated DepoIndex on {total_lines} Lines ---")
     print(f"=======================================================\n")
 
+    # Step 3: Sliding Extraction Across Substantive Transcript
     while current_idx < total_lines:
         end_idx = min(current_idx + chunk_size, total_lines)
         pct = int((current_idx / total_lines) * 100)
@@ -79,7 +92,7 @@ def run_pipeline():
         candidates = extract_macro_topics(chunk_text)
 
         for item in candidates:
-            # 1. Resolve Coordinates
+            # Resolve Coordinates
             start_res = resolver.resolve_quote(
                 item.start_quote, 
                 search_start_id=current_idx, 
@@ -93,7 +106,7 @@ def run_pipeline():
                 search_window=chunk_size + overlap
             )
 
-            # Defensive Coordinate Inversion Guard & Expansion
+            # Safeguards: prevent inversion and expand narrow spans
             if start_res.get("global_id") is not None and end_res.get("global_id") is not None:
                 if end_res["global_id"] < start_res["global_id"]:
                     end_res = start_res.copy()
@@ -106,7 +119,7 @@ def run_pipeline():
                     end_res["page"] = int(expanded_row["page"])
                     end_res["line"] = int(expanded_row["line"])
 
-            # 2. Run the 4 Validation Pillars
+            # 4 Validation Pillars
             failures = []
 
             p1_ok, p1_msg = validator.validate_coordinates(start_res, end_res)
@@ -125,7 +138,7 @@ def run_pipeline():
             if not p4_ok: 
                 failures.append(f"Pillar 4 (Evidence): {p4_msg}")
 
-            # 3. Collect Candidate Entry or Trigger Fallback
+            # Collect Validated Candidate or Execute Fallback
             if not failures:
                 raw_candidates.append({
                     "topic": item.topic,
@@ -154,12 +167,11 @@ def run_pipeline():
 
         current_idx += (chunk_size - overlap)
 
-    print("\nProcessing deduplication and boundary resolution across candidate entries...", flush=True)
+    print("\nProcessing deduplication and boundary resolution...", flush=True)
 
-    # Sort strictly by physical appearance in transcript
+    # Step 4: Strict Chronological Sorting & Non-Destructive Deduplication
     raw_candidates.sort(key=lambda x: x.get("start_gid", 0))
 
-    # Safe Deduplication & Non-Destructive Separation
     final_cleaned = []
     for entry in raw_candidates:
         if not final_cleaned:
@@ -170,7 +182,7 @@ def run_pipeline():
         same_topic = (entry["topic"].strip().lower() == prev["topic"].strip().lower())
 
         if same_topic:
-            # Merge identical topics bridging chunk seams
+            # Merge identical topics bridging chunk boundaries
             if entry.get("start_gid", 0) <= (prev.get("end_gid", 0) + 40):
                 prev["end"] = entry["end"]
                 prev["end_gid"] = max(prev.get("end_gid", 0), entry.get("end_gid", 0))
@@ -178,7 +190,6 @@ def run_pipeline():
                     prev["supporting_evidence"] += " " + entry["supporting_evidence"]
                 continue
 
-        # For different topics:
         # Nudge entry start forward if sliding window overlap caused slight intersection
         if entry.get("start_gid", 0) <= prev.get("end_gid", 0):
             entry_new_start_gid = prev.get("end_gid", 0) + 1
@@ -187,12 +198,12 @@ def run_pipeline():
                 s_row = df.iloc[entry_new_start_gid]
                 entry["start"] = f"Page {s_row['page']}, Line {s_row['line']}"
             else:
-                # Discard duplicate micro-topic that is fully inside the previous topic
+                # Discard duplicate micro-topic entirely contained within previous topic
                 continue
 
         final_cleaned.append(entry)
 
-    # Export Final Deliverables
+    # Step 5: Save JSON and Markdown Deliverables
     os.makedirs("output", exist_ok=True)
     with open("output/topic_index.json", "w", encoding="utf-8") as f:
         json.dump(final_cleaned, f, indent=2)
