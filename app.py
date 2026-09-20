@@ -281,7 +281,7 @@ with tab_audit:
         st.info("No topic index records to audit.")
 
 
-# =============================================================
+# # =============================================================
 # TAB 2: COMPLETE TOPIC INDEX TABLE
 # =============================================================
 with tab_table:
@@ -289,45 +289,35 @@ with tab_table:
     st.caption("Formal 4-column index matching court production requirements.")
 
     if filtered_topics:
-        # Construct responsive HTML table matching reference layout
-        table_html = [
-            '<table class="depo-table">',
-            '<thead><tr>',
-            '<th style="width: 28%;">Topic</th>',
-            '<th style="width: 14%;">Start</th>',
-            '<th style="width: 14%;">End</th>',
-            '<th style="width: 44%;">Supporting Evidence</th>',
-            '</tr></thead>',
-            '<tbody>'
-        ]
-
+        # Build pandas DataFrame for robust native rendering
+        table_records = []
         for entry in filtered_topics:
-            table_html.append(f"""
-            <tr>
-                <td style="font-weight: 500;">{entry['topic']}</td>
-                <td style="color: #8b949e; white-space: nowrap;">{entry['start']}</td>
-                <td style="color: #8b949e; white-space: nowrap;">{entry['end']}</td>
-                <td style="color: #c9d1d9; line-height: 1.4;">{entry['supporting_evidence']}</td>
-            </tr>
-            """)
-        table_html.append('</tbody></table>')
+            table_records.append({
+                "Topic": entry.get("topic", ""),
+                "Start": entry.get("start", ""),
+                "End": entry.get("end", ""),
+                "Supporting Evidence": entry.get("supporting_evidence", "")
+            })
 
-        st.markdown("".join(table_html), unsafe_allow_html=True)
+        df_display = pd.DataFrame(table_records)
+
+        # Render clean, interactive table matching column widths
+        st.dataframe(
+            df_display,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                "Topic": st.column_config.TextColumn("Topic", width="medium"),
+                "Start": st.column_config.TextColumn("Start", width="small"),
+                "End": st.column_config.TextColumn("End", width="small"),
+                "Supporting Evidence": st.column_config.TextColumn("Supporting Evidence", width="large"),
+            }
+        )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # CSV Export matching screenshot functionality
-        df_export = pd.DataFrame([
-            {
-                "Topic": t["topic"],
-                "Start": t["start"],
-                "End": t["end"],
-                "Supporting Evidence": t["supporting_evidence"]
-            }
-            for t in filtered_topics
-        ])
-        csv_data = df_export.to_csv(index=False).encode("utf-8")
-
+        # CSV Export Button
+        csv_data = df_display.to_csv(index=False).encode("utf-8")
         st.download_button(
             label="📥 Export Topic Index as CSV",
             data=csv_data,
