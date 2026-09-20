@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+from typing import List, Dict, Any
 from src.parser import parse_deposition_pdf
 from src.segmenter import extract_macro_topics, CANONICAL_TAXONOMY
 from src.resolver import ProvenanceResolver
@@ -8,8 +9,8 @@ from src.validator import DepoIndexValidator
 
 def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_lookahead: int = 35) -> int:
     """
-    Expands boundary forward through contiguous questioning on the same subject
-    until a witness answer concludes the block.
+    Prevents single-exchange collapse by expanding the boundary forward
+    through contiguous questioning on the same topic until an answer concludes the block.
     """
     current_span = end_gid - start_gid + 1
     if current_span >= 5:
@@ -26,6 +27,7 @@ def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_loo
         row_text = str(df.iloc[next_gid]["text"]).strip()
         upper_text = row_text.upper()
 
+        # Stop expanding if a formal break or topic shift occurs
         if any(marker in upper_text for marker in [
             "EXHIBIT", "RECESS", "OFF THE RECORD", "WHEREUPON", "FURTHER EXAMINATION"
         ]):
@@ -50,7 +52,7 @@ def run_pipeline():
         transcript_data = json.load(f)
 
     df = pd.DataFrame(transcript_data)
-    resolver = ProvenanceResolver(df)
+    resolver = ProvenanceResolver(df, min_confidence=70.0)
     validator = DepoIndexValidator(df, CANONICAL_TAXONOMY, min_score=70.0)
 
     chunk_size = 180
@@ -86,7 +88,7 @@ def run_pipeline():
                 search_window=chunk_size + overlap
             )
 
-            # Safeguards: prevent inversion and expand narrow 1-3 line exchanges
+            # Defensive Safeguards: Inversion protection & narrow span expansion
             if start_res.get("global_id") is not None and end_res.get("global_id") is not None:
                 if end_res["global_id"] < start_res["global_id"]:
                     end_res = start_res.copy()
@@ -103,18 +105,22 @@ def run_pipeline():
             failures = []
 
             p1_ok, p1_msg = validator.validate_coordinates(start_res, end_res)
-            if not p1_ok: failures.append(f"Pillar 1 (Coordinate): {p1_msg}")
+            if not p1_ok: 
+                failures.append(f"Pillar 1 (Coordinate): {p1_msg}")
 
             p2_ok, p2_msg = validator.validate_boundary(start_res.get("global_id", 0), end_res.get("global_id", 0))
-            if not p2_ok: failures.append(f"Pillar 2 (Boundary): {p2_msg}")
+            if not p2_ok: 
+                failures.append(f"Pillar 2 (Boundary): {p2_msg}")
 
             p3_ok, p3_msg = validator.validate_semantic(item.topic)
-            if not p3_ok: failures.append(f"Pillar 3 (Semantic): {p3_msg}")
+            if not p3_ok: 
+                failures.append(f"Pillar 3 (Semantic): {p3_msg}")
 
             p4_ok, p4_msg = validator.validate_evidence(item.evidence_summary)
-            if not p4_ok: failures.append(f"Pillar 4 (Evidence): {p4_msg}")
+            if not p4_ok: 
+                failures.append(f"Pillar 4 (Evidence): {p4_msg}")
 
-            # 3. Collect candidate entry
+            # 3. Collect Candidate or Trigger Fallback
             if not failures:
                 raw_candidates.append({
                     "topic": item.topic,
@@ -146,7 +152,7 @@ def run_pipeline():
     # Sort strictly by physical appearance in transcript
     raw_candidates.sort(key=lambda x: x.get("start_gid", 0))
 
-    # CORRECT DEDUPLICATION & SEPARATION
+    # Clean Deduplication & Boundary Separation (No Domino Cascading)
     final_cleaned = []
     for entry in raw_candidates:
         if not final_cleaned:
@@ -157,7 +163,7 @@ def run_pipeline():
         same_topic = (entry["topic"].strip().lower() == prev["topic"].strip().lower())
 
         if same_topic:
-            # Only merge if it's the SAME topic spanning across chunks
+            # Only merge if it's the SAME topic spanning across adjacent chunks
             if entry.get("start_gid", 0) <= (prev.get("end_gid", 0) + 35):
                 prev["end"] = entry["end"]
                 prev["end_gid"] = max(prev.get("end_gid", 0), entry.get("end_gid", 0))
@@ -165,16 +171,21 @@ def run_pipeline():
                     prev["supporting_evidence"] += " " + entry["supporting_evidence"]
                 continue
 
-        # If DIFFERENT topics overlap due to the sliding window, trim previous topic's end
+        # If DIFFERENT topics overlap due to chunking seams, trim the boundary cleanly
         if entry.get("start_gid", 0) <= prev.get("end_gid", 0):
             adjusted_end_gid = max(prev.get("start_gid", 0), entry.get("start_gid", 0) - 1)
             prev["end_gid"] = adjusted_end_gid
             end_row = df.iloc[adjusted_end_gid]
             prev["end"] = f"Page {end_row['page']}, Line {end_row['line']}"
 
+        # Guard against zero-length or inverted spans after trimming
+        if prev.get("end_gid", 0) < prev.get("start_gid", 0):
+            prev["end_gid"] = prev["start_gid"]
+            prev["end"] = prev["start"]
+
         final_cleaned.append(entry)
 
-    # Save to disk
+    # Export Final Structured Deliverables
     os.makedirs("output", exist_ok=True)
     with open("output/topic_index.json", "w", encoding="utf-8") as f:
         json.dump(final_cleaned, f, indent=2)
