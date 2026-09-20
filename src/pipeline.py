@@ -6,6 +6,42 @@ from src.segmenter import extract_macro_topics, CANONICAL_TAXONOMY
 from src.resolver import ProvenanceResolver
 from src.validator import DepoIndexValidator
 
+def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_lookahead: int = 35) -> int:
+    """
+    Prevents single-exchange collapse by expanding the boundary forward
+    through contiguous questioning on the same topic until an answer concludes the block.
+    """
+    current_span = end_gid - start_gid + 1
+    if current_span >= 5:
+        return end_gid
+
+    total_rows = len(df)
+    candidate_end = end_gid
+
+    for offset in range(1, max_lookahead):
+        next_gid = end_gid + offset
+        if next_gid >= total_rows:
+            break
+
+        row_text = str(df.iloc[next_gid]["text"]).strip()
+        upper_text = row_text.upper()
+
+        # Stop expanding if a formal break or topic shift occurs
+        if any(marker in upper_text for marker in [
+            "EXHIBIT", "RECESS", "OFF THE RECORD", "WHEREUPON", "FURTHER EXAMINATION"
+        ]):
+            break
+
+        candidate_end = next_gid
+
+    # Try to end cleanly on a witness answer line ('A ' or 'A.')
+    for test_gid in range(candidate_end, end_gid, -1):
+        line_text = str(df.iloc[test_gid]["text"]).strip()
+        if line_text.startswith("A ") or line_text.startswith("A."):
+            return test_gid
+
+    return candidate_end
+
 def run_pipeline():
     transcript_file = "data/parsed_transcript.json"
     if not os.path.exists(transcript_file):
@@ -38,23 +74,51 @@ def run_pipeline():
 
         for item in candidates:
             # 1. Resolve Coordinates
-            start_res = resolver.resolve_quote(item.start_quote, search_start_id=current_idx, search_window=chunk_size + overlap)
+            start_res = resolver.resolve_quote(
+                item.start_quote, 
+                search_start_id=current_idx, 
+                search_window=chunk_size + overlap
+            )
+            
             search_start_for_end = (start_res["global_id"] + 1) if start_res.get("global_id") is not None else current_idx
-            end_res = resolver.resolve_quote(item.end_quote, search_start_id=search_start_for_end, search_window=chunk_size + overlap)
+            end_res = resolver.resolve_quote(
+                item.end_quote, 
+                search_start_id=search_start_for_end, 
+                search_window=chunk_size + overlap
+            )
+
+            # Defensive Coordinate Inversion Guard
+            if start_res.get("global_id") is not None and end_res.get("global_id") is not None:
+                if end_res["global_id"] < start_res["global_id"]:
+                    end_res = start_res.copy()
+
+                # Expand narrow spans (1-3 lines) so they capture the full examination turn
+                span_len = end_res["global_id"] - start_res["global_id"] + 1
+                if span_len < 4:
+                    expanded_gid = expand_colloquy_span(df, start_res["global_id"], end_res["global_id"])
+                    end_res["global_id"] = expanded_gid
+                    expanded_row = df.iloc[expanded_gid]
+                    end_res["page"] = int(expanded_row["page"])
+                    end_res["line"] = int(expanded_row["line"])
+
             # 2. Run the 4 Validation Pillars
             failures = []
-            
+
             p1_ok, p1_msg = validator.validate_coordinates(start_res, end_res)
-            if not p1_ok: failures.append(f"Pillar 1 (Coordinate): {p1_msg}")
+            if not p1_ok: 
+                failures.append(f"Pillar 1 (Coordinate): {p1_msg}")
 
             p2_ok, p2_msg = validator.validate_boundary(start_res.get("global_id", 0), end_res.get("global_id", 0))
-            if not p2_ok: failures.append(f"Pillar 2 (Boundary): {p2_msg}")
+            if not p2_ok: 
+                failures.append(f"Pillar 2 (Boundary): {p2_msg}")
 
             p3_ok, p3_msg = validator.validate_semantic(item.topic)
-            if not p3_ok: failures.append(f"Pillar 3 (Semantic): {p3_msg}")
+            if not p3_ok: 
+                failures.append(f"Pillar 3 (Semantic): {p3_msg}")
 
             p4_ok, p4_msg = validator.validate_evidence(item.evidence_summary)
-            if not p4_ok: failures.append(f"Pillar 4 (Evidence): {p4_msg}")
+            if not p4_ok: 
+                failures.append(f"Pillar 4 (Evidence): {p4_msg}")
 
             # 3. Handle Passed vs Failed Entries
             if not failures:
@@ -86,7 +150,7 @@ def run_pipeline():
 
         current_idx += (chunk_size - overlap)
 
-    # Monotonic Ordering & Adjacent Merging
+    # Monotonic Ordering & Merging of Overlapping/Adjacent Spans
     validated_index.sort(key=lambda x: x.get("start_gid", 0))
 
     final_cleaned = []
@@ -95,8 +159,8 @@ def run_pipeline():
             final_cleaned.append(entry)
             continue
         prev = final_cleaned[-1]
-        
-        # Merge consecutive identical topics
+
+        # Merge if same topic or if ranges overlap
         if (entry["topic"].strip().lower() == prev["topic"].strip().lower()) or \
            (entry.get("start_gid", 0) <= prev.get("end_gid", -1)):
             prev["end"] = entry["end"]
@@ -106,12 +170,11 @@ def run_pipeline():
         else:
             final_cleaned.append(entry)
 
-    # Save to disk
+    # Save Final Deliverables
     os.makedirs("output", exist_ok=True)
     with open("output/topic_index.json", "w", encoding="utf-8") as f:
         json.dump(final_cleaned, f, indent=2)
 
-    # Generate Markdown Table
     md_lines = [
         "# Deposition Topic Index: Persis S. Yu\n",
         "| Topic | Start Coordinate | End Coordinate | Validation Status | Supporting Testimony Evidence |",
