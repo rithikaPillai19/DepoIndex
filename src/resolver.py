@@ -2,8 +2,9 @@ from rapidfuzz import fuzz, process
 import pandas as pd
 
 class ProvenanceResolver:
-    def __init__(self, transcript_df: pd.DataFrame):
+    def __init__(self, transcript_df: pd.DataFrame, min_confidence: float = 70.0):
         self.df = transcript_df
+        self.min_confidence = min_confidence
         self.normalized_lines = [str(t).lower().strip() for t in self.df["text"].tolist()]
 
     def resolve_quote(self, quote: str, search_start_id: int = 0, search_window: int = 250):
