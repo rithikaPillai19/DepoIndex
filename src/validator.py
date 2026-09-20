@@ -31,7 +31,6 @@ class DepoIndexValidator:
         return True, "PASSED"
 
     # PILLAR 2: Boundary Validation
-    # PILLAR 2: Boundary Validation
     def validate_boundary(self, start_gid: int, end_gid: int) -> Tuple[bool, str]:
         span_length = end_gid - start_gid + 1
         if span_length < 4:
@@ -65,15 +64,10 @@ class DepoIndexValidator:
         return True, "PASSED"
 
     # PILLAR 5: Fallback Mechanism
+   # Inside src/validator.py -> execute_fallback
     def execute_fallback(self, raw_entry: Dict[str, Any], start_res: Dict[str, Any], end_res: Dict[str, Any], failure_reasons: list) -> Dict[str, Any]:
-        """
-        Executes when one or more of the 4 pillars fail:
-        - Attempts boundary recovery by snapping to nearest examination block.
-        - If unrecoverable, preserves data integrity by marking for manual legal review.
-        """
-        # Boundary recovery attempt: if end < start, clamp end to start + 10
         recovered_start_gid = start_res.get("global_id") or 0
-        recovered_end_gid = end_res.get("global_id") or recovered_start_gid + 10
+        recovered_end_gid = end_res.get("global_id") or (recovered_start_gid + 10)
 
         if recovered_end_gid < recovered_start_gid:
             recovered_end_gid = min(recovered_start_gid + 15, self.max_global_id)
@@ -85,6 +79,8 @@ class DepoIndexValidator:
             "topic": raw_entry.get("topic", "Unassigned Examination Segment"),
             "start": f"Page {start_row['page']}, Line {start_row['line']}",
             "end": f"Page {end_row['page']}, Line {end_row['line']}",
+            "start_gid": recovered_start_gid,
+            "end_gid": recovered_end_gid,
             "supporting_evidence": raw_entry.get("evidence", "Evidence flagged during validation."),
             "validation_status": "FALLBACK_TRIGGERED",
             "fallback_diagnostics": failure_reasons,
