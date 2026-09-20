@@ -325,10 +325,10 @@
   {
     "topic": "Consumer Financial Protection Bureau (CFPB) Settlement and Findings",
     "start": "Page 61, Line 25",
-    "end": "Page 62, Line 6",
+    "end": "Page 74, Line 23",
     "start_gid": 1362,
-    "end_gid": 1368,
-    "supporting_evidence": "The witness confirms reading the CFPB settlement and clarifies that the findings did not attribute fault to the Vervent defendants, noting the settlement's focus was on other aspects of the loans.",
+    "end_gid": 1685,
+    "supporting_evidence": "The witness confirms reading the CFPB settlement and clarifies that the findings did not attribute fault to the Vervent defendants, noting the settlement's focus was on other aspects of the loans. The witness confirms reading the CFPB settlement and states that the CFPB's focus was primarily on ITT and loan origination, with no public findings of wrongdoing by the Vervent defendants regarding their servicing of PEAKS loans. The witness discusses the CFPB's Civil Investigative Demand, the subsequent complaints against ITT and the PEAKS Trust, and the 2019/2020 settlements. The witness clarifies that the CFPB's focus was on ITT's origination practices and that no public findings of wrongdoing were made against the Vervent defendants. The witness confirms that a CFPB investigation occurred alongside Vervent's participation in the PEAKS loan program and that Vervent was served with a Civil Investigative Demand (CID) in 2012 or 2013.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "validation_scores": {
       "start_score": 100.0,
@@ -337,6 +337,91 @@
     "anchors": {
       "start_quote": "And that CFPB settlement, did you read it?",
       "end_quote": "That was not in my understanding the -- the findings of the CFPB settlement.  That was not the focus of their -- of their investigation."
+    }
+  },
+  {
+    "topic": "Department of Education Enforcement Actions and Closure of ITT",
+    "start": "Page 75, Line 6",
+    "end": "Page 75, Line 10",
+    "start_gid": 1693,
+    "end_gid": 1697,
+    "supporting_evidence": "The witness states that Department of Education findings regarding the PEAKS loans were focused primarily on the behavior of ITT (the school) rather than Vervent (the servicer), and notes that the Department investigates loan servicers but is not a financial regulator like the CFPB.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 89.39,
+      "end_score": 90.91
+    },
+    "anchors": {
+      "start_quote": "Are you aware of the U.S. Department of Education ever making any findings that Vervent behaved inappropriately with respect to the PEAKS loans?",
+      "end_quote": "Similarly, the Department of Education's findings are based upon the -- the -- the behavior of ITT as it was making the loans that Vervent was servicing, but it was focused primarily on ITT."
+    }
+  },
+  {
+    "topic": "Enforceability and Material Defects in PEAKS Loan Documents",
+    "start": "Page 79, Line 10",
+    "end": "Page 80, Line 1",
+    "start_gid": 1796,
+    "end_gid": 1812,
+    "supporting_evidence": "The witness opines that while the mere fact of investigations did not necessarily require Vervent to stop servicing, the information gathered raised serious questions about the enforceability of the loans, yet Vervent affirmatively chose to continue collecting and maintaining its contract.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 90.38,
+      "end_score": 90.91
+    },
+    "anchors": {
+      "start_quote": "Was -- was there -- at any point, was there an investigation that occurred and because that investigation occurred, you believe Vervent definitely should have stopped servicing the PEAKS loans at that moment?",
+      "end_quote": "Vervent affirmatively chose to continue collecting on those loans and to continue their contract with ITT and the PEAKS loans trust."
+    }
+  },
+  {
+    "topic": "Servicing vs. Origination Legal Distinction",
+    "start": "Page 80, Line 8",
+    "end": "Page 81, Line 7",
+    "start_gid": 1819,
+    "end_gid": 1843,
+    "supporting_evidence": "The witness distinguishes between the specific act of collecting payments and the broader role of a loan servicer, which includes tracking borrower data, advising on repayment options, and serving as the primary interface between the borrower and the loan holder.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 87.88,
+      "end_score": 90.91
+    },
+    "anchors": {
+      "start_quote": "There's \"servicing\" loans, and there's \"collecting\" on loans, and there -- there's definitely a relation between the two.",
+      "end_quote": "So there's a number of different functions of which the servicers -- I mean, servicers are basically the main interface between the student loan borrower and the loan holder."
+    }
+  },
+  {
+    "topic": "Enforceability and Material Defects in PEAKS Loan Documents",
+    "start": "Page 82, Line 7",
+    "end": "Page 87, Line 1",
+    "start_gid": 1868,
+    "end_gid": 1987,
+    "supporting_evidence": "The examination focuses on when the PEAKS loans were deemed unenforceable. The witness clarifies that no judicial determination existed prior to the fall 2020 CFPB settlement. She opines that if the loans lacked requisite disclosures, they were unenforceable from their origination because the documents failed to establish the existence of a valid loan. The examiner questions the witness regarding the timing of when PEAKS loans became unenforceable. The witness clarifies that if the loans are unenforceable due to a lack of requisite disclosures at origination, they were unenforceable from the outset, and notes that post-origination activities were outside the scope of her report.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 88.5,
+      "end_score": 92.42
+    },
+    "anchors": {
+      "start_quote": "When was the PEAKS loans deemed unenforceable as a matter of law, Ms. Yu?",
+      "end_quote": "Right. That if the -- that if the requisite -- I mean, the documents are evidence that a loan exists and if a loan exists -- if the loan fails to exist, then the -- then there's nothing to enforce."
+    }
+  },
+  {
+    "topic": "Consumer Financial Protection Bureau (CFPB) Settlement and Findings",
+    "start": "Page 87, Line 12",
+    "end": "Page 87, Line 20",
+    "start_gid": 1998,
+    "end_gid": 2006,
+    "supporting_evidence": "The examiner asks the witness to review various investigations and settlements related to the PEAKS loans program to determine if any findings indicated issues with Vervent's servicing practices. The witness requests clarification on the question.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "validation_scores": {
+      "start_score": 90.91,
+      "end_score": 92.45
+    },
+    "anchors": {
+      "start_quote": "In your review of the various investigations into the PEAKS loans program, did you note that anybody had any issues with any of the actual servicing that the Vervent defendants did?",
+      "end_quote": "You've reviewed a lot of investigations relating to the PEAKS loans, and I was just asking whether in your review of those investigations and their findings and their various settlements whether you noticed that anybody had any issues with the way that Vervent did the servicing on the loans."
     }
   }
 ]

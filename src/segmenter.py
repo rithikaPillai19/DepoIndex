@@ -8,6 +8,7 @@ from typing import List
 
 load_dotenv()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"), timeout=30.0)
+
 CANONICAL_TAXONOMY = [
     "Deposition Protocol, Ground Rules & Perjury Warning",
     "Expert Witness Retention & Scope of Assignment",
@@ -47,11 +48,9 @@ class MacroTopicSpan(BaseModel):
 def _robust_json_extract(text: str) -> dict:
     if not text:
         return {"topics": []}
-    # Strip markdown backticks
     text = re.sub(r"^```(?:json)?", "", text.strip(), flags=re.MULTILINE)
     text = re.sub(r"```$", "", text.strip(), flags=re.MULTILINE).strip()
     
-    # Locate first { and last }
     first_brace = text.find("{")
     last_brace = text.rfind("}")
     if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
@@ -78,9 +77,7 @@ Respond STRICTLY with raw valid JSON:
     try:
         completion = client.chat.completions.create(
             model="qwen/qwen3.8-27b",
-            messages=[
-                {"role": "user", "content": prompt}
-            ],
+            messages=[{"role": "user", "content": prompt}],
             temperature=0.0,
             max_tokens=1500
         )
