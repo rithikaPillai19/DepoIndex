@@ -46,25 +46,27 @@ class MacroTopicSpan(BaseModel):
 
 def extract_macro_topics(chunk_text: str) -> List[MacroTopicSpan]:
     system_prompt = f"""
-You are a senior litigation analyst. Identify ONLY broad, overarching macro-examination topics from this canonical list:
+You are a senior litigation analyst indexing a sworn deposition.
+Select ONLY from this canonical taxonomy:
 {json.dumps(CANONICAL_TAXONOMY, indent=2)}
 
-CRITICAL BOUNDARY INSTRUCTIONS:
-1. SPAN THE ENTIRE DISCUSSION: A macro topic represents an entire section of examination, usually spanning 15 to 60+ lines.
-2. 'start_quote' must be the FIRST question where the attorney introduces the subject.
-3. 'end_quote' must be the FINAL answer where the witness finishes testifying on this subject before a new topic begins.
-4. DO NOT quote the same sentence or adjacent lines for start and end. If a topic is discussed across multiple pages, capture the full range.
-5. Combine all follow-up questions, objections, and answers into one continuous parent span.
+STRICT BOUNDARY & SPAN RULES:
+1. NEVER output a topic that lasts only 1-3 lines.
+2. 'start_quote': The opening question introducing the subject.
+3. 'end_quote': The FINAL question/answer in the transcript where the attorney concludes this entire line of questioning before changing subjects. 
+   - DO NOT stop at the witness's first short answer (like "I have not" or "No").
+   - Look ahead to where the topic actually finishes across the whole dialogue block.
+4. If an exchange lasts fewer than 5 lines, DO NOT create a separate topic. Merge it into the surrounding substantive topic.
 
 OUTPUT FORMAT:
-Respond exclusively with a valid json object matching this schema:
+Return a valid json object:
 {{
   "topics": [
     {{
-      "topic": "<Exact topic title from taxonomy>",
-      "start_quote": "<Exact verbatim opening question>",
-      "end_quote": "<Exact verbatim final concluding answer>",
-      "evidence_summary": "<Factual 1-3 sentence summary of testimony>"
+      "topic": "<Exact taxonomy title>",
+      "start_quote": "<First question introducing the topic>",
+      "end_quote": "<Last sentence concluding the full line of questioning>",
+      "evidence_summary": "<Detailed factual synthesis>"
     }}
   ]
 }}

@@ -28,7 +28,7 @@ st.sidebar.caption("4-Pillar Validation + Fallback Layer")
 selected_idx = st.sidebar.selectbox("Select Topic to Audit:", range(len(topics)), format_func=lambda i: f"{i+1:02d}. {topics[i]['topic']}")
 selected_topic = topics[selected_idx]
 
-col1, col2 = st.columns([5, 6], gap="large")
+col1, col2 = st.columns([6, 6], gap="large")
 
 with col1:
     st.markdown(f"## {selected_topic['topic']}")
