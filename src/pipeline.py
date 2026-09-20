@@ -52,7 +52,7 @@ def run_pipeline():
         transcript_data = json.load(f)
 
     df = pd.DataFrame(transcript_data)
-    resolver = ProvenanceResolver(df, min_confidence=70.0)
+    resolver = ProvenanceResolver(df)
     validator = DepoIndexValidator(df, CANONICAL_TAXONOMY, min_score=70.0)
 
     chunk_size = 180
@@ -152,7 +152,7 @@ def run_pipeline():
     # Sort strictly by physical appearance in transcript
     raw_candidates.sort(key=lambda x: x.get("start_gid", 0))
 
-    # Clean Deduplication & Boundary Separation (No Domino Cascading)
+    # Safe Deduplication & Non-Destructive Separation
     final_cleaned = []
     for entry in raw_candidates:
         if not final_cleaned:
@@ -163,25 +163,25 @@ def run_pipeline():
         same_topic = (entry["topic"].strip().lower() == prev["topic"].strip().lower())
 
         if same_topic:
-            # Only merge if it's the SAME topic spanning across adjacent chunks
-            if entry.get("start_gid", 0) <= (prev.get("end_gid", 0) + 35):
+            # Merge identical topics bridging chunk seams
+            if entry.get("start_gid", 0) <= (prev.get("end_gid", 0) + 40):
                 prev["end"] = entry["end"]
                 prev["end_gid"] = max(prev.get("end_gid", 0), entry.get("end_gid", 0))
                 if entry["supporting_evidence"] not in prev["supporting_evidence"]:
                     prev["supporting_evidence"] += " " + entry["supporting_evidence"]
                 continue
 
-        # If DIFFERENT topics overlap due to chunking seams, trim the boundary cleanly
+        # For different topics:
+        # Nudge entry start forward if sliding window overlap caused slight intersection
         if entry.get("start_gid", 0) <= prev.get("end_gid", 0):
-            adjusted_end_gid = max(prev.get("start_gid", 0), entry.get("start_gid", 0) - 1)
-            prev["end_gid"] = adjusted_end_gid
-            end_row = df.iloc[adjusted_end_gid]
-            prev["end"] = f"Page {end_row['page']}, Line {end_row['line']}"
-
-        # Guard against zero-length or inverted spans after trimming
-        if prev.get("end_gid", 0) < prev.get("start_gid", 0):
-            prev["end_gid"] = prev["start_gid"]
-            prev["end"] = prev["start"]
+            entry_new_start_gid = prev.get("end_gid", 0) + 1
+            if entry_new_start_gid < entry.get("end_gid", 0):
+                entry["start_gid"] = entry_new_start_gid
+                s_row = df.iloc[entry_new_start_gid]
+                entry["start"] = f"Page {s_row['page']}, Line {s_row['line']}"
+            else:
+                # Discard duplicate micro-topic that is fully inside the previous topic
+                continue
 
         final_cleaned.append(entry)
 
