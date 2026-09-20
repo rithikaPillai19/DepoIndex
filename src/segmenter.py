@@ -1,94 +1,77 @@
 import os
 import json
-import time
-from typing import List, Optional
-from pydantic import BaseModel, Field
-from openai import OpenAI
 from dotenv import load_dotenv
+from groq import Groq
+from pydantic import BaseModel, Field
+from typing import List
 
 load_dotenv()
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-api_key = os.getenv("GROQ_API_KEY")
-if not api_key:
-    raise ValueError("GROQ_API_KEY is not set in your .env file")
+CANONICAL_TAXONOMY = [
+    "Deposition Protocol, Ground Rules & Perjury Warning",
+    "Expert Witness Retention & Scope of Assignment",
+    "Marking Expert Report as Exhibit 1",
+    "Witness Educational and Professional Background at SBPC",
+    "Department of Education Negotiated Rulemaking",
+    "Public Comments on Loan Servicer Solicitation RFIs",
+    "Personal Work Experience as Loan Servicer",
+    "Analysis Scope and Review of PEAKS Loan Documents",
+    "Proprietary School 90/10 Rule and Compliance",
+    "Cohort Default Rate Standards and Incentives",
+    "Underwriting Standards and Failure Modes",
+    "Role of Vervent in Private Student Lending",
+    "Servicing vs. Origination Legal Distinction",
+    "Borrower Complaints and Servicing Transfer Risks",
+    "Statutory and Regulatory Data Transfer Requirements",
+    "Criminal Law Background and RICO Familiarity",
+    "ITT For-Profit Educational Quality and Degree Value",
+    "Outlier Graduate Earnings Hypotheticals",
+    "Vervent Knowledge of ITT Misrepresentations",
+    "Enforceability and Material Defects in PEAKS Loan Documents",
+    "Truth in Lending Act (TILA) Required Disclosures",
+    "California Student Loan Servicing Law Compliance Scope",
+    "Consumer Financial Protection Bureau (CFPB) Settlement and Findings",
+    "SEC Inquiries and Investigations into ITT and PEAKS",
+    "Department of Education Enforcement Actions and Closure of ITT",
+    "Fiduciary Duty and Standard of Care in Loan Servicing",
+    "Conclusion of Substantive Examination"
+]
 
-client = OpenAI(
-    api_key=api_key,
-    base_url="https://api.groq.com/openai/v1"
-)
+class MacroTopicSpan(BaseModel):
+    topic: str = Field(..., description="The macro-topic name selected from the Canonical Taxonomy.")
+    start_quote: str = Field(..., description="Exact opening sentence of the examination.")
+    end_quote: str = Field(..., description="Exact concluding sentence of the examination.")
+    evidence_summary: str = Field(..., description="Substantive 1-3 sentence factual synthesis of testimony.")
 
-# Active production model on Groq's developer tier
-MODEL_NAME = "openai/gpt-oss-120b"
+def extract_macro_topics(chunk_text: str) -> List[MacroTopicSpan]:
+    system_prompt = f"""
+You are a senior litigation analyst. Identify ONLY high-level macro-examination topics from this taxonomy:
+{json.dumps(CANONICAL_TAXONOMY, indent=2)}
 
-class TopicSpan(BaseModel):
-    topic_label: str = Field(description="Concise, substantive legal topic title")
-    start_quote: str = Field(description="Exact verbatim 4-8 words where this topic began")
-    end_quote: str = Field(description="Exact verbatim 4-8 words where this topic ended")
-    evidence_summary: str = Field(description="1-2 sentences summarizing key testimony in this span")
-
-SYSTEM_PROMPT = """You are an expert AI Litigation Specialist analyzing a deposition transcript.
-Identify distinct topics discussed in the testimony.
-
-Rules:
-1. Topic labels must be concise, substantive legal or factual categories (e.g., 'Retention and Default Rates at ITT', 'Role of Vervent in Servicing vs Origination').
-2. Provide verbatim quotes for `start_quote` and `end_quote` so they can be matched to exact transcript lines.
-3. Do not invent line numbers. Only supply topic labels, quotes, and concise summaries.
-4. Distinguish brief objections or procedural digressions from actual topic shifts.
-5. You MUST return valid JSON in this exact structure:
-{
-  "topics": [
-    {
-      "topic_label": "Topic Title",
-      "start_quote": "exact words starting topic",
-      "end_quote": "exact words ending topic",
-      "evidence_summary": "summary of discussion"
-    }
-  ]
-}
+STRICT OPERATING CONSTRAINTS:
+1. ONLY extract topics that strictly match the Canonical Taxonomy above.
+2. ZERO SUB-TOPICS: Combine sub-questions, follow-ups, and answers into one single parent topic.
+3. DO NOT create topics for:
+   - Court reporter interruptions or speed warnings.
+   - Individual objections by counsel.
+   - Brief digressions lasting fewer than 8 lines.
+4. Extract exact, verbatim text for start_quote and end_quote.
+5. Provide a detailed, factual evidence_summary.
 """
-
-def process_chunk(chunk_text: str, max_retries: int = 5) -> Optional[List[TopicSpan]]:
-    prompt = f"Transcript segment:\n{chunk_text}\n\nReturn the JSON object containing topics:"
-    
-    for attempt in range(max_retries):
-        try:
-            time.sleep(1.0)
-            
-            response = client.chat.completions.create(
-                model=MODEL_NAME,
-                messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": prompt}
-                ],
-                response_format={"type": "json_object"},
-                temperature=0.0
-            )
-            
-            raw_text = response.choices[0].message.content.strip()
-            data = json.loads(raw_text)
-
-            if isinstance(data, dict):
-                for key in ["topics", "items", "data"]:
-                    if key in data and isinstance(data[key], list):
-                        data = data[key]
-                        break
-                if isinstance(data, dict):
-                    data = [data]
-
-            valid_topics = []
-            for item in data:
-                try:
-                    valid_topics.append(TopicSpan(**item))
-                except Exception:
-                    continue
-
-            return valid_topics
-
-        except Exception as e:
-            err_msg = str(e)
-            wait_time = (attempt + 1) * 3
-            print(f"\n[Groq Notice]: {err_msg[:80]}... Waiting {wait_time}s (Attempt {attempt+1}/{max_retries})")
-            time.sleep(wait_time)
-
-    print("\n[Error]: Exceeded maximum retries for this chunk.")
-    return None
+    try:
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": f"Deposition Transcript Segment:\n{chunk_text}"}
+            ],
+            response_format={"type": "json_object"},
+            temperature=0.0
+        )
+        payload = json.loads(completion.choices[0].message.content)
+        raw_topics = payload.get("topics", payload if isinstance(payload, list) else [])
+        return [MacroTopicSpan(**t) for t in raw_topics if t.get("topic") in CANONICAL_TAXONOMY]
+    except Exception as e:
+        print(f"[Extraction Warning]: {e}")
+        return []

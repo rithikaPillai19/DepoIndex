@@ -1,129 +1,131 @@
 import json
 import os
 import pandas as pd
-from src.segmenter import process_chunk, TopicSpan
+from src.parser import parse_deposition_pdf
+from src.segmenter import extract_macro_topics, CANONICAL_TAXONOMY
 from src.resolver import ProvenanceResolver
+from src.validator import DepoIndexValidator
 
-def run_pipeline(transcript_path="data/parsed_transcript.json", output_dir="output"):
-    os.makedirs(output_dir, exist_ok=True)
-    cache_path = os.path.join(output_dir, "chunks_cache.json")
-    
-    with open(transcript_path, "r") as f:
-        data = json.load(f)
-    
-    df = pd.DataFrame(data)
+def run_pipeline():
+    transcript_file = "data/parsed_transcript.json"
+    if not os.path.exists(transcript_file):
+        parse_deposition_pdf("data/Persis_Yu_Deposition_Problem_statement.pdf")
+
+    with open(transcript_file, "r", encoding="utf-8") as f:
+        transcript_data = json.load(f)
+
+    df = pd.DataFrame(transcript_data)
     resolver = ProvenanceResolver(df)
-    
-    chunk_size = 80
-    overlap = 15
+    validator = DepoIndexValidator(df, CANONICAL_TAXONOMY, min_score=70.0)
+
+    chunk_size = 180
+    overlap = 30
     total_lines = len(df)
-    
-    cache = {}
-    if os.path.exists(cache_path):
-        try:
-            with open(cache_path, "r") as f:
-                cache = json.load(f)
-            print(f"Loaded {len(cache)} cached chunk results from {cache_path}")
-        except Exception:
-            cache = {}
-
     current_idx = 0
-    raw_topics = []
+    validated_index = []
 
-    print(f"Starting pipeline on {total_lines} transcript lines...")
+    print(f"--- Running 4-Pillar Validated DepoIndex on {total_lines} Lines ---")
 
     while current_idx < total_lines:
         end_idx = min(current_idx + chunk_size, total_lines)
-        chunk_key = f"{current_idx}_{end_idx}"
+        chunk_slice = df.iloc[current_idx:end_idx]
+        chunk_text = "\n".join([
+            f"Page {r['page']} Line {r['line']}: {r['text']}"
+            for _, r in chunk_slice.iterrows()
+        ])
 
-        if chunk_key in cache:
-            print(f"Using cache for lines {current_idx} to {end_idx}...")
-            detected_raw = cache[chunk_key]
-            detected_topics = [TopicSpan(**t) for t in detected_raw]
-        else:
-            chunk_slice = df.iloc[current_idx:end_idx]
-            chunk_text = "\n".join([
-                f"Page {row['page']} Line {row['line']}: {row['text']}"
-                for _, row in chunk_slice.iterrows()
-            ])
+        candidates = extract_macro_topics(chunk_text)
+
+        for item in candidates:
+            # 1. Resolve Coordinates
+            start_res = resolver.resolve_quote(item.start_quote, search_start_id=current_idx, search_window=chunk_size + overlap)
+            end_res = resolver.resolve_quote(item.end_quote, search_start_id=start_res["global_id"], search_window=chunk_size + overlap)
+
+            # 2. Run the 4 Validation Pillars
+            failures = []
             
-            print(f"Processing lines {current_idx} to {end_idx}...")
-            detected_topics = process_chunk(chunk_text)
-            
-            if detected_topics is not None:
-                cache[chunk_key] = [t.model_dump() for t in detected_topics]
-                with open(cache_path, "w") as f:
-                    json.dump(cache, f, indent=2)
+            p1_ok, p1_msg = validator.validate_coordinates(start_res, end_res)
+            if not p1_ok: failures.append(f"Pillar 1 (Coordinate): {p1_msg}")
+
+            p2_ok, p2_msg = validator.validate_boundary(start_res.get("global_id", 0), end_res.get("global_id", 0))
+            if not p2_ok: failures.append(f"Pillar 2 (Boundary): {p2_msg}")
+
+            p3_ok, p3_msg = validator.validate_semantic(item.topic)
+            if not p3_ok: failures.append(f"Pillar 3 (Semantic): {p3_msg}")
+
+            p4_ok, p4_msg = validator.validate_evidence(item.evidence_summary)
+            if not p4_ok: failures.append(f"Pillar 4 (Evidence): {p4_msg}")
+
+            # 3. Handle Passed vs Failed Entries
+            if not failures:
+                validated_index.append({
+                    "topic": item.topic,
+                    "start": f"Page {start_res['page']}, Line {start_res['line']}",
+                    "end": f"Page {end_res['page']}, Line {end_res['line']}",
+                    "start_gid": start_res["global_id"],
+                    "end_gid": end_res["global_id"],
+                    "supporting_evidence": item.evidence_summary,
+                    "validation_status": "ALL_4_PILLARS_PASSED",
+                    "validation_scores": {
+                        "start_score": start_res["score"],
+                        "end_score": end_res["score"]
+                    },
+                    "anchors": {
+                        "start_quote": item.start_quote,
+                        "end_quote": item.end_quote
+                    }
+                })
             else:
-                detected_topics = []  # <--- SAFEGUARD: Never None
+                # 4. Pillar 5: Trigger Fallback Mechanism
+                fallback_entry = validator.execute_fallback(
+                    {"topic": item.topic, "evidence": item.evidence_summary},
+                    start_res, end_res, failures
+                )
+                print(f"  [Fallback Triggered]: {item.topic} -> {failures}")
+                validated_index.append(fallback_entry)
 
-        for t in detected_topics:
-            start_loc = resolver.find_line_for_quote(t.start_quote, search_start_id=current_idx, window=chunk_size + overlap)
-            end_loc = resolver.find_line_for_quote(t.end_quote, search_start_id=start_loc["global_id"], window=chunk_size + overlap)
-            
-            if end_loc["global_id"] < start_loc["global_id"]:
-                end_loc = start_loc
-                
-            raw_topics.append({
-                "topic": t.topic_label,
-                "start_page": start_loc["page"],
-                "start_line": start_loc["line"],
-                "end_page": end_loc["page"],
-                "end_line": end_loc["line"],
-                "start_global_id": start_loc["global_id"],
-                "end_global_id": end_loc["global_id"],
-                "evidence": t.evidence_summary,
-                "start_quote": t.start_quote,
-                "end_quote": t.end_quote
-            })
-            
         current_idx += (chunk_size - overlap)
 
-    final_topics = []
-    for topic in raw_topics:
-        if not final_topics:
-            final_topics.append(topic)
+    # Monotonic Ordering & Adjacent Merging
+    validated_index.sort(key=lambda x: x.get("start_gid", 0))
+
+    final_cleaned = []
+    for entry in validated_index:
+        if not final_cleaned:
+            final_cleaned.append(entry)
             continue
-        prev = final_topics[-1]
+        prev = final_cleaned[-1]
         
-        if (topic["topic"].strip().lower() == prev["topic"].strip().lower()) or (topic["start_global_id"] <= prev["end_global_id"]):
-            prev["end_page"] = max(prev["end_page"], topic["end_page"])
-            prev["end_line"] = topic["end_line"]
-            prev["end_global_id"] = max(prev["end_global_id"], topic["end_global_id"])
-            prev["evidence"] += " " + topic["evidence"]
+        # Merge consecutive identical topics
+        if (entry["topic"].strip().lower() == prev["topic"].strip().lower()) or \
+           (entry.get("start_gid", 0) <= prev.get("end_gid", -1)):
+            prev["end"] = entry["end"]
+            prev["end_gid"] = max(prev.get("end_gid", 0), entry.get("end_gid", 0))
+            if entry["supporting_evidence"] not in prev["supporting_evidence"]:
+                prev["supporting_evidence"] += " " + entry["supporting_evidence"]
         else:
-            final_topics.append(topic)
+            final_cleaned.append(entry)
 
-    cleaned_index = []
-    for t in final_topics:
-        cleaned_index.append({
-            "topic": t["topic"],
-            "start": f"Page {t['start_page']}, Line {t['start_line']}",
-            "end": f"Page {t['end_page']}, Line {t['end_line']}",
-            "supporting_evidence": t["evidence"],
-            "anchors": {
-                "start_quote": t["start_quote"],
-                "end_quote": t["end_quote"]
-            }
-        })
+    # Save to disk
+    os.makedirs("output", exist_ok=True)
+    with open("output/topic_index.json", "w", encoding="utf-8") as f:
+        json.dump(final_cleaned, f, indent=2)
 
-    # Save JSON with UTF-8
-    json_path = os.path.join(output_dir, "topic_index.json")
-    with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(cleaned_index, f, indent=2, ensure_ascii=False)
-    print(f"Saved: {json_path}")
+    # Generate Markdown Table
+    md_lines = [
+        "# Deposition Topic Index: Persis S. Yu\n",
+        "| Topic | Start Coordinate | End Coordinate | Validation Status | Supporting Testimony Evidence |",
+        "| :--- | :--- | :--- | :--- | :--- |"
+    ]
+    for e in final_cleaned:
+        status_badge = "✅ PASSED" if e.get("validation_status") == "ALL_4_PILLARS_PASSED" else "⚠️ FALLBACK"
+        clean_ev = e["supporting_evidence"].replace("|", "-").replace("\n", " ")
+        md_lines.append(f"| **{e['topic']}** | {e['start']} | {e['end']} | `{status_badge}` | {clean_ev} |")
 
-    # Save Markdown with UTF-8
-    md_path = os.path.join(output_dir, "topic_index.md")
-    with open(md_path, "w", encoding="utf-8") as f:
-        f.write("# Deposition Topic Index: Persis Yu\n\n")
-        f.write("| Topic | Start | End | Supporting Evidence |\n")
-        f.write("| :--- | :--- | :--- | :--- |\n")
-        for t in cleaned_index:
-            # Strip internal newlines so Markdown tables stay clean
-            clean_evidence = t['supporting_evidence'].replace("\n", " ").strip()
-            f.write(f"| **{t['topic']}** | {t['start']} | {t['end']} | {clean_evidence} |\n")
-    print(f"Saved: {md_path}")
-    
+    with open("output/topic_index.md", "w", encoding="utf-8") as f:
+        f.write("\n".join(md_lines))
+
+    print(f"\n✓ Completed: {len(final_cleaned)} topics processed through 4-Pillar Validation + Fallback.")
+
 if __name__ == "__main__":
     run_pipeline()
