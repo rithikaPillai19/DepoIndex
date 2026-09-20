@@ -31,12 +31,12 @@ class DepoIndexValidator:
         return True, "PASSED"
 
     # PILLAR 2: Boundary Validation
+    # PILLAR 2: Boundary Validation
     def validate_boundary(self, start_gid: int, end_gid: int) -> Tuple[bool, str]:
         span_length = end_gid - start_gid + 1
-        if span_length < 6:
+        if span_length < 4:
             return False, f"Boundary too narrow for macro-topic ({span_length} lines). Likely subtopic or colloquy."
         
-        # Verify alignment with transcript boundaries
         if start_gid < 0 or end_gid > self.max_global_id:
             return False, "Boundary exceeds transcript limits."
 

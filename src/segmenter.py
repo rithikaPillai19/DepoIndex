@@ -46,25 +46,35 @@ class MacroTopicSpan(BaseModel):
 
 def extract_macro_topics(chunk_text: str) -> List[MacroTopicSpan]:
     system_prompt = f"""
-You are a senior litigation analyst. Identify ONLY high-level macro-examination topics from this taxonomy:
+You are a senior litigation analyst. Identify ONLY broad, overarching macro-examination topics from this canonical list:
 {json.dumps(CANONICAL_TAXONOMY, indent=2)}
 
-STRICT OPERATING CONSTRAINTS:
-1. ONLY extract topics that strictly match the Canonical Taxonomy above.
-2. ZERO SUB-TOPICS: Combine sub-questions, follow-ups, and answers into one single parent topic.
-3. DO NOT create topics for:
-   - Court reporter interruptions or speed warnings.
-   - Individual objections by counsel.
-   - Brief digressions lasting fewer than 8 lines.
-4. Extract exact, verbatim text for start_quote and end_quote.
-5. Provide a detailed, factual evidence_summary.
+CRITICAL BOUNDARY INSTRUCTIONS:
+1. SPAN THE ENTIRE DISCUSSION: A macro topic represents an entire section of examination, usually spanning 15 to 60+ lines.
+2. 'start_quote' must be the FIRST question where the attorney introduces the subject.
+3. 'end_quote' must be the FINAL answer where the witness finishes testifying on this subject before a new topic begins.
+4. DO NOT quote the same sentence or adjacent lines for start and end. If a topic is discussed across multiple pages, capture the full range.
+5. Combine all follow-up questions, objections, and answers into one continuous parent span.
+
+OUTPUT FORMAT:
+Respond exclusively with a valid json object matching this schema:
+{{
+  "topics": [
+    {{
+      "topic": "<Exact topic title from taxonomy>",
+      "start_quote": "<Exact verbatim opening question>",
+      "end_quote": "<Exact verbatim final concluding answer>",
+      "evidence_summary": "<Factual 1-3 sentence summary of testimony>"
+    }}
+  ]
+}}
 """
     try:
         completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="openai/gpt-oss-120b",
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Deposition Transcript Segment:\n{chunk_text}"}
+                {"role": "user", "content": f"Return a json object analyzing this deposition segment:\n{chunk_text}"}
             ],
             response_format={"type": "json_object"},
             temperature=0.0

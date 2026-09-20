@@ -39,8 +39,8 @@ def run_pipeline():
         for item in candidates:
             # 1. Resolve Coordinates
             start_res = resolver.resolve_quote(item.start_quote, search_start_id=current_idx, search_window=chunk_size + overlap)
-            end_res = resolver.resolve_quote(item.end_quote, search_start_id=start_res["global_id"], search_window=chunk_size + overlap)
-
+            search_start_for_end = (start_res["global_id"] + 1) if start_res.get("global_id") is not None else current_idx
+            end_res = resolver.resolve_quote(item.end_quote, search_start_id=search_start_for_end, search_window=chunk_size + overlap)
             # 2. Run the 4 Validation Pillars
             failures = []
             
