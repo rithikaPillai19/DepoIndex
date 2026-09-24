@@ -10,6 +10,17 @@ from src.segmenter import extract_macro_topics
 from src.resolver import ProvenanceResolver
 from src.validator import DepoIndexValidator
 
+def sanitize_start_line(df: pd.DataFrame, gid: int) -> int:
+    """Ensures the start coordinate lands on actual dialogue, not whitespace or noise."""
+    max_idx = len(df) - 1
+    current = min(gid, max_idx)
+    while current < max_idx:
+        text = str(df.iloc[current]["text"]).strip()
+        if len(text) > 3 and text.replace("-", "").strip() != "":
+            return current
+        current += 1
+    return current
+
 def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pdf"):
     transcript_file = "data/parsed_transcript.json"
     page_index_file = "data/page_index.json"
@@ -34,13 +45,16 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
         transcript_data = json.load(f)
     df = pd.DataFrame(transcript_data)
     resolver = ProvenanceResolver(df)
+    validator = DepoIndexValidator(df, min_score=65.0)
 
     # Step 4: Fine Line Resolution & 4-Pillar Validation
     print("\n--- Step 4: Fine Line Resolution & 4-Pillar Validation ---")
     final_topics = []
 
-    # Administrative keywords to discard
-    admin_markers = ["ERRATA", "WORD INDEX", "CONCORDANCE", "TRANSCRIPT INDEX", "RULES OF CIVIL PROCEDURE", "CERTIFICATE"]
+    admin_markers = [
+        "ERRATA", "WORD INDEX", "CONCORDANCE", "TRANSCRIPT INDEX", 
+        "RULES OF CIVIL PROCEDURE", "CERTIFICATE"
+    ]
 
     for idx, route in enumerate(candidate_routes):
         topic_upper = route.topic.upper()
@@ -57,9 +71,9 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
         if chunk_slice.empty:
             continue
 
-        # Prevent 413: If span is larger than 140 lines, process in sub-windows
-        max_lines_per_call = 140
-        step_size = 110
+        # Prevent 413: Split wide spans into sub-windows of 130 lines max
+        max_lines_per_call = 130
+        step_size = 100
         total_slice_lines = len(chunk_slice)
         
         sub_windows = []
@@ -76,7 +90,7 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
             ])
 
             sub_spans = extract_macro_topics(chunk_text)
-            time.sleep(0.5)  # Pace requests to avoid RPM/TPM spikes
+            time.sleep(0.4)
 
             for span in sub_spans:
                 s_gid = int(sub_df.iloc[0]["global_id"])
@@ -90,78 +104,123 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
                 )
 
                 if start_res.get("global_id") is not None and end_res.get("global_id") is not None:
-                    # Inversion check
+                    # Guard against coordinate inversion
                     if int(end_res["global_id"]) < int(start_res["global_id"]):
                         end_res = start_res.copy()
 
-                    final_topics.append({
-                        "topic": str(span.topic),
-                        "start": f"Page {int(start_res['page'])}, Line {int(start_res['line'])}",
-                        "end": f"Page {int(end_res['page'])}, Line {int(end_res['line'])}",
-                        "start_gid": int(start_res["global_id"]),
-                        "end_gid": int(end_res["global_id"]),
-                        "supporting_evidence": str(span.evidence_summary),
-                        "validation_status": "ALL_4_PILLARS_PASSED",
-                        "validation_scores": {
-                            "start_score": float(start_res["score"]),
-                            "end_score": float(end_res["score"])
-                        },
-                        "anchors": {
-                            "start_quote": str(span.start_quote),
-                            "end_quote": str(span.end_quote)
-                        }
-                    })
+                    # Guarantee start does not anchor to a blank/redacted line
+                    cleaned_s_gid = sanitize_start_line(df, int(start_res["global_id"]))
+                    if cleaned_s_gid != int(start_res["global_id"]):
+                        start_res["global_id"] = cleaned_s_gid
+                        s_row = df.iloc[cleaned_s_gid]
+                        start_res["page"] = int(s_row["page"])
+                        start_res["line"] = int(s_row["line"])
 
-    # Step 5: Chronological Deduplication
-    print("\n--- Step 5: Deduplicating and Formatting ---")
+                    # 4-Pillar Validation Check
+                    failures = []
+                    p1_ok, p1_msg = validator.validate_coordinates(start_res, end_res)
+                    if not p1_ok: failures.append(f"Pillar 1: {p1_msg}")
+
+                    p2_ok, p2_msg = validator.validate_boundary(int(start_res["global_id"]), int(end_res["global_id"]))
+                    if not p2_ok: failures.append(f"Pillar 2: {p2_msg}")
+
+                    p3_ok, p3_msg = validator.validate_semantic(span.topic)
+                    if not p3_ok: failures.append(f"Pillar 3: {p3_msg}")
+
+                    p4_ok, p4_msg = validator.validate_evidence(span.evidence_summary)
+                    if not p4_ok: failures.append(f"Pillar 4: {p4_msg}")
+
+                    if not failures:
+                        final_topics.append({
+                            "topic": str(span.topic),
+                            "start": f"Page {int(start_res['page'])}, Line {int(start_res['line'])}",
+                            "end": f"Page {int(end_res['page'])}, Line {int(end_res['line'])}",
+                            "start_gid": int(start_res["global_id"]),
+                            "end_gid": int(end_res["global_id"]),
+                            "supporting_evidence": str(span.evidence_summary),
+                            "validation_status": "ALL_4_PILLARS_PASSED",
+                            "validation_scores": {
+                                "start_score": float(start_res["score"]),
+                                "end_score": float(end_res["score"])
+                            },
+                            "anchors": {
+                                "start_quote": str(span.start_quote),
+                                "end_quote": str(span.end_quote)
+                            }
+                        })
+                    else:
+                        fallback = validator.execute_fallback(
+                            {"topic": span.topic, "evidence": span.evidence_summary},
+                            start_res, end_res, failures
+                        )
+                        final_topics.append(fallback)
+
+    # Step 5: Chronological Deduplication & Contiguous Seam Snapping
+    print("\n--- Step 5: Deduplicating and Eliminating Seam Gaps ---")
     final_topics.sort(key=lambda x: int(x.get("start_gid", 0)))
 
-    deduped = []
+    cleaned_topics = []
     for entry in final_topics:
-        if not deduped:
-            deduped.append(entry)
+        if not cleaned_topics:
+            cleaned_topics.append(entry)
             continue
-        prev = deduped[-1]
-        
-        # Merge identical consecutive topics
-        if entry["topic"].strip().lower() == prev["topic"].strip().lower():
-            if int(entry.get("start_gid", 0)) <= int(prev.get("end_gid", 0) + 40):
-                prev["end"] = entry["end"]
-                prev["end_gid"] = int(max(prev.get("end_gid", 0), entry.get("end_gid", 0)))
+
+        prev = cleaned_topics[-1]
+        same_topic = (entry["topic"].strip().lower() == prev["topic"].strip().lower())
+
+        if same_topic:
+            # Merge identical topics bridging chunk seams
+            if int(entry["start_gid"]) <= int(prev["end_gid"]) + 25:
+                prev["end_gid"] = int(max(prev["end_gid"], entry["end_gid"]))
+                e_row = df.iloc[prev["end_gid"]]
+                prev["end"] = f"Page {int(e_row['page'])}, Line {int(e_row['line'])}"
                 if entry["supporting_evidence"] not in prev["supporting_evidence"]:
                     prev["supporting_evidence"] += " " + entry["supporting_evidence"]
                 continue
 
-        # Prevent overlapping start coordinates
-        if int(entry.get("start_gid", 0)) <= int(prev.get("end_gid", 0)):
-            new_s_gid = int(prev.get("end_gid", 0) + 1)
-            if new_s_gid < int(entry.get("end_gid", 0)):
-                entry["start_gid"] = new_s_gid
-                s_row = df.iloc[new_s_gid]
-                entry["start"] = f"Page {int(s_row['page'])}, Line {int(s_row['line'])}"
-            else:
+        # Prevent start coordinate collisions / inversions
+        if int(entry["start_gid"]) <= int(prev["end_gid"]):
+            entry["start_gid"] = int(prev["end_gid"]) + 1
+            if int(entry["start_gid"]) >= len(df):
                 continue
+            s_row = df.iloc[int(entry["start_gid"])]
+            entry["start"] = f"Page {int(s_row['page'])}, Line {int(s_row['line'])}"
 
-        deduped.append(entry)
+        # Bridge orphaned colloquy gaps (1 to 5 lines) so referenced evidence is not lost
+        gap = int(entry["start_gid"]) - int(prev["end_gid"]) - 1
+        if 0 < gap <= 5:
+            prev["end_gid"] = int(entry["start_gid"]) - 1
+            e_row = df.iloc[prev["end_gid"]]
+            prev["end"] = f"Page {int(e_row['page'])}, Line {int(e_row['line'])}"
 
-    # Step 6: Export Deliverables with native JSON casting
+        cleaned_topics.append(entry)
+
+    # Snap the final topic boundary to the true conclusion of substantive examination
+    if cleaned_topics and int(cleaned_topics[-1]["end_gid"]) < (len(df) - 1):
+        last_topic = cleaned_topics[-1]
+        last_topic["end_gid"] = int(len(df) - 1)
+        last_row = df.iloc[-1]
+        last_topic["end"] = f"Page {int(last_row['page'])}, Line {int(last_row['line'])}"
+
+    # Step 6: Export Deliverables
     os.makedirs("output", exist_ok=True)
     with open("output/topic_index.json", "w", encoding="utf-8") as f:
-        json.dump(deduped, f, indent=2)
+        json.dump(cleaned_topics, f, indent=2)
 
     md_lines = [
         "# Deposition Topic Index\n",
         "| Topic | Start Coordinate | End Coordinate | Status | Supporting Evidence |",
         "| :--- | :--- | :--- | :--- | :--- |"
     ]
-    for e in deduped:
-        clean_ev = e["supporting_evidence"].replace("|", "-").replace("\n", " ")
-        md_lines.append(f"| **{e['topic']}** | {e['start']} | {e['end']} | `ALL_4_PILLARS_PASSED` | {clean_ev} |")
+    for e in cleaned_topics:
+        badge = "✅ PASSED" if e.get("validation_status") == "ALL_4_PILLARS_PASSED" else "⚠️ FALLBACK"
+        clean_ev = str(e["supporting_evidence"]).replace("|", "-").replace("\n", " ")
+        md_lines.append(f"| **{e['topic']}** | {e['start']} | {e['end']} | `{badge}` | {clean_ev} |")
 
     with open("output/topic_index.md", "w", encoding="utf-8") as f:
         f.write("\n".join(md_lines))
 
-    print(f"✓ Success: {len(deduped)} topics successfully indexed across entire document.\n")
+    print(f"✓ Success: {len(cleaned_topics)} topics successfully indexed across entire document.\n")
 
 if __name__ == "__main__":
     run_pipeline()

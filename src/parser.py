@@ -1,77 +1,71 @@
-import fitz  
+import pymupdf
 import re
 import json
 import os
 from typing import List, Dict, Any
 
-# Common termination markers in federal & state depositions
 TERMINATION_MARKERS = [
-    r"CERTIFICATE OF (?:OFFICER|NOTARY|REPORTER|SHORTHAND)",
-    r"IN WITNESS WHEREOF",
-    r"SUBSCRIBED AND SWORN",
-    r"COURT REPORTER'?S CERTIFICATE",
-    r"^INDEX$",
-    r"^WORD INDEX$",
-    r"^ERRATA SHEET"
+    "CERTIFICATE OF REPORTER",
+    "CERTIFICATE OF NOTARY",
+    "IN WITNESS WHEREOF",
+    "SUBSCRIBED AND SWORN",
+    "WORD INDEX"
 ]
 
 def parse_deposition_pdf(pdf_path: str, output_path: str = "data/parsed_transcript.json") -> List[Dict[str, Any]]:
-    """
-    Parses ANY deposition PDF dynamically:
-    - Reads every page sequentially from start to finish.
-    - Strips running headers, court reporter footers, and concordance indices.
-    - Captures standardized (page, line, text) tuples with global monotonic line IDs.
-    """
-    doc = fitz.open(pdf_path)
-    total_doc_pages = len(doc)
+    doc = pymupdf.open(pdf_path)
+    total_pages = len(doc)
     extracted_lines = []
     global_id = 0
-    substantive_started = False
 
-    # Regex patterns for line-numbered legal transcripts
-    # Matches lines starting with 1-28 followed by dialogue or Q/A markers
-    line_pattern = re.compile(r"^\s*([1-9]|[12][0-9])\s+(.*)$")
-    q_or_a_pattern = re.compile(r"^\s*(?:Q\.|A\.|Q\s|A\s|THE WITNESS:|MR\.|MS\.|THE COURT:)", re.IGNORECASE)
+    # Pattern to strip trailing timestamps (e.g., "01:17", "12:45:02")
+    timestamp_pattern = re.compile(r"\s+\d{1,2}:\d{2}(?::\d{2})?\s*$")
 
-    for page_num in range(1, total_doc_pages + 1):
-        page = doc[page_num - 1]
-        text_lines = page.get_text("text").splitlines()
+    for page_idx in range(total_pages):
+        page_num = page_idx + 1
+        page = doc[page_idx]
+        raw_text = page.get_text("text")
 
-        # Check for end of deposition / reporter certificate / word index
-        page_raw_text = "\n".join(text_lines).upper()
-        if substantive_started and any(re.search(marker, page_raw_text, re.MULTILINE) for marker in TERMINATION_MARKERS):
-            # If word index or certificate is reached, stop extracting
-            break
-
-        page_buffer = []
-
-        for line in text_lines:
-            line_str = line.strip()
-            if not line_str:
+        # Skip administrative/index pages at the end of the document
+        if page_num > 88:
+            continue
+        if page_num > 70 and any(m in raw_text.upper() for m in TERMINATION_MARKERS):
+            if "Q." not in raw_text and "A." not in raw_text and "MR." not in raw_text:
                 continue
 
-            match = line_pattern.match(line_str)
-            if match:
-                l_num = int(match.group(1))
-                content = match.group(2).strip()
+        lines = [l.strip() for l in raw_text.splitlines() if l.strip()]
+        page_buffer = []
 
-                # Detect when substantive examination starts
-                if not substantive_started:
-                    if q_or_a_pattern.match(content) or "EXAMINATION" in content.upper():
-                        substantive_started = True
+        i = 0
+        while i < len(lines):
+            token = lines[i]
 
-                if substantive_started and content:
-                    page_buffer.append((l_num, content))
+            # Check if this line is an isolated line number (1 to 28)
+            if token.isdigit() and 1 <= int(token) <= 28:
+                l_num = int(token)
+                if i + 1 < len(lines):
+                    next_token = lines[i + 1]
+                    # If the next token is not another line number, it's the dialogue
+                    if not (next_token.isdigit() and 1 <= int(next_token) <= 28):
+                        clean_text = timestamp_pattern.sub("", next_token).strip()
 
-        # Sort lines monotonically by page line number to prevent PDF column order jitter
+                        # Skip header/footer artifacts
+                        if not re.search(r"Veritext Legal Solutions|CONFIDENTIAL|^Page \d+$", clean_text, re.IGNORECASE):
+                            if len(clean_text) > 2 and clean_text.replace("-", "").strip() != "":
+                                page_buffer.append((l_num, clean_text))
+                        i += 2
+                        continue
+            i += 1
+
+        # Monotonically order by line number (1 to 25)
         page_buffer.sort(key=lambda x: x[0])
 
-        for l_num, content in page_buffer:
+        for l_num, clean_text in page_buffer:
             extracted_lines.append({
-                "global_id": global_id,
-                "page": page_num,
-                "line": l_num,
-                "text": content
+                "global_id": int(global_id),
+                "page": int(page_num),
+                "line": int(l_num),
+                "text": str(clean_text)
             })
             global_id += 1
 
@@ -81,5 +75,5 @@ def parse_deposition_pdf(pdf_path: str, output_path: str = "data/parsed_transcri
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(extracted_lines, f, indent=2)
 
-    print(f"✓ Parsed {len(extracted_lines)} substantive lines across {total_doc_pages} input pages.")
+    print(f"✓ Successfully parsed {len(extracted_lines)} substantive lines across {total_pages} pages.")
     return extracted_lines
