@@ -1,71 +1,81 @@
 import pymupdf
-import re
 import json
 import os
 from typing import List, Dict, Any
 
-TERMINATION_MARKERS = [
-    "CERTIFICATE OF REPORTER",
-    "CERTIFICATE OF NOTARY",
-    "IN WITNESS WHEREOF",
-    "SUBSCRIBED AND SWORN",
-    "WORD INDEX"
-]
-
 def parse_deposition_pdf(pdf_path: str, output_path: str = "data/parsed_transcript.json") -> List[Dict[str, Any]]:
+    """
+    Parses arbitrary deposition transcripts using 2D geometric spatial clustering.
+    Zero regular expressions: extracts margin line numbers and text based on X/Y coordinates.
+    """
     doc = pymupdf.open(pdf_path)
     total_pages = len(doc)
     extracted_lines = []
     global_id = 0
 
-    # Pattern to strip trailing timestamps (e.g., "01:17", "12:45:02")
-    timestamp_pattern = re.compile(r"\s+\d{1,2}:\d{2}(?::\d{2})?\s*$")
-
     for page_idx in range(total_pages):
         page_num = page_idx + 1
         page = doc[page_idx]
-        raw_text = page.get_text("text")
 
-        # Skip administrative/index pages at the end of the document
-        if page_num > 88:
+        # Extract words: (x0, y0, x1, y1, word_text, block_no, line_no, word_no)
+        words = page.get_text("words")
+        if not words:
             continue
-        if page_num > 70 and any(m in raw_text.upper() for m in TERMINATION_MARKERS):
-            if "Q." not in raw_text and "A." not in raw_text and "MR." not in raw_text:
+
+        # Cluster words into horizontal lines by Y coordinate (grouping words within 3.5 points)
+        line_buckets = {}
+        for w in words:
+            x0, y0, x1, y1, text = w[0], w[1], w[2], w[3], w[4]
+            
+            # Find an existing line bucket within vertical threshold
+            matched_y = None
+            for base_y in line_buckets:
+                if abs(y0 - base_y) <= 3.5:
+                    matched_y = base_y
+                    break
+            
+            if matched_y is None:
+                matched_y = y0
+                line_buckets[matched_y] = []
+            
+            line_buckets[matched_y].append((x0, text))
+
+        # Sort visual lines vertically from top to bottom
+        sorted_y_coords = sorted(line_buckets.keys())
+
+        page_buffer = []
+        for y in sorted_y_coords:
+            # Sort words horizontally from left to right
+            row_items = sorted(line_buckets[y], key=lambda item: item[0])
+            if not row_items:
                 continue
 
-        lines = [l.strip() for l in raw_text.splitlines() if l.strip()]
-        page_buffer = []
+            first_token = row_items[0][1].strip()
 
-        i = 0
-        while i < len(lines):
-            token = lines[i]
+            # If first word is purely numeric (the transcript line index 1-28)
+            if first_token.isdigit() and 1 <= int(first_token) <= 30:
+                line_number = int(first_token)
+                # Remaining tokens form the actual dialogue
+                dialogue_tokens = [w[1] for w in row_items[1:]]
+                
+                # Filter trailing timestamps without regex (timestamps are usually pure time digits with colons)
+                if dialogue_tokens and ":" in dialogue_tokens[-1] and any(char.isdigit() for char in dialogue_tokens[-1]):
+                    dialogue_tokens.pop()
 
-            # Check if this line is an isolated line number (1 to 28)
-            if token.isdigit() and 1 <= int(token) <= 28:
-                l_num = int(token)
-                if i + 1 < len(lines):
-                    next_token = lines[i + 1]
-                    # If the next token is not another line number, it's the dialogue
-                    if not (next_token.isdigit() and 1 <= int(next_token) <= 28):
-                        clean_text = timestamp_pattern.sub("", next_token).strip()
+                line_text = " ".join(dialogue_tokens).strip()
 
-                        # Skip header/footer artifacts
-                        if not re.search(r"Veritext Legal Solutions|CONFIDENTIAL|^Page \d+$", clean_text, re.IGNORECASE):
-                            if len(clean_text) > 2 and clean_text.replace("-", "").strip() != "":
-                                page_buffer.append((l_num, clean_text))
-                        i += 2
-                        continue
-            i += 1
+                if line_text:
+                    page_buffer.append((line_number, line_text))
 
-        # Monotonically order by line number (1 to 25)
+        # Sort lines strictly 1 to 25
         page_buffer.sort(key=lambda x: x[0])
 
-        for l_num, clean_text in page_buffer:
+        for line_num, text_content in page_buffer:
             extracted_lines.append({
                 "global_id": int(global_id),
                 "page": int(page_num),
-                "line": int(l_num),
-                "text": str(clean_text)
+                "line": int(line_num),
+                "text": str(text_content)
             })
             global_id += 1
 
@@ -75,5 +85,5 @@ def parse_deposition_pdf(pdf_path: str, output_path: str = "data/parsed_transcri
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(extracted_lines, f, indent=2)
 
-    print(f"✓ Successfully parsed {len(extracted_lines)} substantive lines across {total_pages} pages.")
+    print(f"✓ Geometrically parsed {len(extracted_lines)} substantive lines across {total_pages} pages.")
     return extracted_lines

@@ -1,76 +1,75 @@
 import os
 import json
-import re
-from dotenv import load_dotenv
-from groq import Groq
-from pydantic import BaseModel, Field
+import time
 from typing import List
+from dotenv import load_dotenv
+from google import genai
+from google.genai import types
+from pydantic import BaseModel, Field
 
 load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"), timeout=30.0)
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+CANDIDATE_MODELS = [
+    "gemini-2.5-flash-lite",
+    "gemini-flash-latest",
+    "gemini-flash-lite-latest",
+    "gemini-3.1-flash-lite-preview"
+]
 
 class MacroTopicSpan(BaseModel):
-    topic: str = Field(..., description="High-level substantive legal or factual examination topic in Title Case.")
-    start_quote: str = Field(..., description="Exact verbatim opening sentence.")
-    end_quote: str = Field(..., description="Exact verbatim closing sentence.")
+    topic: str = Field(..., description="High-level substantive examination topic in Title Case.")
+    start_quote: str = Field(..., description="Exact verbatim opening sentence from the text.")
+    end_quote: str = Field(..., description="Exact verbatim closing sentence from the text.")
     evidence_summary: str = Field(..., description="Substantive 1-2 sentence factual synthesis.")
-
-def _robust_json_extract(text: str) -> dict:
-    if not text:
-        return {"topics": []}
-    text = re.sub(r"^```(?:json)?", "", text.strip(), flags=re.MULTILINE)
-    text = re.sub(r"```$", "", text.strip(), flags=re.MULTILINE).strip()
-    
-    first_brace = text.find("{")
-    last_brace = text.rfind("}")
-    if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
-        return json.loads(text[first_brace:last_brace + 1])
-    return json.loads(text)
 
 def extract_macro_topics(chunk_text: str) -> List[MacroTopicSpan]:
     prompt = f"""You are a senior litigation analyst indexing a legal deposition.
-Identify only the overarching, substantive examination topics discussed in this transcript segment.
+Identify overarching, substantive examination topics in this transcript segment.
 
-STRICT INSTRUCTIONS:
-1. Macro-Level Only: Group questions, answers, and objections into parent subject topics (e.g., 'Witness Background & Qualifications', 'Review of Exhibit 1', 'Breach of Standard of Care').
-2. Do NOT create micro-topics for single questions, individual objections, or breaks.
-3. If no new substantive topic starts or is covered, return {{"topics": []}}.
-4. 'start_quote': Exact verbatim starting sentence from the text.
-5. 'end_quote': Exact verbatim concluding sentence of the inquiry.
-6. 'evidence_summary': Concise, factual 1-2 sentence synthesis of testimony given.
+Rules:
+1. Macro-Level Only: Group questions, answers, and objections into parent legal topics.
+2. 'start_quote': Verbatim starting sentence from the text.
+3. 'end_quote': Verbatim ending sentence from the text.
+4. 'evidence_summary': Substantive factual synthesis.
 
 Transcript Segment:
 {chunk_text}
 
-Respond STRICTLY with raw valid JSON:
+Respond STRICTLY with valid JSON in this exact structure:
 {{
   "topics": [
     {{
-      "topic": "<Substantive Topic Name in Title Case>",
-      "start_quote": "<verbatim sentence>",
-      "end_quote": "<verbatim sentence>",
-      "evidence_summary": "<summary>"
+      "topic": "Topic Name",
+      "start_quote": "Exact verbatim opening",
+      "end_quote": "Exact verbatim ending",
+      "evidence_summary": "1-2 sentence summary"
     }}
   ]
 }}"""
 
-    try:
-        completion = client.chat.completions.create(
-            model="qwen/qwen3.8-27b",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.0,
-            max_tokens=1500
-        )
-        raw_content = completion.choices[0].message.content or ""
-        payload = _robust_json_extract(raw_content)
-        raw_topics = payload.get("topics", [])
-        
-        valid = []
-        for t in raw_topics:
-            if isinstance(t, dict) and t.get("topic") and t.get("start_quote") and t.get("end_quote"):
-                valid.append(MacroTopicSpan(**t))
-        return valid
-
-    except Exception as e:
-        print(f"[Extraction Warning]: {e}")
-        return []
+    for model_name in CANDIDATE_MODELS:
+        for retry in range(2):
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        temperature=0.0
+                    )
+                )
+                payload = json.loads(response.text)
+                topics = []
+                for t in payload.get("topics", []):
+                    if t.get("topic") and t.get("start_quote") and t.get("end_quote"):
+                        topics.append(MacroTopicSpan(**t))
+                return topics
+            except Exception as e:
+                err = str(e)
+                if "503" in err or "429" in err:
+                    time.sleep(2.0 * (retry + 1))
+                    continue
+                else:
+                    break
+    return []
