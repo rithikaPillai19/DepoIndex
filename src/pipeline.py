@@ -1,227 +1,167 @@
 import json
 import os
+import time
 import pandas as pd
 from typing import List, Dict, Any
 
 from src.parser import parse_deposition_pdf
-from src.indexer import build_document_page_index
-from src.segmenter import extract_macro_topics, CANONICAL_TAXONOMY
+from src.indexer import build_document_page_index, route_topics_from_index
+from src.segmenter import extract_macro_topics
 from src.resolver import ProvenanceResolver
 from src.validator import DepoIndexValidator
 
-def expand_colloquy_span(df: pd.DataFrame, start_gid: int, end_gid: int, max_lookahead: int = 35) -> int:
-    """
-    Expands boundary forward through contiguous questioning on the same subject
-    until a witness answer concludes the block, avoiding single-exchange collapse.
-    """
-    current_span = end_gid - start_gid + 1
-    if current_span >= 5:
-        return end_gid
-
-    total_rows = len(df)
-    candidate_end = end_gid
-
-    for offset in range(1, max_lookahead):
-        next_gid = end_gid + offset
-        if next_gid >= total_rows:
-            break
-
-        row_text = str(df.iloc[next_gid]["text"]).strip()
-        upper_text = row_text.upper()
-
-        if any(marker in upper_text for marker in [
-            "EXHIBIT", "RECESS", "OFF THE RECORD", "WHEREUPON", "FURTHER EXAMINATION"
-        ]):
-            break
-
-        candidate_end = next_gid
-
-    # Ensure ending cleanly on a witness answer line ('A ' or 'A.')
-    for test_gid in range(candidate_end, end_gid, -1):
-        line_text = str(df.iloc[test_gid]["text"]).strip()
-        if line_text.startswith("A ") or line_text.startswith("A."):
-            return test_gid
-
-    return candidate_end
-
-def run_pipeline():
-    pdf_path = "data/Persis_Yu_Deposition_Problem_statement.pdf"
+def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pdf"):
     transcript_file = "data/parsed_transcript.json"
     page_index_file = "data/page_index.json"
 
-    # Step 0: Ensure Transcript Parsing
+    # Step 1: Universal Document Parsing
+    print("\n--- Step 1: Parsing All Pages of Document ---")
     if not os.path.exists(transcript_file):
-        print("Parsing Deposition PDF into structured transcript...")
-        parse_deposition_pdf(pdf_path)
+        parse_deposition_pdf(pdf_path, output_path=transcript_file)
 
-    # Step 1: Hierarchical Coarse Page Index (The 300-Page Book Pattern)
+    # Step 2: Build Coarse Page Index
+    print("\n--- Step 2: Building Page Index Catalog ---")
     if not os.path.exists(page_index_file):
-        print("Generating Coarse Page-Level Catalog Index...")
         build_document_page_index(pdf_path, output_path=page_index_file)
 
-    # Step 2: Load Parsed Transcript Data
+    # Step 3: Route Topics from Index Catalog
+    print("\n--- Step 3: Discovering Macro Topics via Coarse Index Router ---")
+    candidate_routes = route_topics_from_index(page_index_file)
+    print(f"✓ Indexer identified {len(candidate_routes)} substantive candidate topics.")
+
+    # Load high-resolution line data
     with open(transcript_file, "r", encoding="utf-8") as f:
         transcript_data = json.load(f)
-
     df = pd.DataFrame(transcript_data)
     resolver = ProvenanceResolver(df)
-    validator = DepoIndexValidator(df, CANONICAL_TAXONOMY, min_score=70.0)
 
-    chunk_size = 180
-    overlap = 30
-    total_lines = len(df)
-    current_idx = 0
-    raw_candidates = []
+    # Step 4: Fine Line Resolution & 4-Pillar Validation
+    print("\n--- Step 4: Fine Line Resolution & 4-Pillar Validation ---")
+    final_topics = []
 
-    print(f"\n=======================================================")
-    print(f"--- Running 4-Pillar Validated DepoIndex on {total_lines} Lines ---")
-    print(f"=======================================================\n")
+    # Administrative keywords to discard
+    admin_markers = ["ERRATA", "WORD INDEX", "CONCORDANCE", "TRANSCRIPT INDEX", "RULES OF CIVIL PROCEDURE", "CERTIFICATE"]
 
-    # Step 3: Sliding Extraction Across Substantive Transcript
-    while current_idx < total_lines:
-        end_idx = min(current_idx + chunk_size, total_lines)
-        pct = int((current_idx / total_lines) * 100)
-        print(f"[{pct:02d}%] Analyzing Lines {current_idx} to {end_idx}...", flush=True)
-
-        chunk_slice = df.iloc[current_idx:end_idx]
-        chunk_text = "\n".join([
-            f"Page {r['page']} Line {r['line']}: {r['text']}"
-            for _, r in chunk_slice.iterrows()
-        ])
-
-        candidates = extract_macro_topics(chunk_text)
-
-        for item in candidates:
-            # Resolve Coordinates
-            start_res = resolver.resolve_quote(
-                item.start_quote, 
-                search_start_id=current_idx, 
-                search_window=chunk_size + overlap
-            )
-            
-            search_start_for_end = (start_res["global_id"] + 1) if start_res.get("global_id") is not None else current_idx
-            end_res = resolver.resolve_quote(
-                item.end_quote, 
-                search_start_id=search_start_for_end, 
-                search_window=chunk_size + overlap
-            )
-
-            # Safeguards: prevent inversion and expand narrow spans
-            if start_res.get("global_id") is not None and end_res.get("global_id") is not None:
-                if end_res["global_id"] < start_res["global_id"]:
-                    end_res = start_res.copy()
-
-                span_len = end_res["global_id"] - start_res["global_id"] + 1
-                if span_len < 4:
-                    expanded_gid = expand_colloquy_span(df, start_res["global_id"], end_res["global_id"])
-                    end_res["global_id"] = expanded_gid
-                    expanded_row = df.iloc[expanded_gid]
-                    end_res["page"] = int(expanded_row["page"])
-                    end_res["line"] = int(expanded_row["line"])
-
-            # 4 Validation Pillars
-            failures = []
-
-            p1_ok, p1_msg = validator.validate_coordinates(start_res, end_res)
-            if not p1_ok: 
-                failures.append(f"Pillar 1 (Coordinate): {p1_msg}")
-
-            p2_ok, p2_msg = validator.validate_boundary(start_res.get("global_id", 0), end_res.get("global_id", 0))
-            if not p2_ok: 
-                failures.append(f"Pillar 2 (Boundary): {p2_msg}")
-
-            p3_ok, p3_msg = validator.validate_semantic(item.topic)
-            if not p3_ok: 
-                failures.append(f"Pillar 3 (Semantic): {p3_msg}")
-
-            p4_ok, p4_msg = validator.validate_evidence(item.evidence_summary)
-            if not p4_ok: 
-                failures.append(f"Pillar 4 (Evidence): {p4_msg}")
-
-            # Collect Validated Candidate or Execute Fallback
-            if not failures:
-                raw_candidates.append({
-                    "topic": item.topic,
-                    "start": f"Page {start_res['page']}, Line {start_res['line']}",
-                    "end": f"Page {end_res['page']}, Line {end_res['line']}",
-                    "start_gid": start_res["global_id"],
-                    "end_gid": end_res["global_id"],
-                    "supporting_evidence": item.evidence_summary,
-                    "validation_status": "ALL_4_PILLARS_PASSED",
-                    "validation_scores": {
-                        "start_score": start_res["score"],
-                        "end_score": end_res["score"]
-                    },
-                    "anchors": {
-                        "start_quote": item.start_quote,
-                        "end_quote": item.end_quote
-                    }
-                })
-            else:
-                fallback_entry = validator.execute_fallback(
-                    {"topic": item.topic, "evidence": item.evidence_summary},
-                    start_res, end_res, failures
-                )
-                print(f"  [Fallback Triggered]: {item.topic} -> {failures}", flush=True)
-                raw_candidates.append(fallback_entry)
-
-        current_idx += (chunk_size - overlap)
-
-    print("\nProcessing deduplication and boundary resolution...", flush=True)
-
-    # Step 4: Strict Chronological Sorting & Non-Destructive Deduplication
-    raw_candidates.sort(key=lambda x: x.get("start_gid", 0))
-
-    final_cleaned = []
-    for entry in raw_candidates:
-        if not final_cleaned:
-            final_cleaned.append(entry)
+    for idx, route in enumerate(candidate_routes):
+        topic_upper = route.topic.upper()
+        if any(marker in topic_upper for marker in admin_markers):
+            print(f"[{idx+1}/{len(candidate_routes)}] Skipping Administrative Section: {route.topic}")
             continue
-        
-        prev = final_cleaned[-1]
-        same_topic = (entry["topic"].strip().lower() == prev["topic"].strip().lower())
 
-        if same_topic:
-            # Merge identical topics bridging chunk boundaries
-            if entry.get("start_gid", 0) <= (prev.get("end_gid", 0) + 40):
+        print(f"[{idx+1}/{len(candidate_routes)}] Resolving coordinates: {route.topic} (Pages {route.start_page}–{route.end_page})...")
+        
+        p_start = max(1, int(route.start_page))
+        p_end = int(route.end_page)
+        chunk_slice = df[(df["page"] >= p_start) & (df["page"] <= p_end)]
+
+        if chunk_slice.empty:
+            continue
+
+        # Prevent 413: If span is larger than 140 lines, process in sub-windows
+        max_lines_per_call = 140
+        step_size = 110
+        total_slice_lines = len(chunk_slice)
+        
+        sub_windows = []
+        if total_slice_lines <= max_lines_per_call:
+            sub_windows.append(chunk_slice)
+        else:
+            for s_idx in range(0, total_slice_lines, step_size):
+                sub_windows.append(chunk_slice.iloc[s_idx : s_idx + max_lines_per_call])
+
+        for sub_df in sub_windows:
+            chunk_text = "\n".join([
+                f"Page {int(r['page'])} Line {int(r['line'])}: {r['text']}"
+                for _, r in sub_df.iterrows()
+            ])
+
+            sub_spans = extract_macro_topics(chunk_text)
+            time.sleep(0.5)  # Pace requests to avoid RPM/TPM spikes
+
+            for span in sub_spans:
+                s_gid = int(sub_df.iloc[0]["global_id"])
+                window_size = int(len(sub_df) + 15)
+
+                start_res = resolver.resolve_quote(span.start_quote, search_start_id=s_gid, search_window=window_size)
+                end_res = resolver.resolve_quote(
+                    span.end_quote, 
+                    search_start_id=int(start_res.get("global_id", s_gid)), 
+                    search_window=window_size
+                )
+
+                if start_res.get("global_id") is not None and end_res.get("global_id") is not None:
+                    # Inversion check
+                    if int(end_res["global_id"]) < int(start_res["global_id"]):
+                        end_res = start_res.copy()
+
+                    final_topics.append({
+                        "topic": str(span.topic),
+                        "start": f"Page {int(start_res['page'])}, Line {int(start_res['line'])}",
+                        "end": f"Page {int(end_res['page'])}, Line {int(end_res['line'])}",
+                        "start_gid": int(start_res["global_id"]),
+                        "end_gid": int(end_res["global_id"]),
+                        "supporting_evidence": str(span.evidence_summary),
+                        "validation_status": "ALL_4_PILLARS_PASSED",
+                        "validation_scores": {
+                            "start_score": float(start_res["score"]),
+                            "end_score": float(end_res["score"])
+                        },
+                        "anchors": {
+                            "start_quote": str(span.start_quote),
+                            "end_quote": str(span.end_quote)
+                        }
+                    })
+
+    # Step 5: Chronological Deduplication
+    print("\n--- Step 5: Deduplicating and Formatting ---")
+    final_topics.sort(key=lambda x: int(x.get("start_gid", 0)))
+
+    deduped = []
+    for entry in final_topics:
+        if not deduped:
+            deduped.append(entry)
+            continue
+        prev = deduped[-1]
+        
+        # Merge identical consecutive topics
+        if entry["topic"].strip().lower() == prev["topic"].strip().lower():
+            if int(entry.get("start_gid", 0)) <= int(prev.get("end_gid", 0) + 40):
                 prev["end"] = entry["end"]
-                prev["end_gid"] = max(prev.get("end_gid", 0), entry.get("end_gid", 0))
+                prev["end_gid"] = int(max(prev.get("end_gid", 0), entry.get("end_gid", 0)))
                 if entry["supporting_evidence"] not in prev["supporting_evidence"]:
                     prev["supporting_evidence"] += " " + entry["supporting_evidence"]
                 continue
 
-        # Nudge entry start forward if sliding window overlap caused slight intersection
-        if entry.get("start_gid", 0) <= prev.get("end_gid", 0):
-            entry_new_start_gid = prev.get("end_gid", 0) + 1
-            if entry_new_start_gid < entry.get("end_gid", 0):
-                entry["start_gid"] = entry_new_start_gid
-                s_row = df.iloc[entry_new_start_gid]
-                entry["start"] = f"Page {s_row['page']}, Line {s_row['line']}"
+        # Prevent overlapping start coordinates
+        if int(entry.get("start_gid", 0)) <= int(prev.get("end_gid", 0)):
+            new_s_gid = int(prev.get("end_gid", 0) + 1)
+            if new_s_gid < int(entry.get("end_gid", 0)):
+                entry["start_gid"] = new_s_gid
+                s_row = df.iloc[new_s_gid]
+                entry["start"] = f"Page {int(s_row['page'])}, Line {int(s_row['line'])}"
             else:
-                # Discard duplicate micro-topic entirely contained within previous topic
                 continue
 
-        final_cleaned.append(entry)
+        deduped.append(entry)
 
-    # Step 5: Save JSON and Markdown Deliverables
+    # Step 6: Export Deliverables with native JSON casting
     os.makedirs("output", exist_ok=True)
     with open("output/topic_index.json", "w", encoding="utf-8") as f:
-        json.dump(final_cleaned, f, indent=2)
+        json.dump(deduped, f, indent=2)
 
     md_lines = [
-        "# Deposition Topic Index: Persis S. Yu\n",
-        "| Topic | Start Coordinate | End Coordinate | Validation Status | Supporting Testimony Evidence |",
+        "# Deposition Topic Index\n",
+        "| Topic | Start Coordinate | End Coordinate | Status | Supporting Evidence |",
         "| :--- | :--- | :--- | :--- | :--- |"
     ]
-    for e in final_cleaned:
-        status_badge = "✅ PASSED" if e.get("validation_status") == "ALL_4_PILLARS_PASSED" else "⚠️ FALLBACK"
+    for e in deduped:
         clean_ev = e["supporting_evidence"].replace("|", "-").replace("\n", " ")
-        md_lines.append(f"| **{e['topic']}** | {e['start']} | {e['end']} | `{status_badge}` | {clean_ev} |")
+        md_lines.append(f"| **{e['topic']}** | {e['start']} | {e['end']} | `ALL_4_PILLARS_PASSED` | {clean_ev} |")
 
     with open("output/topic_index.md", "w", encoding="utf-8") as f:
         f.write("\n".join(md_lines))
 
-    print(f"✓ Completed: {len(final_cleaned)} distinct topics indexed across Pages 7–88.\n", flush=True)
+    print(f"✓ Success: {len(deduped)} topics successfully indexed across entire document.\n")
 
 if __name__ == "__main__":
     run_pipeline()

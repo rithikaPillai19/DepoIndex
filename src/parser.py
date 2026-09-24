@@ -1,72 +1,85 @@
-import pymupdf as fitz
-import json
+import fitz  
 import re
+import json
 import os
+from typing import List, Dict, Any
 
-TERMINATION_TRIGGERS = [
-    "(WHEREUPON, THE DEPOSITION CONCLUDED",
-    "(WHEREUPON, THE DEPOSITION WAS CONCLUDED",
-    "(WHEREUPON, PROCEEDINGS CONCLUDED",
-    "CERTIFICATE OF REPORTER",
-    "REPORTER'S CERTIFICATE",
-    "ERRATA SHEET",
-    "WORD INDEX"
+# Common termination markers in federal & state depositions
+TERMINATION_MARKERS = [
+    r"CERTIFICATE OF (?:OFFICER|NOTARY|REPORTER|SHORTHAND)",
+    r"IN WITNESS WHEREOF",
+    r"SUBSCRIBED AND SWORN",
+    r"COURT REPORTER'?S CERTIFICATE",
+    r"^INDEX$",
+    r"^WORD INDEX$",
+    r"^ERRATA SHEET"
 ]
 
-def parse_deposition_pdf(pdf_path: str, start_page: int = 7, output_path: str = "data/parsed_transcript.json"):
+def parse_deposition_pdf(pdf_path: str, output_path: str = "data/parsed_transcript.json") -> List[Dict[str, Any]]:
+    """
+    Parses ANY deposition PDF dynamically:
+    - Reads every page sequentially from start to finish.
+    - Strips running headers, court reporter footers, and concordance indices.
+    - Captures standardized (page, line, text) tuples with global monotonic line IDs.
+    """
     doc = fitz.open(pdf_path)
-    structured_lines = []
+    total_doc_pages = len(doc)
+    extracted_lines = []
     global_id = 0
+    substantive_started = False
 
-    TIME_PATTERN = re.compile(r'^\d{1,2}:\d{2}(:\d{2})?\s*(AM|PM)?\b', re.IGNORECASE)
-    LINE_NO_PATTERN = re.compile(r'^\s*([1-9]|1[0-9]|2[0-5])\b')
+    # Regex patterns for line-numbered legal transcripts
+    # Matches lines starting with 1-28 followed by dialogue or Q/A markers
+    line_pattern = re.compile(r"^\s*([1-9]|[12][0-9])\s+(.*)$")
+    q_or_a_pattern = re.compile(r"^\s*(?:Q\.|A\.|Q\s|A\s|THE WITNESS:|MR\.|MS\.|THE COURT:)", re.IGNORECASE)
 
-    for page_idx in range(start_page - 1, len(doc)):
-        page = doc[page_idx]
-        actual_page = page_idx + 1
-        raw_text = page.get_text("text")
+    for page_num in range(1, total_doc_pages + 1):
+        page = doc[page_num - 1]
+        text_lines = page.get_text("text").splitlines()
 
-        # Dynamic End-of-Deposition Detection
-        if any(trig in raw_text.upper() for trig in TERMINATION_TRIGGERS):
-            print(f"✓ Deposition conclusion marker identified on Page {actual_page}. Bypassing back-matter.")
+        # Check for end of deposition / reporter certificate / word index
+        page_raw_text = "\n".join(text_lines).upper()
+        if substantive_started and any(re.search(marker, page_raw_text, re.MULTILINE) for marker in TERMINATION_MARKERS):
+            # If word index or certificate is reached, stop extracting
             break
 
-        lines = raw_text.split("\n")
-        line_counter = 1
+        page_buffer = []
 
-        for raw_line in lines:
-            cleaned = raw_line.strip()
-            if not cleaned:
+        for line in text_lines:
+            line_str = line.strip()
+            if not line_str:
                 continue
 
-            cleaned = TIME_PATTERN.sub('', cleaned).strip()
+            match = line_pattern.match(line_str)
+            if match:
+                l_num = int(match.group(1))
+                content = match.group(2).strip()
 
-            # Filter headers and noise
-            if cleaned.upper().startswith("PAGE ") and len(cleaned) < 15:
-                continue
-            if "MAGNA LEGAL SERVICES" in cleaned.upper():
-                continue
-            if "VIDEOGRAPHER" in cleaned.upper() and ("OFF THE RECORD" in cleaned.upper() or "ON THE RECORD" in cleaned.upper()):
-                continue
+                # Detect when substantive examination starts
+                if not substantive_started:
+                    if q_or_a_pattern.match(content) or "EXAMINATION" in content.upper():
+                        substantive_started = True
 
-            cleaned = LINE_NO_PATTERN.sub('', cleaned).strip()
+                if substantive_started and content:
+                    page_buffer.append((l_num, content))
 
-            if len(cleaned) >= 2:
-                structured_lines.append({
-                    "page": actual_page,
-                    "line": line_counter,
-                    "text": cleaned,
-                    "global_id": global_id
-                })
-                global_id += 1
-                line_counter += 1
+        # Sort lines monotonically by page line number to prevent PDF column order jitter
+        page_buffer.sort(key=lambda x: x[0])
+
+        for l_num, content in page_buffer:
+            extracted_lines.append({
+                "global_id": global_id,
+                "page": page_num,
+                "line": l_num,
+                "text": content
+            })
+            global_id += 1
+
+    doc.close()
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(structured_lines, f, indent=2)
+        json.dump(extracted_lines, f, indent=2)
 
-    print(f"✓ Parsed {len(structured_lines)} clean lines.")
-    return structured_lines
-
-if __name__ == "__main__":
-    parse_deposition_pdf("data/Persis_Yu_Deposition_Problem_statement.pdf")
+    print(f"✓ Parsed {len(extracted_lines)} substantive lines across {total_doc_pages} input pages.")
+    return extracted_lines

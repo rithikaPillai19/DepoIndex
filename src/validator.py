@@ -1,88 +1,116 @@
 import pandas as pd
-from typing import Dict, Any, Tuple
-from rapidfuzz import fuzz
+from typing import Dict, Any, List, Tuple
 
 class DepoIndexValidator:
     """
-    4-Pillar Validation Layer + Fallback Mechanism:
-      1. Coordinate Validation (Line existence, score >= 70, no line inversion)
-      2. Boundary Validation (Speaker turn alignment, span length >= 10 lines)
-      3. Semantic Validation (Macro topic adherence, taxonomy check)
-      4. Evidence Validation (Substantive synthesis, non-trivial content)
-      5. Fallback Mechanism (Window recovery or NEEDS_MANUAL_REVIEW routing)
+    Enforces the 4-Pillar Validation Framework for litigation deposition indexing:
+    - Pillar 1: Coordinate existence & anchor confidence score
+    - Pillar 2: Monotonic boundary integrity & span breadth
+    - Pillar 3: Semantic topic validity
+    - Pillar 4: Substantive factual evidence verification
     """
-    def __init__(self, transcript_df: pd.DataFrame, canonical_taxonomy: list, min_score: float = 70.0):
-        self.df = transcript_df
-        self.taxonomy = canonical_taxonomy
+
+    def __init__(self, df: pd.DataFrame, canonical_taxonomy: List[str] = None, min_score: float = 70.0):
+        self.df = df
+        self.canonical_taxonomy = canonical_taxonomy or []
         self.min_score = min_score
-        self.max_global_id = len(transcript_df) - 1
 
-    # PILLAR 1: Coordinate Validation
     def validate_coordinates(self, start_res: Dict[str, Any], end_res: Dict[str, Any]) -> Tuple[bool, str]:
-        if start_res["score"] < self.min_score or end_res["score"] < self.min_score:
-            return False, f"Coordinate score below threshold (Start: {start_res['score']}%, End: {end_res['score']}%)"
-        
-        if start_res["global_id"] is None or end_res["global_id"] is None:
-            return False, "Unresolved coordinate pointer"
+        """Pillar 1: Coordinate existence and provenance score threshold."""
+        if start_res.get("global_id") is None or end_res.get("global_id") is None:
+            return False, "Unresolved quote coordinates: start or end global_id is None."
 
-        if end_res["global_id"] < start_res["global_id"]:
-            return False, f"Coordinate Inversion: End line ({end_res['global_id']}) precedes Start line ({start_res['global_id']})"
+        start_score = start_res.get("score", 0.0)
+        end_score = end_res.get("score", 0.0)
 
-        return True, "PASSED"
+        if start_score < self.min_score:
+            return False, f"Start quote match score ({start_score:.1f}%) below minimum threshold ({self.min_score}%)."
+        if end_score < self.min_score:
+            return False, f"End quote match score ({end_score:.1f}%) below minimum threshold ({self.min_score}%)."
 
-    # PILLAR 2: Boundary Validation
-    def validate_boundary(self, start_gid: int, end_gid: int) -> Tuple[bool, str]:
+        return True, "Passed coordinate validation."
+
+    def validate_boundary(self, start_gid: int, end_gid: int, min_lines: int = 2) -> Tuple[bool, str]:
+        """Pillar 2: Boundary monotonicity and minimum line span."""
+        if start_gid is None or end_gid is None:
+            return False, "Null global boundary IDs."
+
+        if end_gid < start_gid:
+            return False, f"Boundary inversion detected: end_gid ({end_gid}) precedes start_gid ({start_gid})."
+
         span_length = end_gid - start_gid + 1
-        if span_length < 4:
-            return False, f"Boundary too narrow for macro-topic ({span_length} lines). Likely subtopic or colloquy."
-        
-        if start_gid < 0 or end_gid > self.max_global_id:
-            return False, "Boundary exceeds transcript limits."
+        if span_length < min_lines:
+            return False, f"Span too brief ({span_length} lines); does not represent substantive inquiry."
 
-        return True, "PASSED"
+        return True, "Passed boundary validation."
 
-    # PILLAR 3: Semantic Validation
-    def validate_semantic(self, topic_label: str) -> Tuple[bool, str]:
-        # Check if topic label matches canonical list
-        if topic_label not in self.taxonomy:
-            # Fuzzy match against canonical taxonomy
-            best_match = max([fuzz.token_sort_ratio(topic_label.lower(), t.lower()) for t in self.taxonomy])
-            if best_match < 80:
-                return False, f"Semantic divergence: '{topic_label}' does not match legal taxonomy."
-        return True, "PASSED"
+    def validate_semantic(self, topic: str) -> Tuple[bool, str]:
+        """Pillar 3: Semantic topic check against taxonomy or structural rules."""
+        if not topic or not isinstance(topic, str):
+            return False, "Topic string is null or empty."
 
-    # PILLAR 4: Evidence Validation
-    def validate_evidence(self, evidence: str) -> Tuple[bool, str]:
-        if not evidence or len(evidence.strip().split()) < 8:
-            return False, "Evidence summary too short or empty."
-        
-        # Check for generic non-substantive filler
-        filler_patterns = ["reading from report", "witness answered", "counsel discussed", "unintelligible"]
-        if any(f in evidence.lower() for f in filler_patterns) and len(evidence.split()) < 12:
-            return False, "Evidence lacks substantive legal synthesis."
+        clean_topic = topic.strip()
+        words = clean_topic.split()
 
-        return True, "PASSED"
+        if len(words) < 2:
+            return False, f"Topic '{clean_topic}' is too short/generic."
+        if len(words) > 16:
+            return False, f"Topic '{clean_topic}' exceeds macro-title length."
 
-    # PILLAR 5: Fallback Mechanism
-   # Inside src/validator.py -> execute_fallback
-    def execute_fallback(self, raw_entry: Dict[str, Any], start_res: Dict[str, Any], end_res: Dict[str, Any], failure_reasons: list) -> Dict[str, Any]:
-        recovered_start_gid = start_res.get("global_id") or 0
-        recovered_end_gid = end_res.get("global_id") or (recovered_start_gid + 10)
+        # Procedural noise filter
+        noise_markers = ["form objection", "off the record", "recess", "reporter question"]
+        if any(marker in clean_topic.lower() for marker in noise_markers):
+            return False, f"Topic '{clean_topic}' contains non-substantive conversational noise."
 
-        if recovered_end_gid < recovered_start_gid:
-            recovered_end_gid = min(recovered_start_gid + 15, self.max_global_id)
+        # Check taxonomy membership if taxonomy is configured
+        if self.canonical_taxonomy:
+            if clean_topic not in self.canonical_taxonomy:
+                # Soft match check
+                matched = any(clean_topic.lower() == t.lower() for t in self.canonical_taxonomy)
+                if not matched:
+                    return False, f"Topic '{clean_topic}' does not conform to defined canonical taxonomy."
 
-        start_row = self.df.iloc[recovered_start_gid]
-        end_row = self.df.iloc[min(recovered_end_gid, self.max_global_id)]
+        return True, "Passed semantic validation."
+
+    def validate_evidence(self, evidence_summary: str) -> Tuple[bool, str]:
+        """Pillar 4: Evidence factual presence and depth check."""
+        if not evidence_summary or not isinstance(evidence_summary, str):
+            return False, "Supporting evidence summary is empty."
+
+        clean_ev = evidence_summary.strip()
+        if len(clean_ev) < 25 or len(clean_ev.split()) < 5:
+            return False, "Supporting evidence summary lacks sufficient substantive detail."
+
+        return True, "Passed evidence validation."
+
+    def execute_fallback(
+        self,
+        candidate: Dict[str, Any],
+        start_res: Dict[str, Any],
+        end_res: Dict[str, Any],
+        failures: List[str]
+    ) -> Dict[str, Any]:
+        """Pillar 5 / Fallback logging: flags failed entries cleanly for audit inspection."""
+        s_page = start_res.get("page", "Unknown")
+        s_line = start_res.get("line", "Unknown")
+        e_page = end_res.get("page", "Unknown")
+        e_line = end_res.get("line", "Unknown")
 
         return {
-            "topic": raw_entry.get("topic", "Unassigned Examination Segment"),
-            "start": f"Page {start_row['page']}, Line {start_row['line']}",
-            "end": f"Page {end_row['page']}, Line {end_row['line']}",
-            "start_gid": recovered_start_gid,
-            "end_gid": recovered_end_gid,
-            "supporting_evidence": raw_entry.get("evidence", "Evidence flagged during validation."),
+            "topic": candidate.get("topic", "Unspecified Inquiry"),
+            "start": f"Page {s_page}, Line {s_line}",
+            "end": f"Page {e_page}, Line {e_line}",
+            "start_gid": start_res.get("global_id", 0),
+            "end_gid": end_res.get("global_id", 0),
+            "supporting_evidence": candidate.get("evidence", "No evidence summary provided."),
             "validation_status": "FALLBACK_TRIGGERED",
-            "fallback_diagnostics": failure_reasons,
-            "audit_flags": ["NEEDS_MANUAL_REVIEW"]
+            "validation_failures": failures,
+            "validation_scores": {
+                "start_score": start_res.get("score", 0.0),
+                "end_score": end_res.get("score", 0.0)
+            },
+            "anchors": {
+                "start_quote": start_res.get("matched_text", ""),
+                "end_quote": end_res.get("matched_text", "")
+            }
         }

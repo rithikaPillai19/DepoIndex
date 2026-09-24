@@ -9,41 +9,11 @@ from typing import List
 load_dotenv()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"), timeout=30.0)
 
-CANONICAL_TAXONOMY = [
-    "Deposition Protocol, Ground Rules & Perjury Warning",
-    "Expert Witness Retention & Scope of Assignment",
-    "Marking Expert Report as Exhibit 1",
-    "Witness Educational and Professional Background at SBPC",
-    "Department of Education Negotiated Rulemaking",
-    "Public Comments on Loan Servicer Solicitation RFIs",
-    "Personal Work Experience as Loan Servicer",
-    "Analysis Scope and Review of PEAKS Loan Documents",
-    "Proprietary School 90/10 Rule and Compliance",
-    "Cohort Default Rate Standards and Incentives",
-    "Underwriting Standards and Failure Modes",
-    "Role of Vervent in Private Student Lending",
-    "Servicing vs. Origination Legal Distinction",
-    "Borrower Complaints and Servicing Transfer Risks",
-    "Statutory and Regulatory Data Transfer Requirements",
-    "Criminal Law Background and RICO Familiarity",
-    "ITT For-Profit Educational Quality and Degree Value",
-    "Outlier Graduate Earnings Hypotheticals",
-    "Vervent Knowledge of ITT Misrepresentations",
-    "Enforceability and Material Defects in PEAKS Loan Documents",
-    "Truth in Lending Act (TILA) Required Disclosures",
-    "California Student Loan Servicing Law Compliance Scope",
-    "Consumer Financial Protection Bureau (CFPB) Settlement and Findings",
-    "SEC Inquiries and Investigations into ITT and PEAKS",
-    "Department of Education Enforcement Actions and Closure of ITT",
-    "Fiduciary Duty and Standard of Care in Loan Servicing",
-    "Conclusion of Substantive Examination"
-]
-
 class MacroTopicSpan(BaseModel):
-    topic: str = Field(..., description="The macro-topic name from the taxonomy.")
+    topic: str = Field(..., description="High-level substantive legal or factual examination topic in Title Case.")
     start_quote: str = Field(..., description="Exact verbatim opening sentence.")
     end_quote: str = Field(..., description="Exact verbatim closing sentence.")
-    evidence_summary: str = Field(..., description="Substantive factual synthesis.")
+    evidence_summary: str = Field(..., description="Substantive 1-2 sentence factual synthesis.")
 
 def _robust_json_extract(text: str) -> dict:
     if not text:
@@ -58,21 +28,31 @@ def _robust_json_extract(text: str) -> dict:
     return json.loads(text)
 
 def extract_macro_topics(chunk_text: str) -> List[MacroTopicSpan]:
-    prompt = f"""You are a legal indexer. Inspect this transcript chunk and identify which of these topics are actively examined:
-{json.dumps(CANONICAL_TAXONOMY, indent=2)}
+    prompt = f"""You are a senior litigation analyst indexing a legal deposition.
+Identify only the overarching, substantive examination topics discussed in this transcript segment.
 
-Rules:
-1. Return ONLY topics from the list that appear in the chunk.
-2. If none appear, return: {{"topics": []}}
-3. 'start_quote': Verbatim sentence where inquiry starts.
-4. 'end_quote': Verbatim sentence where inquiry concludes.
-5. Provide a concise evidence_summary.
+STRICT INSTRUCTIONS:
+1. Macro-Level Only: Group questions, answers, and objections into parent subject topics (e.g., 'Witness Background & Qualifications', 'Review of Exhibit 1', 'Breach of Standard of Care').
+2. Do NOT create micro-topics for single questions, individual objections, or breaks.
+3. If no new substantive topic starts or is covered, return {{"topics": []}}.
+4. 'start_quote': Exact verbatim starting sentence from the text.
+5. 'end_quote': Exact verbatim concluding sentence of the inquiry.
+6. 'evidence_summary': Concise, factual 1-2 sentence synthesis of testimony given.
 
-Transcript:
+Transcript Segment:
 {chunk_text}
 
 Respond STRICTLY with raw valid JSON:
-{{"topics": [{{"topic": "Name", "start_quote": "...", "end_quote": "...", "evidence_summary": "..."}}]}}"""
+{{
+  "topics": [
+    {{
+      "topic": "<Substantive Topic Name in Title Case>",
+      "start_quote": "<verbatim sentence>",
+      "end_quote": "<verbatim sentence>",
+      "evidence_summary": "<summary>"
+    }}
+  ]
+}}"""
 
     try:
         completion = client.chat.completions.create(
@@ -87,7 +67,7 @@ Respond STRICTLY with raw valid JSON:
         
         valid = []
         for t in raw_topics:
-            if isinstance(t, dict) and t.get("topic") in CANONICAL_TAXONOMY:
+            if isinstance(t, dict) and t.get("topic") and t.get("start_quote") and t.get("end_quote"):
                 valid.append(MacroTopicSpan(**t))
         return valid
 
