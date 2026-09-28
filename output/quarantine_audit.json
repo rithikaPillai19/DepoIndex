@@ -1,0 +1,226 @@
+[
+  {
+    "audit_id": "quarantine-init-1",
+    "topic": "Deposition Housekeeping and Exhibit Identification",
+    "evidence": "Counsel establishes procedural ground rules for the deposition, including a request for the witness to speak slowly for the record, and formally marks the witness's expert report as Exhibit 1.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 94: '(Exhibit 1 was marked for'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 94: '(Exhibit 1 was marked for'"
+    ],
+    "start_quote": "One question is, it appears that you're reading",
+    "end_quote": "(Exhibit 1 was marked for identification.)",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-2",
+    "topic": "Expert Qualifications and Professional Background",
+    "evidence": "The witness, an attorney, details her role as Deputy Executive Director of the Student Borrower Protection Center, explaining the organization's focus on student loan policy, racial equity, predatory lending, and advocacy for debt cancellation.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 170: 'esent those findings both'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 170: 'esent those findings both'"
+    ],
+    "start_quote": "BY MR. PURCELL: Q You are an attorney; correct?",
+    "end_quote": "We do research, and then present those findings both",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-3",
+    "topic": "Student Loan Servicing Comments and Oversight",
+    "evidence": "The witness details her comments and participation in Department of Education requests for information regarding student loan servicing contracts, emphasizing consumer protections, borrower redress, and congressional testimonies.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 307: 'tee in another hearing in'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 307: 'tee in another hearing in'"
+    ],
+    "start_quote": "MR. PURCELL: I think that -- that was a pretty",
+    "end_quote": "House Financial Services Committee in another hearing in",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-4",
+    "topic": "Loan Portfolio Transfers and Associated Risks",
+    "evidence": "The witness describes major portfolio transfers in the federal student loan market\u2014such as Navient and FedLoan Servicing transferring accounts\u2014and explains the inherent risks of data loss, communication gaps, and borrower confusion, along with relevant state regulations.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 420: 's Group, to my clients --'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 420: 's Group, to my clients --'"
+    ],
+    "start_quote": "Q Ms. Yu, in -- in any of your work experience,",
+    "end_quote": "servicer in this case, the Access Group, to my clients --",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-5",
+    "topic": "Knowledge of Data Transfer Regulations and Criminal Law Experience",
+    "evidence": "The witness testifies that she lacks the documents and scope to opine on whether data transfers between Access Group and Vervent in 2011 violated regulations, and outlines her limited past experience with criminal law.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 447: 'I do not recall any other'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 447: 'I do not recall any other'"
+    ],
+    "start_quote": "we'll refer to them as Vervent, but they were",
+    "end_quote": "A Other than that, I do not recall any other instances.",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-6",
+    "topic": "Expertise and Findings Regarding RICO Statutes",
+    "evidence": "The witness discusses her general awareness and limited consumer law experience regarding RICO violations in the context of student loans, confirming she made no findings on a RICO enterprise because it was outside the scope of her report.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 483: 's outside the scope of my'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 483: 's outside the scope of my'"
+    ],
+    "start_quote": "I served on a jury once.",
+    "end_quote": "A This was -- that was outside the scope of my report.",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-7",
+    "topic": "Expert Report Formatting and For-Profit College Industry",
+    "evidence": "Counsel and the witness discuss an inadvertent formatting issue regarding missing paragraph numbers in her expert report, followed by an inquiry into her background knowledge on for-profit colleges and her focus on student loan debt rather than educational quality at ITT.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 520: 'I have both on individual'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 520: 'I have both on individual'"
+    ],
+    "start_quote": "Q Go down to -- I'm going to go back into your",
+    "end_quote": "So I did -- I -- I have both on individual",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-8",
+    "topic": "Systemic Evaluation of ITT Student Outcomes and Economic Value",
+    "evidence": "The witness discusses her macro-level analysis of ITT Technical Institute, asserting that systemic data\u2014including low student earnings compared to high school graduates, high dropout rates, and high loan default rates\u2014demonstrates that very few students received the benefits promised, and that an individual doubling their income post-graduation would be an outlier.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 645: 'd -- it would be atypical'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 645: 'd -- it would be atypical'"
+    ],
+    "start_quote": "level -- I -- I represented individual borrowers and --",
+    "end_quote": "So you're saying it would -- it would be atypical",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-9",
+    "topic": "Hypothetical Analysis of Graduate Salaries and Baseline Incomes",
+    "evidence": "Following a brief recess, questioning resumes regarding hypothetical ITT graduates who earned significantly more after completing their degrees. The witness maintains that evaluating whether such a salary increase is typical remains difficult without knowing the graduates' specific baseline starting salaries and employment status prior to enrollment.",
+    "initial_failures": [
+      "Pillar 1: Failed to resolve start or end coordinate anchor."
+    ],
+    "recovery_failures": [
+      "Pillar 1: Failed to resolve start or end coordinate anchor."
+    ],
+    "start_quote": "MR. BLOOD: And John, we're at the top of the",
+    "end_quote": "to attending ITT, and let's call that",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-10",
+    "topic": "Validity and Enforceability of PEAKS Loans under TILA",
+    "evidence": "The witness testifies that PEAKS loans have serious documentation defects and lack necessary disclosures and promissory notes required under the Truth in Lending Act, rendering them invalid and unenforceable.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1096: 's loan exists and whether'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1096: 's loan exists and whether'"
+    ],
+    "start_quote": "Is your opinion -- is it your opinion that the",
+    "end_quote": "All of those documents are critical to understanding whether or not this loan exists and whether or not that -- that loan is enforceable.",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-11",
+    "topic": "Scope of Review Regarding Loan Servicer Documents and Disclosures",
+    "evidence": "The witness clarifies that reviewing records from Access Group or compliance with California student loan servicing laws regarding document transfers were outside the scope of their assigned report.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1171: 'uments that Vervent would'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1172: 'ld have used to rely when'"
+    ],
+    "start_quote": "So when you were reviewing this issue, did you --",
+    "end_quote": "What I was asked to look at is the documents that Vervent would have had access to which it would have used to rely when communicating to student loan borrowers about -- about the terms and conditions of their loans.",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-12",
+    "topic": "Borrower's Right to Cancel Loans Due to Missing Disclosures",
+    "evidence": "The witness explains that if a borrower never receives required final disclosures under TILA, they retain an indefinite right to cancel the loan until three days after receiving the disclosure, which unwinds the transaction.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1320: ' is less than that, but I'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1320: ' is less than that, but I'"
+    ],
+    "start_quote": "I believe in your report you -- you state that if",
+    "end_quote": "I would believe that it is less than that, but I",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-13",
+    "topic": "ITT's Institutional Reputation and Government Student Loan Programs",
+    "evidence": "Examination focuses on whether ITT's history of abusive practices was widely known and whether the federal government's continued provision of Title IV loans to ITT students contradicts claims that ITT operated as a known fraudulent enterprise.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1492: 've on to the -- you start'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1492: 've on to the -- you start'"
+    ],
+    "start_quote": "And that CFPB settlement, did you read it?",
+    "end_quote": "Q Okay. Now we'll move on to the -- you start",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-14",
+    "topic": "Regulatory Investigations and Findings Involving Vervent Defendants",
+    "evidence": "Counsel examines the witness regarding various historical regulatory investigations and enforcement actions\u2014including those by the CFPB, SEC, state attorneys general, and Department of Education\u2014concerning ITT and the PEAKS loans, confirming that the witness is unaware of any public findings of wrongdoing specifically directed at the Vervent defendants as loan servicers.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1719: 'n, we're a little past an'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1719: 'n, we're a little past an'"
+    ],
+    "start_quote": "You reference a 2012 Consumer Financial Protection Bureau Civil Investigative Demand --",
+    "end_quote": "MR. BLOOD: And John, we're a little past an hour.",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-15",
+    "topic": "Investigations and Vervent's Obligations Regarding PEAKS Loans",
+    "evidence": "Counsel questions whether any specific investigation mandated that Vervent stop servicing PEAKS loans. Ms. Yu testifies that while the mere existence of an investigation may not have required stopping service, the underlying information examined during these investigations raised serious questions about loan enforceability, yet Vervent chose to continue collection and maintain its contract.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1821: 'collecting on those loans'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1821: 'collecting on those loans'"
+    ],
+    "start_quote": "BY MR. PURCELL:",
+    "end_quote": "Vervent affirmatively chose to continue collecting on those loans and to continue their contract with ITT and the PEAKS loans trust.",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-init-16",
+    "topic": "Definition and Functions of a Loan Servicer",
+    "evidence": "The examination shifts to defining the precise duties of a loan servicer. Ms. Yu agrees that a servicer's functions include accepting payments from borrowers and passing them on to the lender or trust, as well as performing other administrative tasks such as tracking borrower addresses.",
+    "initial_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1845: 'e other functions include'"
+    ],
+    "recovery_failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1845: 'e other functions include'"
+    ],
+    "start_quote": "BY MR. PURCELL:",
+    "end_quote": "A Yeah, some of the other functions include",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  }
+]

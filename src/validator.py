@@ -1,116 +1,107 @@
+"""
+The Four-Pillar Legal Validator with Independent Entity Grounding.
+Every topic and mutated artifact must pass this gate before final serialization.
+"""
 import pandas as pd
-from typing import Dict, Any, List, Tuple
+from typing import Tuple, List, Dict, Any
 
 class DepoIndexValidator:
-    """
-    Enforces the 4-Pillar Validation Framework for litigation deposition indexing:
-    - Pillar 1: Coordinate existence & anchor confidence score
-    - Pillar 2: Monotonic boundary integrity & span breadth
-    - Pillar 3: Semantic topic validity
-    - Pillar 4: Substantive factual evidence verification
-    """
-
-    def __init__(self, df: pd.DataFrame, canonical_taxonomy: List[str] = None, min_score: float = 70.0):
+    def __init__(self, df: pd.DataFrame, min_anchor_score: float = 82.0):
         self.df = df
-        self.canonical_taxonomy = canonical_taxonomy or []
-        self.min_score = min_score
+        self.min_anchor_score = min_anchor_score
 
-    def validate_coordinates(self, start_res: Dict[str, Any], end_res: Dict[str, Any]) -> Tuple[bool, str]:
-        """Pillar 1: Coordinate existence and provenance score threshold."""
+    def validate_pillar_1_coordinates(self, start_res: Dict[str, Any], end_res: Dict[str, Any]) -> Tuple[bool, str]:
+        """Pillar 1: Coordinate Verifiability & Anchor Precision."""
         if start_res.get("global_id") is None or end_res.get("global_id") is None:
-            return False, "Unresolved quote coordinates: start or end global_id is None."
+            return False, "Failed to resolve start or end coordinate anchor."
+        if start_res.get("score", 0.0) < self.min_anchor_score:
+            return False, f"Start quote anchor score ({start_res.get('score'):.1f}) below threshold {self.min_anchor_score}."
+        if end_res.get("score", 0.0) < self.min_anchor_score:
+            return False, f"End quote anchor score ({end_res.get('score'):.1f}) below threshold {self.min_anchor_score}."
+        if start_res["global_id"] > end_res["global_id"]:
+            return False, f"Coordinate inversion: Start GID {start_res['global_id']} > End GID {end_res['global_id']}."
+        return True, "PASSED"
 
-        start_score = start_res.get("score", 0.0)
-        end_score = end_res.get("score", 0.0)
+    def validate_pillar_2_boundary(self, start_gid: int, end_gid: int) -> Tuple[bool, str]:
+        """Pillar 2: Boundary Integrity, Dialogue Initiation & Sentence Completion."""
+        if start_gid < 0 or end_gid >= len(self.df):
+            return False, "Coordinates index out of bounds."
 
-        if start_score < self.min_score:
-            return False, f"Start quote match score ({start_score:.1f}%) below minimum threshold ({self.min_score}%)."
-        if end_score < self.min_score:
-            return False, f"End quote match score ({end_score:.1f}%) below minimum threshold ({self.min_score}%)."
+        # Verify Start: Must not anchor to blank or pure punctuation
+        start_text = str(self.df.iloc[start_gid]["text"]).strip()
+        if len(start_text) < 3 or start_text.replace("-", "").strip() == "":
+            return False, f"Start coordinate GID {start_gid} lands on blank or non-substantive line."
 
-        return True, "Passed coordinate validation."
+        # Verify End: Sentence closure check (must end with terminal punctuation or speaker transition)
+        end_text = str(self.df.iloc[end_gid]["text"]).strip()
+        terminal_chars = ('.', '?', '!', '"', "'")
+        ends_cleanly = end_text.endswith(terminal_chars)
 
-    def validate_boundary(self, start_gid: int, end_gid: int, min_lines: int = 2) -> Tuple[bool, str]:
-        """Pillar 2: Boundary monotonicity and minimum line span."""
-        if start_gid is None or end_gid is None:
-            return False, "Null global boundary IDs."
+        if not ends_cleanly and end_gid + 1 < len(self.df):
+            next_text = str(self.df.iloc[end_gid + 1]["text"]).strip()
+            # If the next line is a speaker prompt, the cut is acceptable
+            if not any(next_text.startswith(spk) for spk in ["Q.", "A.", "MR.", "MS.", "THE WITNESS"]):
+                return False, f"Mid-sentence break detected at GID {end_gid}: '{end_text[-25:]}'"
 
-        if end_gid < start_gid:
-            return False, f"Boundary inversion detected: end_gid ({end_gid}) precedes start_gid ({start_gid})."
+        return True, "PASSED"
 
-        span_length = end_gid - start_gid + 1
-        if span_length < min_lines:
-            return False, f"Span too brief ({span_length} lines); does not represent substantive inquiry."
+    def validate_pillar_3_semantic_support(self, topic: str, start_gid: int, end_gid: int) -> Tuple[bool, str]:
+        """Pillar 3: Independent Semantic Support (Checks lexical alignment with text)."""
+        words = topic.strip().split()
+        if len(words) < 2 or len(words) > 16:
+            return False, f"Topic title length ({len(words)} words) violates legal indexing standard."
 
-        return True, "Passed boundary validation."
+        # Extract dialogue content inside the slice
+        slice_df = self.df.iloc[start_gid : end_gid + 1]
+        slice_corpus = " ".join([str(t).lower() for t in slice_df["text"].tolist()])
 
-    def validate_semantic(self, topic: str) -> Tuple[bool, str]:
-        """Pillar 3: Semantic topic check against taxonomy or structural rules."""
-        if not topic or not isinstance(topic, str):
-            return False, "Topic string is null or empty."
+        # Independent support verification: at least one substantive noun from topic must exist in slice
+        topic_stems = [w.lower().strip(":,.") for w in words if len(w) > 4 and w.lower() not in ["about", "their", "under", "which"]]
+        if topic_stems and not any(stem in slice_corpus for stem in topic_stems):
+            return False, f"Topic '{topic}' has no lexical grounding in cited coordinate slice."
 
-        clean_topic = topic.strip()
-        words = clean_topic.split()
+        return True, "PASSED"
 
-        if len(words) < 2:
-            return False, f"Topic '{clean_topic}' is too short/generic."
-        if len(words) > 16:
-            return False, f"Topic '{clean_topic}' exceeds macro-title length."
+    def validate_pillar_4_evidence_grounding(self, evidence: str, start_gid: int, end_gid: int) -> Tuple[bool, str]:
+        """Pillar 4: Evidence Entailment & Anti-Hallucination Entity Grounding."""
+        if len(evidence.strip()) < 25:
+            return False, "Evidence summary lacks sufficient factual detail (< 25 characters)."
 
-        # Procedural noise filter
-        noise_markers = ["form objection", "off the record", "recess", "reporter question"]
-        if any(marker in clean_topic.lower() for marker in noise_markers):
-            return False, f"Topic '{clean_topic}' contains non-substantive conversational noise."
+        slice_df = self.df.iloc[start_gid : end_gid + 1]
+        slice_text = " ".join([str(t) for t in slice_df["text"].tolist()])
 
-        # Check taxonomy membership if taxonomy is configured
-        if self.canonical_taxonomy:
-            if clean_topic not in self.canonical_taxonomy:
-                # Soft match check
-                matched = any(clean_topic.lower() == t.lower() for t in self.canonical_taxonomy)
-                if not matched:
-                    return False, f"Topic '{clean_topic}' does not conform to defined canonical taxonomy."
+        # Extract capitalized entities and numerical claims from summary
+        evidence_words = evidence.replace("(", " ").replace(")", " ").replace(".", " ").split()
+        named_entities = [
+            w.strip(",;:'\"") for w in evidence_words 
+            if len(w) > 3 and w[0].isupper() and w.lower() not in ["the", "this", "that", "witness", "testifies", "states", "regarding"]
+        ]
 
-        return True, "Passed semantic validation."
+        # Verify that named entities mentioned in evidence summary actually exist in the cited lines
+        missing_entities = [ent for ent in named_entities if ent.lower() not in slice_text.lower()]
+        
+        # If more than 2 specific named entities are completely absent, evidence is ungrounded
+        if len(missing_entities) > 2:
+            return False, f"Evidence cites entities {missing_entities[:3]} not present in coordinate slice."
 
-    def validate_evidence(self, evidence_summary: str) -> Tuple[bool, str]:
-        """Pillar 4: Evidence factual presence and depth check."""
-        if not evidence_summary or not isinstance(evidence_summary, str):
-            return False, "Supporting evidence summary is empty."
+        return True, "PASSED"
 
-        clean_ev = evidence_summary.strip()
-        if len(clean_ev) < 25 or len(clean_ev.split()) < 5:
-            return False, "Supporting evidence summary lacks sufficient substantive detail."
+    def validate_all(self, topic: str, evidence: str, start_res: Dict[str, Any], end_res: Dict[str, Any]) -> Tuple[bool, List[str]]:
+        failures = []
+        p1_ok, p1_msg = self.validate_pillar_1_coordinates(start_res, end_res)
+        if not p1_ok: failures.append(f"Pillar 1: {p1_msg}")
 
-        return True, "Passed evidence validation."
+        s_gid = start_res.get("global_id", -1)
+        e_gid = end_res.get("global_id", -1)
 
-    def execute_fallback(
-        self,
-        candidate: Dict[str, Any],
-        start_res: Dict[str, Any],
-        end_res: Dict[str, Any],
-        failures: List[str]
-    ) -> Dict[str, Any]:
-        """Pillar 5 / Fallback logging: flags failed entries cleanly for audit inspection."""
-        s_page = start_res.get("page", "Unknown")
-        s_line = start_res.get("line", "Unknown")
-        e_page = end_res.get("page", "Unknown")
-        e_line = end_res.get("line", "Unknown")
+        if p1_ok:
+            p2_ok, p2_msg = self.validate_pillar_2_boundary(s_gid, e_gid)
+            if not p2_ok: failures.append(f"Pillar 2: {p2_msg}")
 
-        return {
-            "topic": candidate.get("topic", "Unspecified Inquiry"),
-            "start": f"Page {s_page}, Line {s_line}",
-            "end": f"Page {e_page}, Line {e_line}",
-            "start_gid": start_res.get("global_id", 0),
-            "end_gid": end_res.get("global_id", 0),
-            "supporting_evidence": candidate.get("evidence", "No evidence summary provided."),
-            "validation_status": "FALLBACK_TRIGGERED",
-            "validation_failures": failures,
-            "validation_scores": {
-                "start_score": start_res.get("score", 0.0),
-                "end_score": end_res.get("score", 0.0)
-            },
-            "anchors": {
-                "start_quote": start_res.get("matched_text", ""),
-                "end_quote": end_res.get("matched_text", "")
-            }
-        }
+            p3_ok, p3_msg = self.validate_pillar_3_semantic_support(topic, s_gid, e_gid)
+            if not p3_ok: failures.append(f"Pillar 3: {p3_msg}")
+
+            p4_ok, p4_msg = self.validate_pillar_4_evidence_grounding(evidence, s_gid, e_gid)
+            if not p4_ok: failures.append(f"Pillar 4: {p4_msg}")
+
+        return len(failures) == 0, failures
