@@ -93,12 +93,16 @@ class ProvenanceResolver:
             current += 1
         return current
     def recover_quote_anchor(self, quote: str, search_start_id: int, window: int = 180) -> Dict[str, Any]:
-        """Bounded repair strategy: strips conversational filler and expands window by 15 lines."""
+        """Bounded repair strategy: strips conversational filler words and expands search window."""
         fillers = ["you know", "uh", "um", "i mean", "like", "so"]
         cleaned_quote = quote.lower()
         for f in fillers:
             cleaned_quote = cleaned_quote.replace(f, " ")
         cleaned_quote = " ".join(cleaned_quote.split())
 
-        # Attempt search with adjusted window (+15 lines)
-        return self.resolve_quote(cleaned_quote, search_start_id=max(0, search_start_id - 10), search_window=window + 15)
+        # Attempt search with expanded window (+15 lines)
+        return self.resolve_quote(
+            cleaned_quote, 
+            search_start_id=max(0, search_start_id - 10), 
+            search_window=window + 15
+        )

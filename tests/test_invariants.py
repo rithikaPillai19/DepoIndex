@@ -42,3 +42,14 @@ def test_pillar_4_entity_grounding_rejects_hallucination(sample_transcript_df):
     is_valid, msg = validator.validate_pillar_4_evidence_grounding(ungrounded_evidence, 0, 2)
     assert not is_valid
     assert "not present in coordinate slice" in msg
+def test_revalidation_gate_rejects_mutated_hallucination(sample_transcript_df):
+    """The Revalidation Gate must reject a mutated entry if an invalid summary was merged in."""
+    validator = DepoIndexValidator(sample_transcript_df)
+    # Valid topic and coordinates (GID 0 to 2) but corrupted summary referencing absent agency "CFPB"
+    mutated_bad_evidence = "Witness admits to violating CFPB regulations regarding loan forgiveness."
+    s_res = {"global_id": 0, "score": 100.0}
+    e_res = {"global_id": 2, "score": 100.0}
+    
+    is_valid, failures = validator.validate_all("Purcell Afternoon Greetings", mutated_bad_evidence, s_res, e_res)
+    assert not is_valid
+    assert any("Pillar 4" in f for f in failures)

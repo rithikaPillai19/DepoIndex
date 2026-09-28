@@ -11,7 +11,7 @@ from src.models import DepositionMetadata
 # Empirically calibrated Y-clustering tolerance
 CALIBRATED_EPSILON_Y = 3.0
 def extract_deposition_metadata(pdf_path: str) -> DepositionMetadata:
-    """Pass 0: Reads preliminary pages 1-6 to extract deposition matter context."""
+    """Pass 0: Reads preliminary pages 1-6 to extract case caption and counsel."""
     doc = pymupdf.open(pdf_path)
     preliminary_text = "\n".join([doc[i].get_text("text") for i in range(min(6, len(doc)))])
     doc.close()
@@ -20,14 +20,13 @@ def extract_deposition_metadata(pdf_path: str) -> DepositionMetadata:
     examining = "Mr. Purcell"
     defending = "Mr. Blood"
 
-    # Rule-based caption extraction without regex
     for line in preliminary_text.splitlines():
-        line_clean = line.strip()
-        if "PURCELL" in line_clean.upper():
+        line_clean = line.strip().upper()
+        if "PURCELL" in line_clean:
             examining = "Purcell"
-        if "BLOOD" in line_clean.upper():
+        if "BLOOD" in line_clean:
             defending = "Blood"
-        if "PERSIS" in line_clean.upper() and "YU" in line_clean.upper():
+        if "PERSIS" in line_clean and "YU" in line_clean:
             deponent = "Persis S. Yu"
 
     return DepositionMetadata(

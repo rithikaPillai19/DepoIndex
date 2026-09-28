@@ -1,7 +1,3 @@
-"""
-The Four-Pillar Legal Validator with Independent Entity Grounding.
-Every topic and mutated artifact must pass this gate before final serialization.
-"""
 import pandas as pd
 from typing import Tuple, List, Dict, Any
 
@@ -39,7 +35,6 @@ class DepoIndexValidator:
 
         if not ends_cleanly and end_gid + 1 < len(self.df):
             next_text = str(self.df.iloc[end_gid + 1]["text"]).strip()
-            # If the next line is a speaker prompt, the cut is acceptable
             if not any(next_text.startswith(spk) for spk in ["Q.", "A.", "MR.", "MS.", "THE WITNESS"]):
                 return False, f"Mid-sentence break detected at GID {end_gid}: '{end_text[-25:]}'"
 
@@ -51,12 +46,14 @@ class DepoIndexValidator:
         if len(words) < 2 or len(words) > 16:
             return False, f"Topic title length ({len(words)} words) violates legal indexing standard."
 
-        # Extract dialogue content inside the slice
         slice_df = self.df.iloc[start_gid : end_gid + 1]
         slice_corpus = " ".join([str(t).lower() for t in slice_df["text"].tolist()])
 
-        # Independent support verification: at least one substantive noun from topic must exist in slice
-        topic_stems = [w.lower().strip(":,.") for w in words if len(w) > 4 and w.lower() not in ["about", "their", "under", "which"]]
+        # Independent support verification
+        topic_stems = [
+            w.lower().strip(":,.") for w in words 
+            if len(w) > 3 and w.lower() not in ["about", "their", "under", "which", "with", "from"]
+        ]
         if topic_stems and not any(stem in slice_corpus for stem in topic_stems):
             return False, f"Topic '{topic}' has no lexical grounding in cited coordinate slice."
 
@@ -70,38 +67,45 @@ class DepoIndexValidator:
         slice_df = self.df.iloc[start_gid : end_gid + 1]
         slice_text = " ".join([str(t) for t in slice_df["text"].tolist()])
 
-        # Extract capitalized entities and numerical claims from summary
         evidence_words = evidence.replace("(", " ").replace(")", " ").replace(".", " ").split()
+        
+        # Capture proper nouns and acronyms (len >= 2 with uppercase, e.g., CFPB, TILA, Biden)
         named_entities = [
             w.strip(",;:'\"") for w in evidence_words 
-            if len(w) > 3 and w[0].isupper() and w.lower() not in ["the", "this", "that", "witness", "testifies", "states", "regarding"]
+            if len(w) >= 2 and w[0].isupper() and w.lower() not in [
+                "the", "this", "that", "witness", "testifies", "states", "regarding", 
+                "admits", "concerning", "these", "those"
+            ]
         ]
 
-        # Verify that named entities mentioned in evidence summary actually exist in the cited lines
         missing_entities = [ent for ent in named_entities if ent.lower() not in slice_text.lower()]
         
-        # If more than 2 specific named entities are completely absent, evidence is ungrounded
-        if len(missing_entities) > 2:
-            return False, f"Evidence cites entities {missing_entities[:3]} not present in coordinate slice."
+        # If any specific named entity or agency is completely absent, reject
+        if len(missing_entities) >= 1:
+            return False, f"Evidence cites entity '{missing_entities[0]}' not present in coordinate slice."
 
         return True, "PASSED"
 
     def validate_all(self, topic: str, evidence: str, start_res: Dict[str, Any], end_res: Dict[str, Any]) -> Tuple[bool, List[str]]:
         failures = []
         p1_ok, p1_msg = self.validate_pillar_1_coordinates(start_res, end_res)
-        if not p1_ok: failures.append(f"Pillar 1: {p1_msg}")
+        if not p1_ok: 
+            failures.append(f"Pillar 1: {p1_msg}")
 
         s_gid = start_res.get("global_id", -1)
         e_gid = end_res.get("global_id", -1)
 
-        if p1_ok:
+        if s_gid is not None and e_gid is not None and s_gid >= 0 and e_gid >= 0:
             p2_ok, p2_msg = self.validate_pillar_2_boundary(s_gid, e_gid)
-            if not p2_ok: failures.append(f"Pillar 2: {p2_msg}")
+            if not p2_ok: 
+                failures.append(f"Pillar 2: {p2_msg}")
 
             p3_ok, p3_msg = self.validate_pillar_3_semantic_support(topic, s_gid, e_gid)
-            if not p3_ok: failures.append(f"Pillar 3: {p3_msg}")
+            if not p3_ok: 
+                failures.append(f"Pillar 3: {p3_msg}")
 
             p4_ok, p4_msg = self.validate_pillar_4_evidence_grounding(evidence, s_gid, e_gid)
-            if not p4_ok: failures.append(f"Pillar 4: {p4_msg}")
+            if not p4_ok: 
+                failures.append(f"Pillar 4: {p4_msg}")
 
         return len(failures) == 0, failures
