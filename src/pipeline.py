@@ -11,8 +11,9 @@ from typing import List, Dict, Any
 
 from src.models import DepositionMetadata, TopicIndexEntry
 from src.parser import parse_deposition_pdf, extract_deposition_metadata
-from src.indexer import build_document_page_index, route_topics_from_index
-from src.segmenter import extract_macro_topics
+from src.indexer import build_document_page_index
+from src.router import route_topics_from_index
+from src.segmenter import extract_macro_topics_from_slice
 from src.resolver import ProvenanceResolver
 from src.validator import DepoIndexValidator
 
@@ -53,7 +54,7 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
     validated_candidates: List[TopicIndexEntry] = []
     quarantine_records: List[Dict[str, Any]] = []
 
-    for idx, route in enumerate(candidate_routes):
+    for route in candidate_routes:
         p_start = max(metadata.start_page, int(route.start_page))
         p_end = min(metadata.end_page, int(route.end_page))
         chunk_slice = df[(df["page"] >= p_start) & (df["page"] <= p_end)]
@@ -61,19 +62,16 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
         if chunk_slice.empty:
             continue
 
-        chunk_text = "\n".join([
-            f"Page {int(r['page'])} Line {int(r['line'])}: {r['text']}" 
-            for _, r in chunk_slice.iterrows()
-        ])
-        
-        extracted_spans = extract_macro_topics(chunk_text)
-        time.sleep(0.3)
+        extracted_spans = extract_macro_topics_from_slice(
+            chunk_df=chunk_slice,
+            topic_name=route.topic,
+            theme_summary=route.expected_theme
+        )
 
         for span in extracted_spans:
             s_gid = int(chunk_slice.iloc[0]["global_id"])
             w_size = len(chunk_slice) + 15
 
-            # Initial Resolution Attempt
             start_res = resolver.resolve_quote(span.start_quote, search_start_id=s_gid, search_window=w_size)
             end_res = resolver.resolve_quote(
                 span.end_quote, 
@@ -95,14 +93,12 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
                     audit_trail=[{"stage": "INITIAL_RESOLUTION", "result": "PASS"}]
                 ))
             else:
-                # Active Bounded Recovery Strategy: Strip fillers & expand window
                 rep_start = resolver.recover_quote_anchor(span.start_quote, s_gid, w_size)
                 rep_end = resolver.recover_quote_anchor(
                     span.end_quote, 
                     int(rep_start.get("global_id", s_gid)), 
                     w_size
                 )
-                
                 rep_valid, rep_failures = validator.validate_all(span.topic, span.evidence_summary, rep_start, rep_end)
 
                 if rep_valid:
@@ -114,22 +110,14 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
                         end_gid=rep_end["global_id"],
                         supporting_evidence=span.evidence_summary,
                         validation_status="REPAIRED_VIA_BOUNDED_FALLBACK",
-                        audit_trail=[{
-                            "stage": "ACTIVE_RECOVERY", 
-                            "strategy": "FILLER_STRIP_WINDOW_EXPANSION", 
-                            "recovered_failures": failures
-                        }]
+                        audit_trail=[{"stage": "ACTIVE_RECOVERY", "strategy": "BOUNDED_HEALING", "result": "PASS"}]
                     ))
                 else:
-                    # Fail-Closed: Quarantine the item with forensic error logs
                     quarantine_records.append({
-                        "audit_id": f"quarantine-init-{len(quarantine_records)+1}",
+                        "audit_id": f"quarantine-{len(quarantine_records)+1}",
                         "topic": span.topic,
                         "evidence": span.evidence_summary,
-                        "initial_failures": failures,
-                        "recovery_failures": rep_failures,
-                        "start_quote": span.start_quote,
-                        "end_quote": span.end_quote,
+                        "failures": rep_failures,
                         "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
                     })
 
@@ -140,13 +128,11 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
     validated_candidates.sort(key=lambda x: x.start_gid)
     mutated_index: List[TopicIndexEntry] = []
 
-    # Enforce Start Snapping (Avoid blanks) & Sentence Boundary Closure (Avoid mid-sentence splits)
     for entry in validated_candidates:
-        new_start_gid = resolver.snap_to_speaker_start(entry.start_gid)
-        new_end_gid = resolver.snap_to_sentence_end(entry.end_gid)
+        entry.start_gid = resolver.snap_to_speaker_start(entry.start_gid)
+        entry.end_gid = resolver.snap_to_sentence_end(entry.end_gid)
+        entry.end_gid = max(entry.start_gid, entry.end_gid)
 
-        entry.start_gid = new_start_gid
-        entry.end_gid = max(new_start_gid, new_end_gid)
         s_row = df.iloc[entry.start_gid]
         e_row = df.iloc[entry.end_gid]
         entry.start = f"Page {int(s_row['page'])}, Line {int(s_row['line'])}"
@@ -158,7 +144,7 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
 
         prev = mutated_index[-1]
 
-        # Mutator A: Merge identical adjacent topics across overlapping windows
+        # Duplicate merge
         if entry.topic.strip().lower() == prev.topic.strip().lower():
             if entry.start_gid <= prev.end_gid + 25:
                 prev.end_gid = max(prev.end_gid, entry.end_gid)
@@ -166,18 +152,16 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
                 prev.end = f"Page {int(pe_row['page'])}, Line {int(pe_row['line'])}"
                 if entry.supporting_evidence not in prev.supporting_evidence:
                     prev.supporting_evidence += " " + entry.supporting_evidence
-                prev.audit_trail.append({"stage": "DOWNSTREAM_MERGE", "merged_topic": entry.topic})
                 continue
 
-        # Mutator B: Seam Bridging (Absorb dead zones <= 5 lines)
+        # Seam bridge (absorb <= 5 line dead zones)
         gap = entry.start_gid - prev.end_gid - 1
         if 0 < gap <= 5:
             prev.end_gid = entry.start_gid - 1
             pe_row = df.iloc[prev.end_gid]
             prev.end = f"Page {int(pe_row['page'])}, Line {int(pe_row['line'])}"
-            prev.audit_trail.append({"stage": "SEAM_BRIDGE", "absorbed_line_gap": gap})
 
-        # Mutator C: Monotonic Ordering / Prevent Coordinate Inversions
+        # Inversion prevention
         if entry.start_gid <= prev.end_gid:
             entry.start_gid = prev.end_gid + 1
             if entry.start_gid >= len(df):
@@ -187,7 +171,7 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
 
         mutated_index.append(entry)
 
-    # Invariant: Strict Deposition Conclusion Anchor (Page 88:17)
+    # Invariant: Terminal snap to 88:17
     if mutated_index:
         last_idx = len(df) - 1
         last_row = df.iloc[last_idx]
@@ -214,26 +198,19 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
             final_verified_entries.append(item.model_dump())
         else:
             quarantine_records.append({
-                "audit_id": f"quarantine-reval-{len(quarantine_records)+1}",
                 "stage": "REVALIDATION_GATE_FAILURE",
                 "topic": item.topic,
-                "reasons": reval_failures,
-                "mutated_state": item.model_dump(),
-                "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+                "reasons": reval_failures
             })
 
-    # Step 6: Export Deliverables & Audits
+    # Step 6: Export Production Deliverables
     os.makedirs("output", exist_ok=True)
-    
-    # Export verified topic index JSON
     with open("output/topic_index.json", "w", encoding="utf-8") as f:
         json.dump(final_verified_entries, f, indent=2)
 
-    # Export fail-closed quarantine audit log
     with open("output/quarantine_audit.json", "w", encoding="utf-8") as f:
         json.dump(quarantine_records, f, indent=2)
 
-    # Export court-compliant CSV
     df_export = pd.DataFrame([
         {
             "Topic": t["topic"],
@@ -245,24 +222,6 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
     ])
     df_export.to_csv("Persis_Yu_Topic_Index.csv", index=False)
     df_export.to_csv("output/Persis_Yu_Topic_Index.csv", index=False)
-
-    # Export Markdown summary
-    md_lines = [
-        f"# Deposition Topic Index: {metadata.matter_name}\n",
-        f"**Deponent:** {metadata.deponent_name} ({metadata.deponent_role}) | "
-        f"**Examining Counsel:** {metadata.examining_attorney} | "
-        f"**Defending Counsel:** {metadata.defending_attorney}\n",
-        f"**Coverage:** {metadata.start_page}:11 to {metadata.end_page}:17 | "
-        f"**Total Verified Substantive Topics:** {len(final_verified_entries)}\n",
-        "| Topic | Start Coordinate | End Coordinate | Status | Supporting Evidence |",
-        "| :--- | :--- | :--- | :--- | :--- |"
-    ]
-    for e in final_verified_entries:
-        clean_ev = str(e["supporting_evidence"]).replace("|", "-").replace("\n", " ")
-        md_lines.append(f"| **{e['topic']}** | {e['start']} | {e['end']} | `VERIFIED` | {clean_ev} |")
-
-    with open("output/topic_index.md", "w", encoding="utf-8") as f:
-        f.write("\n".join(md_lines))
 
     print(f"\n✓ Complete: {len(final_verified_entries)} topics passed all 4 pillars and final revalidation.")
     print(f"✓ Audited & Quarantined: {len(quarantine_records)} items recorded in output/quarantine_audit.json.")

@@ -1,5 +1,5 @@
 """
-Provenance Resolver with Empirical Calibration Threshold (82.0) and Dialogue Snapping.
+Provenance Resolver with Empirical Calibration Threshold (82.0) and Boundary Snapping.
 """
 import pandas as pd
 from rapidfuzz import fuzz
@@ -13,7 +13,7 @@ class ProvenanceResolver:
         self.df = df
         self.normalized_lines = [str(t).lower().strip() for t in self.df["text"].tolist()]
 
-    def resolve_quote(self, quote: str, search_start_id: int = 0, search_window: int = 160) -> Dict[str, Any]:
+    def resolve_quote(self, quote: str, search_start_id: int = 0, search_window: int = 180) -> Dict[str, Any]:
         if not quote or len(quote.strip()) < 4:
             return {"global_id": None, "page": None, "line": None, "score": 0.0}
 
@@ -34,7 +34,7 @@ class ProvenanceResolver:
                     "score": 100.0
                 }
 
-        # 2. Multi-line Slotted Fuzzy Search with Empirical Thresholding
+        # 2. Multi-line Slotted Fuzzy Search with Empirical Threshold (82.0)
         best_score = 0.0
         best_gid = None
 
@@ -58,18 +58,30 @@ class ProvenanceResolver:
 
         return {"global_id": None, "page": None, "line": None, "score": float(best_score)}
 
+    def recover_quote_anchor(self, quote: str, search_start_id: int, window: int = 200) -> Dict[str, Any]:
+        """Bounded repair strategy: strips conversational filler and expands window."""
+        fillers = ["you know", "uh", "um", "i mean", "like", "so"]
+        cleaned_quote = quote.lower()
+        for f in fillers:
+            cleaned_quote = cleaned_quote.replace(f, " ")
+        cleaned_quote = " ".join(cleaned_quote.split())
+
+        return self.resolve_quote(
+            cleaned_quote, 
+            search_start_id=max(0, search_start_id - 15), 
+            search_window=window + 30
+        )
+
     def snap_to_speaker_start(self, gid: int) -> int:
-        """Requirement 4: Anchors start to valid initiating speaker line."""
+        """Snaps start coordinates to initiating speaker line; skips blanks."""
         max_idx = len(self.df) - 1
         current = min(max(0, gid), max_idx)
 
-        # Look back up to 3 lines for an initiating question tag
         for back_idx in range(current, max(0, current - 3), -1):
             txt = str(self.df.iloc[back_idx]["text"]).strip()
             if any(txt.startswith(pfx) for pfx in ["Q.", "BY MR.", "BY MS."]):
                 return back_idx
 
-        # Otherwise ensure line is substantive
         while current < max_idx:
             txt = str(self.df.iloc[current]["text"]).strip()
             if len(txt) > 3 and not txt.replace("-", "").strip() == "":
@@ -78,7 +90,7 @@ class ProvenanceResolver:
         return current
 
     def snap_to_sentence_end(self, gid: int) -> int:
-        """Requirement 4: Forbids mid-sentence splits (e.g. Page 52 Lines 24-25)."""
+        """Prevents mid-sentence breaks by enclosing terminal punctuation."""
         max_idx = len(self.df) - 1
         current = min(max(0, gid), max_idx)
 
@@ -92,17 +104,3 @@ class ProvenanceResolver:
                     return current
             current += 1
         return current
-    def recover_quote_anchor(self, quote: str, search_start_id: int, window: int = 180) -> Dict[str, Any]:
-        """Bounded repair strategy: strips conversational filler words and expands search window."""
-        fillers = ["you know", "uh", "um", "i mean", "like", "so"]
-        cleaned_quote = quote.lower()
-        for f in fillers:
-            cleaned_quote = cleaned_quote.replace(f, " ")
-        cleaned_quote = " ".join(cleaned_quote.split())
-
-        # Attempt search with expanded window (+15 lines)
-        return self.resolve_quote(
-            cleaned_quote, 
-            search_start_id=max(0, search_start_id - 10), 
-            search_window=window + 15
-        )

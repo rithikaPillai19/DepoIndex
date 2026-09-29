@@ -1,267 +1,102 @@
 [
   {
-    "audit_id": "quarantine-init-1",
-    "topic": "Deposition Preliminaries and Admonitions",
-    "evidence": "Counsel establishes the ground rules for the deposition, confirms the witness understands the penalty of perjury, and verifies the witness is fit to provide testimony.",
-    "initial_failures": [
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
+    "audit_id": "quarantine-1",
+    "topic": "Preliminary Matters And Scope Of Testimony",
+    "evidence": "Introduction of counsel, witness admonitions, and establishing the scope of the expert report and professional background.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 120: ' of student debt from our'"
     ],
-    "recovery_failures": [
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "start_quote": "Good afternoon, Ms. Yu.",
-    "end_quote": "There -- there is nothing that prevents me from giving my best testimony today.",
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   },
   {
-    "audit_id": "quarantine-init-2",
-    "topic": "Expert Witness Scope and Qualifications",
-    "evidence": "The witness confirms her role as an expert, outlines her intended testimony regarding ITT Institute practices and PEAKS loan defects, and begins a review of her professional background.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 117: 'er Protection Center is a'"
+    "audit_id": "quarantine-2",
+    "topic": "Policy Advocacy And Student Loan Debt Framework",
+    "evidence": "Discussion of student loan debt cancellation definitions, income-driven repayment rules, and legislative efforts regarding loan taxation.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 245: 'eir contract with federal'"
     ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 117: 'er Protection Center is a'"
-    ],
-    "start_quote": "So you had been retained as an expert in that -- in this case; correct?",
-    "end_quote": "The Student Borrower Protection Center is a National 501(c)(3) organization.",
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   },
   {
-    "audit_id": "quarantine-init-3",
-    "topic": "SBPB Policy Agenda and Advocacy Objectives",
-    "evidence": "The witness outlines the organization's core advocacy areas, including protecting the student loan safety net, addressing racial equity in the marketplace, and combating predatory lending practices.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 141: ' their students and their'"
+    "audit_id": "quarantine-3",
+    "topic": "Servicing Oversight And Regulatory Experience",
+    "evidence": "Examination of student loan servicing standards, Congressional testimony, and the mechanics of loan portfolio transfers between entities like Sallie Mae and Navient.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 370: 'to-day operation of these'",
+      "Pillar 4: Evidence cites entity 'Congressional' not present in coordinate slice."
     ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 141: ' their students and their'"
-    ],
-    "start_quote": "Bullet Point 1 sort of says a little bit about",
-    "end_quote": "how their practices result in their students and their students' families going into debt.",
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   },
   {
-    "audit_id": "quarantine-init-4",
-    "topic": "Student Loan Debt Cancellation Campaign",
-    "evidence": "The witness defines the organization's campaign for debt cancellation as a response to the COVID-19 pandemic and the specific policy debate surrounding President Biden's $20,000 loan forgiveness program.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 145: 'gn to cancel student loan'",
-      "Pillar 4: Evidence cites entity 'COVID-19' not present in coordinate slice."
+    "audit_id": "quarantine-4",
+    "topic": "Evaluation of ITT Technical Institute Outcomes",
+    "evidence": "Analysis of the witness's expertise regarding for-profit education, specifically the value of ITT diplomas, student debt outcomes, and statistical performance compared to non-attendees.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 695: 't across the field ITT is'"
     ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 145: 'gn to cancel student loan'",
-      "Pillar 4: Evidence cites entity 'COVID-19' not present in coordinate slice."
-    ],
-    "start_quote": "The second bullet point states that it is a",
-    "end_quote": "national leader in the campaign to cancel student loan debt.",
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   },
   {
-    "audit_id": "quarantine-init-5",
-    "topic": "Regulatory Advocacy and Legislative Initiatives",
-    "evidence": "The witness describes the organization's process of analyzing the Higher Education Act and consumer laws to influence federal and state regulators, citing specific successes in income-driven repayment rules and negotiated rulemaking at the Department of Education.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 220: 'well, temporarily, during'"
+    "audit_id": "quarantine-5",
+    "topic": "Allegations of Misrepresentation Regarding ITT Educational Outcomes",
+    "evidence": "Discussion of ITT's alleged misrepresentation of degree value, job placement rates, and salary expectations for graduates.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 795: 'ITT. So I suppose that --'"
     ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 220: 'well, temporarily, during'"
-    ],
-    "start_quote": "The third bullet point talks about leading",
-    "end_quote": "temporarily, during",
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   },
   {
-    "audit_id": "quarantine-init-6",
-    "topic": "Statistical Analysis and Definititon of Outliers",
-    "evidence": "Counsel and the witness debate whether students who experienced significant post-graduation salary increases should be considered statistical outliers, with the witness maintaining that aggregate market-wide data, retention rates, and default rates are more instructive than individual anecdotes.",
-    "initial_failures": [
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "recovery_failures": [
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "start_quote": "Q One --",
-    "end_quote": "Q Okay. How about if there was somebody who, prior",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-7",
-    "topic": "Vervent Defendants' Awareness of Misrepresentations",
-    "evidence": "The witness testifies that while she is not aware of Vervent representatives making direct misrepresentations, they would have been aware of ITT's widespread misrepresentations regarding education quality, job placement, and financing based on public reports and CFPB investigations when attempting to collect on loans.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 749: 'let's go ahead and take a'",
-      "Pillar 4: Evidence cites entity 'CFPB' not present in coordinate slice."
-    ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 749: 'let's go ahead and take a'",
-      "Pillar 4: Evidence cites entity 'CFPB' not present in coordinate slice."
-    ],
-    "start_quote": "BY MR. PURCELL:",
-    "end_quote": "MR. PURCELL: Let's -- let's go ahead and take a break now.",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-8",
-    "topic": "ITT Graduate Starting Salaries and Statistical Outliers",
-    "evidence": "Counsel questions the witness regarding whether an ITT graduate jumping from $10-$15 an hour to an $80,000 starting salary is an outlier, with the witness confirming it is atypical based on available data.",
-    "initial_failures": [
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "recovery_failures": [
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "start_quote": "between 10 and $15 an hour; went to ITT; got a degree;",
-    "end_quote": "Based upon the data that is available, that that is not the typical experience of an ITT graduate.",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-9",
-    "topic": "Vervent Defendants' Involvement with PEAKS Loans Origination",
-    "evidence": "Counsel examines the timeline of PEAKS loans origination around 2010-2011 and confirms that the Vervent defendants did not become involved with the portfolio or loan origination until late 2011 after the loans had been formed.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 894: 's took over the servicing'",
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 894: 's took over the servicing'",
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "start_quote": "Another big-picture issue here.",
-    "end_quote": "Are you aware of any loans that originated after the Vervent defendants took over the servicing (unintelligible).",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-10",
-    "topic": "Enforceability and Legal Status of PEAKS Loans",
-    "evidence": "The witness discusses the lack of a formal prior legal determination of loan enforceability before the 2020 CFPB settlement, noting that while she is not offering a formal legal opinion on enforceability, her review of the PEAKS loan documents revealed material defects such as missing approval documents and final disclosures.",
-    "initial_failures": [
-      "Pillar 4: Evidence cites entity 'CFPB' not present in coordinate slice."
-    ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1044: 'ot the PEAKS loans became'",
-      "Pillar 4: Evidence cites entity 'CFPB' not present in coordinate slice."
-    ],
-    "start_quote": "Q Okay. Thank you. You've reviewed a lot of material about the PEAKS loans; is that correct?",
-    "end_quote": "Q Okay. So to try to unpack that a little bit. So you're telling me you do not currently have an opinion about whether or not the PEAKS loans became unenforceable at some time; is that correct?",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-11",
+    "audit_id": "quarantine-6",
     "topic": "Validity and Enforceability of PEAKS Loans",
-    "evidence": "The witness opines that the PEAKS loans have serious documentation defects, lacking crucial Truth in Lending Act disclosures, promissory notes, and borrower signatures, which brings into question whether valid loans were ever originated.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1096: 's loan exists and whether'"
+    "evidence": "Examination regarding the witness's expert opinion on the legal validity and enforceability of the PEAKS loan portfolio.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1095: 'documents are critical to'"
     ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1096: 's loan exists and whether'"
-    ],
-    "start_quote": "Is your opinion -- is it your opinion that the",
-    "end_quote": "All of those documents are critical to understanding whether or not this loan exists and whether or not that -- that loan is enforceable.",
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   },
   {
-    "audit_id": "quarantine-init-12",
-    "topic": "Servicer Knowledge and Documentation of Loan Terms",
-    "evidence": "The witness testifies that while the servicer Vervent may have imported a spreadsheet showing interest rates from a prior servicer, they lacked the actual underlying loan documents and TILA disclosures needed to definitively prove the terms or existence of the loans.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1202: 'borrower were to ask, you'",
-      "Pillar 4: Evidence cites entity 'TILA' not present in coordinate slice."
+    "audit_id": "quarantine-7",
+    "topic": "Disclosure Requirements and Loan Origination",
+    "evidence": "Discussion of borrower disclosure rights, the impact of missing disclosures on loan cancellation, and post-origination events.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1345: 'otal cost of credit. That'"
     ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1205: 'hat Vervent does not have'",
-      "Pillar 4: Evidence cites entity 'TILA' not present in coordinate slice."
-    ],
-    "start_quote": "We can keep doing this forever.",
-    "end_quote": "However, you know, if a borrower were to ask, you know, for their loan documentation, for proof of what their interest rate, for example, are, but that, you know, for proof that a loan exists, that Vervent does not have access to those documents.",
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   },
   {
-    "audit_id": "quarantine-init-13",
-    "topic": "Borrower Right to Cancel Unfulfilled Disclosure Loans",
-    "evidence": "The witness discusses that if required final disclosures are never provided to a borrower, the borrower retains an indefinite right to cancel the loan until three days after they finally receive the disclosure.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1320: ' is less than that, but I'"
+    "audit_id": "quarantine-8",
+    "topic": "Historical Investigations into ITT and PEAKS Loans",
+    "evidence": "Examination of the witness's knowledge regarding 2014 state and federal investigations into ITT and the PEAKS loan program.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1794: 'k we can have evidence of'"
     ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1320: ' is less than that, but I'"
-    ],
-    "start_quote": "Do you believe that there was a wide-scale",
-    "end_quote": "I would believe that it is less than that, but I",
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   },
   {
-    "audit_id": "quarantine-init-14",
-    "topic": "ITT's Institutional Practices and Government Oversight",
-    "evidence": "Examination focuses on public reports of ITT's abusive recruiting practices, whether government student loan funding implied an endorsement of the school, and the extent of industry knowledge regarding ITT's fraudulent activities.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1492: 've on to the -- you start'",
-      "Pillar 4: Evidence cites entity 'Examination' not present in coordinate slice."
-    ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1492: 've on to the -- you start'",
-      "Pillar 4: Evidence cites entity 'Examination' not present in coordinate slice."
-    ],
-    "start_quote": "And that CFPB settlement, did you read it?",
-    "end_quote": "Q Okay. Now we'll move on to the -- you start",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-15",
-    "topic": "Regulatory Investigations and Findings Regarding Vervent Defendants",
-    "evidence": "The witness is questioned regarding various regulatory investigations\u2014including the CFPB, SEC, state attorneys general, and the Department of Education\u2014concerning ITT and the PEAKS loans, testifying that these inquiries primarily targeted ITT's origination and practices rather than finding any public wrongdoing by the servicer Vervent defendants.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1719: 'n, we're a little past an'",
-      "Pillar 4: Evidence cites entity 'Education\u2014concerning' not present in coordinate slice."
-    ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1719: 'n, we're a little past an'",
-      "Pillar 4: Evidence cites entity 'Education\u2014concerning' not present in coordinate slice."
-    ],
-    "start_quote": "Q You reference a 2012",
-    "end_quote": "MR. BLOOD: And John, we're a little past an\nPage 75 Line 25: hour.",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-16",
-    "topic": "Vervent's Servicing Obligations and Conduct",
-    "evidence": "The witness asserts that Vervent chose to continue collecting on PEAKS loans despite being aware of information regarding their enforceability, while also acknowledging the standard functions of a loan servicer.",
-    "initial_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1845: 'e other functions include'"
-    ],
-    "recovery_failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1845: 'e other functions include'"
-    ],
-    "start_quote": "Okay. Are -- are you aware of any investigation that in your opinion meant that Vervent had to stop servicing the PEAKS loans?",
-    "end_quote": "Yeah, some of the other functions include",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-17",
-    "topic": "Timing and Determination of PEAKS Loan Unenforceability",
-    "evidence": "Counsel and the witness address when the PEAKS loans became legally unenforceable, noting that no prior judicial determination existed until the CFPB settlement in the fall of 2020 resulted in loan cancellations, and the witness is unaware of any post-settlement violations by Vervent defendants.",
-    "initial_failures": [
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "recovery_failures": [
-      "Pillar 4: Evidence cites entity 'Counsel' not present in coordinate slice."
-    ],
-    "start_quote": "When was the PEAKS loans deemed unenforceable as",
-    "end_quote": "That's correct.",
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-init-18",
-    "topic": "Servicing Conduct and Review of Investigations",
-    "evidence": "The witness states she has no opinion on what would have happened if Vervent had refused to service the loans, and does not recall any specific issues regarding Vervent's actual servicing conduct noted in the reviewed investigations.",
-    "initial_failures": [
+    "audit_id": "quarantine-9",
+    "topic": "Vervent's Continued Collection and Contractual Obligations",
+    "evidence": "Discussion of Vervent's decision to continue loan collections and their operational role in managing borrower data and payments.",
+    "failures": [
       "Pillar 4: Evidence cites entity 'Vervent's' not present in coordinate slice."
     ],
-    "recovery_failures": [
-      "Pillar 4: Evidence cites entity 'Vervent's' not present in coordinate slice."
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-10",
+    "topic": "Enforceability of PEAKS Loans",
+    "evidence": "Testimony regarding the timeline of when the PEAKS loans were deemed unenforceable and the lack of prior governmental determinations.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 1995: 'ctivities that could have'"
     ],
-    "start_quote": "And do you have any opinion about what would've",
-    "end_quote": "I do not recall. I -- yeah, I don't recall.",
+    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+  },
+  {
+    "audit_id": "quarantine-11",
+    "topic": "Enforceability and Scope of PEAKS Loans",
+    "evidence": "Examination regarding the legal enforceability of PEAKS loans and the witness's expert report scope.",
+    "failures": [
+      "Pillar 2: Mid-sentence break detected at GID 2037: ' PERJURY ON THE FOLLOWING'"
+    ],
     "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
   }
 ]
