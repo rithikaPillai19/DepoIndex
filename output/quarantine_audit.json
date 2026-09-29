@@ -1,102 +1,27 @@
 [
   {
-    "audit_id": "quarantine-1",
-    "topic": "Preliminary Matters And Scope Of Testimony",
-    "evidence": "Introduction of counsel, witness admonitions, and establishing the scope of the expert report and professional background.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 120: ' of student debt from our'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+    "stage": "REVALIDATION_GATE_FAILURE",
+    "topic": "Loan Documentation and Enforceability Opinions",
+    "reasons": [
+      "Pillar 1: Coordinate inversion: Start GID 1021 > End GID 1013.",
+      "Pillar 3: Topic 'Loan Documentation and Enforceability Opinions' has no lexical grounding in cited coordinate slice.",
+      "Pillar 4: Evidence cites entity 'PEAKS' not present in coordinate slice."
+    ]
   },
   {
-    "audit_id": "quarantine-2",
-    "topic": "Policy Advocacy And Student Loan Debt Framework",
-    "evidence": "Discussion of student loan debt cancellation definitions, income-driven repayment rules, and legislative efforts regarding loan taxation.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 245: 'eir contract with federal'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+    "stage": "REVALIDATION_GATE_FAILURE",
+    "topic": "Regulatory Investigations and ITT Settlements",
+    "reasons": [
+      "Pillar 4: Evidence cites entity 'CFPB' not present in coordinate slice."
+    ]
   },
   {
-    "audit_id": "quarantine-3",
-    "topic": "Servicing Oversight And Regulatory Experience",
-    "evidence": "Examination of student loan servicing standards, Congressional testimony, and the mechanics of loan portfolio transfers between entities like Sallie Mae and Navient.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 370: 'to-day operation of these'",
-      "Pillar 4: Evidence cites entity 'Congressional' not present in coordinate slice."
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-4",
-    "topic": "Evaluation of ITT Technical Institute Outcomes",
-    "evidence": "Analysis of the witness's expertise regarding for-profit education, specifically the value of ITT diplomas, student debt outcomes, and statistical performance compared to non-attendees.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 695: 't across the field ITT is'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-5",
-    "topic": "Allegations of Misrepresentation Regarding ITT Educational Outcomes",
-    "evidence": "Discussion of ITT's alleged misrepresentation of degree value, job placement rates, and salary expectations for graduates.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 795: 'ITT. So I suppose that --'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-6",
-    "topic": "Validity and Enforceability of PEAKS Loans",
-    "evidence": "Examination regarding the witness's expert opinion on the legal validity and enforceability of the PEAKS loan portfolio.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1095: 'documents are critical to'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-7",
-    "topic": "Disclosure Requirements and Loan Origination",
-    "evidence": "Discussion of borrower disclosure rights, the impact of missing disclosures on loan cancellation, and post-origination events.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1345: 'otal cost of credit. That'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-8",
-    "topic": "Historical Investigations into ITT and PEAKS Loans",
-    "evidence": "Examination of the witness's knowledge regarding 2014 state and federal investigations into ITT and the PEAKS loan program.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1794: 'k we can have evidence of'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-9",
-    "topic": "Vervent's Continued Collection and Contractual Obligations",
-    "evidence": "Discussion of Vervent's decision to continue loan collections and their operational role in managing borrower data and payments.",
-    "failures": [
-      "Pillar 4: Evidence cites entity 'Vervent's' not present in coordinate slice."
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-10",
-    "topic": "Enforceability of PEAKS Loans",
-    "evidence": "Testimony regarding the timeline of when the PEAKS loans were deemed unenforceable and the lack of prior governmental determinations.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 1995: 'ctivities that could have'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
-  },
-  {
-    "audit_id": "quarantine-11",
-    "topic": "Enforceability and Scope of PEAKS Loans",
-    "evidence": "Examination regarding the legal enforceability of PEAKS loans and the witness's expert report scope.",
-    "failures": [
-      "Pillar 2: Mid-sentence break detected at GID 2037: ' PERJURY ON THE FOLLOWING'"
-    ],
-    "final_status": "QUARANTINED_FOR_HUMAN_REVIEW"
+    "stage": "REVALIDATION_GATE_FAILURE",
+    "topic": "Timing And Legal Basis Of PEAKS Loan Unenforceability",
+    "reasons": [
+      "Pillar 1: Coordinate inversion: Start GID 1998 > End GID 1997.",
+      "Pillar 3: Topic 'Timing And Legal Basis Of PEAKS Loan Unenforceability' has no lexical grounding in cited coordinate slice.",
+      "Pillar 4: Evidence cites entity 'PEAKS' not present in coordinate slice."
+    ]
   }
 ]

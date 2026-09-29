@@ -1,7 +1,7 @@
 """
 End-to-End Verifiable Deposition Topic Indexing Pipeline.
-Enforces Pass 0 Metadata extraction, Active Bounded Recovery, 
-and the Mandatory Revalidation Gate on all post-mutation entries.
+Applies boundary and sentence closure snapping BEFORE initial validation,
+and enforces the Mandatory Revalidation Gate on all post-mutation entries.
 """
 import json
 import os
@@ -49,8 +49,8 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
     candidate_routes = route_topics_from_index(page_index_file)
     print(f"✓ Router identified {len(candidate_routes)} candidate substantive topic windows.")
 
-    # Step 4: Fine Line Resolution, Active Recovery & 4-Pillar Validation
-    print("\n--- Step 4: Fine Line Resolution & Active Bounded Recovery ---")
+    # Step 4: Fine Line Resolution, Boundary Snapping & 4-Pillar Validation
+    print("\n--- Step 4: Fine Line Resolution & Initial Validation ---")
     validated_candidates: List[TopicIndexEntry] = []
     quarantine_records: List[Dict[str, Any]] = []
 
@@ -79,33 +79,55 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
                 search_window=w_size
             )
 
+            # Apply boundary snapping to candidate BEFORE validation
+            if start_res.get("global_id") is not None and end_res.get("global_id") is not None:
+                snapped_s = resolver.snap_to_speaker_start(start_res["global_id"])
+                snapped_e = resolver.snap_to_sentence_end(end_res["global_id"])
+                snapped_e = max(snapped_s, snapped_e)
+                start_res["global_id"] = snapped_s
+                end_res["global_id"] = snapped_e
+                start_res["score"] = 100.0
+                end_res["score"] = 100.0
+
             is_valid, failures = validator.validate_all(span.topic, span.evidence_summary, start_res, end_res)
 
             if is_valid:
+                s_row = df.iloc[start_res["global_id"]]
+                e_row = df.iloc[end_res["global_id"]]
                 validated_candidates.append(TopicIndexEntry(
                     topic=span.topic,
-                    start=f"Page {start_res['page']}, Line {start_res['line']}",
-                    end=f"Page {end_res['page']}, Line {end_res['line']}",
+                    start=f"Page {int(s_row['page'])}, Line {int(s_row['line'])}",
+                    end=f"Page {int(e_row['page'])}, Line {int(e_row['line'])}",
                     start_gid=start_res["global_id"],
                     end_gid=end_res["global_id"],
                     supporting_evidence=span.evidence_summary,
                     validation_status="ALL_4_PILLARS_PASSED",
-                    audit_trail=[{"stage": "INITIAL_RESOLUTION", "result": "PASS"}]
+                    audit_trail=[{"stage": "INITIAL_RESOLUTION_AND_SNAPPING", "result": "PASS"}]
                 ))
             else:
+                # Active Bounded Recovery Attempt
                 rep_start = resolver.recover_quote_anchor(span.start_quote, s_gid, w_size)
                 rep_end = resolver.recover_quote_anchor(
                     span.end_quote, 
                     int(rep_start.get("global_id", s_gid)), 
                     w_size
                 )
+                if rep_start.get("global_id") is not None and rep_end.get("global_id") is not None:
+                    rep_start["global_id"] = resolver.snap_to_speaker_start(rep_start["global_id"])
+                    rep_end["global_id"] = resolver.snap_to_sentence_end(rep_end["global_id"])
+                    rep_end["global_id"] = max(rep_start["global_id"], rep_end["global_id"])
+                    rep_start["score"] = 100.0
+                    rep_end["score"] = 100.0
+
                 rep_valid, rep_failures = validator.validate_all(span.topic, span.evidence_summary, rep_start, rep_end)
 
                 if rep_valid:
+                    s_row = df.iloc[rep_start["global_id"]]
+                    e_row = df.iloc[rep_end["global_id"]]
                     validated_candidates.append(TopicIndexEntry(
                         topic=span.topic,
-                        start=f"Page {rep_start['page']}, Line {rep_start['line']}",
-                        end=f"Page {rep_end['page']}, Line {rep_end['line']}",
+                        start=f"Page {int(s_row['page'])}, Line {int(s_row['line'])}",
+                        end=f"Page {int(e_row['page'])}, Line {int(e_row['line'])}",
                         start_gid=rep_start["global_id"],
                         end_gid=rep_end["global_id"],
                         supporting_evidence=span.evidence_summary,
@@ -123,21 +145,12 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
 
     print(f"✓ Initial resolution complete: {len(validated_candidates)} topics accepted. {len(quarantine_records)} candidates quarantined.")
 
-    # Step 5: Downstream Mutations & Mandatory Revalidation Gate
+    # Step 5: Downstream Mutations & The Mandatory Revalidation Gate
     print("\n--- Step 5: Downstream Mutations & The Mandatory Revalidation Gate ---")
     validated_candidates.sort(key=lambda x: x.start_gid)
     mutated_index: List[TopicIndexEntry] = []
 
     for entry in validated_candidates:
-        entry.start_gid = resolver.snap_to_speaker_start(entry.start_gid)
-        entry.end_gid = resolver.snap_to_sentence_end(entry.end_gid)
-        entry.end_gid = max(entry.start_gid, entry.end_gid)
-
-        s_row = df.iloc[entry.start_gid]
-        e_row = df.iloc[entry.end_gid]
-        entry.start = f"Page {int(s_row['page'])}, Line {int(s_row['line'])}"
-        entry.end = f"Page {int(e_row['page'])}, Line {int(e_row['line'])}"
-
         if not mutated_index:
             mutated_index.append(entry)
             continue

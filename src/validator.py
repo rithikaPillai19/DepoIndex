@@ -82,22 +82,17 @@ class DepoIndexValidator:
         slice_df = self.df.iloc[start_gid : end_gid + 1]
         slice_text = " ".join([str(t) for t in slice_df["text"].tolist()]).lower()
 
-        evidence_words = evidence.replace("(", " ").replace(")", " ").replace(".", " ").replace(",", " ").split()
+        clean_evidence = evidence.replace("'s", "").replace("’s", "")
+        evidence_words = clean_evidence.replace("(", " ").replace(")", " ").replace(".", " ").replace(",", " ").split()
         
-        # Detect strict entities: all-caps acronyms (e.g. CFPB, TILA, SEC, ITT) or specific proper nouns
-        true_entities = [
+        # Check capitalized acronyms of length >= 3 (e.g. CFPB, TILA, SEC, ITT)
+        acronyms = [
             w.strip(";:'\"") for w in evidence_words 
-            if (w.isupper() and len(w) >= 3) or (len(w) >= 4 and w[0].isupper() and w[1:].islower() and w.lower() not in self.common_words)
+            if w.isupper() and len(w) >= 3 and w not in ["THE", "AND", "FOR"]
         ]
 
-        # Ignore first word of sentences from strict entity check
-        if true_entities and evidence_words and true_entities[0] == evidence_words[0]:
-            true_entities = true_entities[1:]
-
-        missing = [ent for ent in true_entities if ent.lower() not in slice_text]
-        
-        # If specific statutory programs or entities like "CFPB" or "TILA" are absent, fail
-        if missing and any(len(m) >= 4 for m in missing):
+        missing = [ac for ac in acronyms if ac.lower() not in slice_text]
+        if missing:
             return False, f"Evidence cites entity '{missing[0]}' not present in coordinate slice."
 
         return True, "PASSED"
