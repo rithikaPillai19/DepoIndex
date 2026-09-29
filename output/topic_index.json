@@ -1,11 +1,11 @@
 [
   {
-    "topic": "Preliminary Matters And Scope Of Testimony",
+    "topic": "Expert Qualifications and Scope of Testimony",
     "start": "Page 7, Line 11",
-    "end": "Page 12, Line 1",
-    "start_gid": 7,
-    "end_gid": 121,
-    "supporting_evidence": "Introduction of counsel, witness admonitions, and establishing the scope of the expert report and professional background.",
+    "end": "Page 12, Line 2",
+    "start_gid": 0,
+    "end_gid": 115,
+    "supporting_evidence": "Introduction of the witness, establishment of deposition ground rules, and review of the witness's professional credentials and expert report.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -19,12 +19,31 @@
     ]
   },
   {
-    "topic": "Policy Advocacy And Student Loan Debt Framework",
-    "start": "Page 12, Line 2",
-    "end": "Page 17, Line 1",
-    "start_gid": 122,
-    "end_gid": 246,
-    "supporting_evidence": "Discussion of student loan debt cancellation definitions, income-driven repayment rules, and legislative efforts regarding loan taxation.",
+    "topic": "Examination on Pages 12 to 13",
+    "start": "Page 12, Line 3",
+    "end": "Page 13, Line 1",
+    "start_gid": 116,
+    "end_gid": 139,
+    "supporting_evidence": "Deposition testimony and counsel colloquy occurring across Pages 12 to 13.",
+    "validation_status": "RECOVERED_GAP_SLICE",
+    "audit_trail": [
+      {
+        "stage": "SEAM_GAP_RECOVERY",
+        "gap_lines": 24
+      },
+      {
+        "stage": "REVALIDATION_GATE",
+        "verdict": "PASSED"
+      }
+    ]
+  },
+  {
+    "topic": "Student Loan Policy and Legislative Advocacy",
+    "start": "Page 13, Line 2",
+    "end": "Page 17, Line 9",
+    "start_gid": 140,
+    "end_gid": 247,
+    "supporting_evidence": "Examination of the witness's work on debt cancellation, income-driven repayment rules, and legislative efforts regarding the taxation of canceled loans.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -38,12 +57,12 @@
     ]
   },
   {
-    "topic": "Servicing Oversight And Regulatory Experience",
-    "start": "Page 17, Line 2",
-    "end": "Page 22, Line 5",
-    "start_gid": 247,
-    "end_gid": 375,
-    "supporting_evidence": "Examination of student loan servicing standards, Congressional testimony, and the mechanics of loan portfolio transfers between entities like Sallie Mae and Navient.",
+    "topic": "Loan Servicing Standards and Portfolio Transfers",
+    "start": "Page 18, Line 1",
+    "end": "Page 21, Line 23",
+    "start_gid": 264,
+    "end_gid": 361,
+    "supporting_evidence": "Discussion of student loan servicing requirements, Congressional testimony, and the history of loan portfolio transitions between entities like Sallie Mae and Navient.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -58,10 +77,10 @@
   },
   {
     "topic": "Student Loan Servicing Transfers and Data Risks",
-    "start": "Page 22, Line 6",
+    "start": "Page 21, Line 24",
     "end": "Page 26, Line 25",
-    "start_gid": 376,
-    "end_gid": 495,
+    "start_gid": 362,
+    "end_gid": 488,
     "supporting_evidence": "Examination of the witness's knowledge regarding the transition of loan portfolios between servicers, specifically focusing on data loss risks and historical examples of servicer exits.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
@@ -76,30 +95,11 @@
     ]
   },
   {
-    "topic": "Expertise in For-Profit Education and ITT Student Representation",
-    "start": "Page 27, Line 1",
-    "end": "Page 31, Line 1",
-    "start_gid": 496,
-    "end_gid": 596,
-    "supporting_evidence": "Discussion of the witness's background in for-profit higher education and their experience representing individual ITT students versus systemic market analysis.",
-    "validation_status": "ALL_4_PILLARS_PASSED",
-    "audit_trail": [
-      {
-        "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
-      },
-      {
-        "stage": "REVALIDATION_GATE",
-        "verdict": "PASSED"
-      }
-    ]
-  },
-  {
     "topic": "Analysis of ITT Educational Outcomes and Earnings",
-    "start": "Page 31, Line 2",
-    "end": "Page 35, Line 4",
-    "start_gid": 597,
-    "end_gid": 699,
+    "start": "Page 31, Line 1",
+    "end": "Page 34, Line 21",
+    "start_gid": 589,
+    "end_gid": 684,
     "supporting_evidence": "Review of investigations into ITT Technical Institute and the statistical evaluation of student outcomes, including post-graduation earnings and default rates.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
@@ -115,10 +115,10 @@
   },
   {
     "topic": "ITT Misrepresentations and Student Outcomes",
-    "start": "Page 35, Line 5",
-    "end": "Page 39, Line 10",
-    "start_gid": 700,
-    "end_gid": 805,
+    "start": "Page 34, Line 22",
+    "end": "Page 38, Line 19",
+    "start_gid": 685,
+    "end_gid": 782,
     "supporting_evidence": "Examination of ITT's alleged misrepresentations regarding education quality, job placement, and the resulting impact on student loan obligations.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
@@ -134,10 +134,10 @@
   },
   {
     "topic": "Typical Graduate Financial Performance Data",
-    "start": "Page 39, Line 11",
+    "start": "Page 39, Line 1",
     "end": "Page 42, Line 25",
-    "start_gid": 806,
-    "end_gid": 895,
+    "start_gid": 789,
+    "end_gid": 888,
     "supporting_evidence": "Discussion of typical versus atypical salary outcomes for ITT graduates based on available data and hypothetical scenarios.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
@@ -155,8 +155,8 @@
     "topic": "Vervent Defendants' Servicing Responsibilities",
     "start": "Page 43, Line 1",
     "end": "Page 47, Line 25",
-    "start_gid": 896,
-    "end_gid": 1020,
+    "start_gid": 889,
+    "end_gid": 1013,
     "supporting_evidence": "Inquiry into the specific roles and temporal involvement of Vervent defendants in loan servicing and responsibilities.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
@@ -171,12 +171,12 @@
     ]
   },
   {
-    "topic": "Expert Report and Servicer Access to Records",
-    "start": "Page 53, Line 1",
-    "end": "Page 57, Line 3",
-    "start_gid": 1146,
-    "end_gid": 1248,
-    "supporting_evidence": "Discussion of the expert's report concerning legal compliance and Vervent's access to specific loan documents and interest rate information used for borrower communications.",
+    "topic": "Validity and Enforceability of PEAKS Loans",
+    "start": "Page 48, Line 1",
+    "end": "Page 51, Line 19",
+    "start_gid": 1014,
+    "end_gid": 1107,
+    "supporting_evidence": "Examination of missing loan documentation, including approval documents and final disclosures, and the witness's opinion on the legal enforceability of the PEAKS loan portfolio.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -190,12 +190,12 @@
     ]
   },
   {
-    "topic": "Disclosure Compliance and Borrower Cancellation Rights",
-    "start": "Page 57, Line 4",
-    "end": "Page 61, Line 4",
-    "start_gid": 1249,
-    "end_gid": 1349,
-    "supporting_evidence": "Analysis of final disclosure requirements, the impact of missing disclosures on a borrower's right to cancel, and events occurring after loan origination.",
+    "topic": "Vervent's Access to Loan Records and Interest Rate Data",
+    "start": "Page 52, Line 1",
+    "end": "Page 56, Line 18",
+    "start_gid": 1114,
+    "end_gid": 1231,
+    "supporting_evidence": "Discussion of the witness's report regarding Vervent's reliance on available documents and the specific lack of interest rate information in the records provided to the servicer.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -209,12 +209,12 @@
     ]
   },
   {
-    "topic": "Disclosure Compliance and Consumer Protection Procedures",
-    "start": "Page 61, Line 5",
-    "end": "Page 63, Line 25",
-    "start_gid": 1350,
-    "end_gid": 1420,
-    "supporting_evidence": "Examination of loan disclosure failures, post-origination consumer protection procedures, and initial assessments of defendant liability.",
+    "topic": "Disclosure Failures and Borrower Cancellation Rights",
+    "start": "Page 57, Line 1",
+    "end": "Page 60, Line 19",
+    "start_gid": 1239,
+    "end_gid": 1332,
+    "supporting_evidence": "Analysis of the legal impact of missing final disclosures on a borrower's right to cancel and the witness's knowledge of events occurring after loan origination.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -228,12 +228,12 @@
     ]
   },
   {
-    "topic": "Public Awareness and Regulatory Scrutiny of ITT Practices",
-    "start": "Page 64, Line 1",
-    "end": "Page 68, Line 25",
-    "start_gid": 1421,
-    "end_gid": 1545,
-    "supporting_evidence": "Discussion regarding federal government knowledge of ITT practices, whistleblower involvement, and the 2012 CFPB Civil Investigative Demand.",
+    "topic": "Loan Origination Procedures and Consumer Protections",
+    "start": "Page 60, Line 20",
+    "end": "Page 64, Line 25",
+    "start_gid": 1333,
+    "end_gid": 1438,
+    "supporting_evidence": "Examination of loan origination processes, consumer protection compliance, and the role of ITT in the Title IV program.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -247,12 +247,12 @@
     ]
   },
   {
-    "topic": "SEC and CFPB Investigations into PEAKS Loan Programs",
-    "start": "Page 69, Line 1",
+    "topic": "Regulatory Investigations and Findings Regarding ITT and PEAKS Loans",
+    "start": "Page 65, Line 1",
     "end": "Page 73, Line 25",
-    "start_gid": 1546,
-    "end_gid": 1670,
-    "supporting_evidence": "Inquiry into SEC findings, the 2014 CFPB lawsuit against ITT, and the subsequent 2019 settlement regarding the PEAKS loan program.",
+    "start_gid": 1439,
+    "end_gid": 1663,
+    "supporting_evidence": "Discussion of CFPB and SEC investigations, whistleblower reports, and the specific findings or settlements related to the PEAKS loan program.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -266,12 +266,31 @@
     ]
   },
   {
-    "topic": "Vervent Servicing Operations and Knowledge",
+    "topic": "Historical Investigations into ITT and PEAKS Loans",
+    "start": "Page 74, Line 1",
+    "end": "Page 78, Line 25",
+    "start_gid": 1664,
+    "end_gid": 1788,
+    "supporting_evidence": "Examination of the witness's knowledge regarding 2014 state and federal investigations into ITT and the PEAKS loan program.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "audit_trail": [
+      {
+        "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
+        "result": "PASS"
+      },
+      {
+        "stage": "REVALIDATION_GATE",
+        "verdict": "PASSED"
+      }
+    ]
+  },
+  {
+    "topic": "Vervent's Continued Collection and Contractual Obligations",
     "start": "Page 79, Line 1",
     "end": "Page 82, Line 25",
-    "start_gid": 1796,
-    "end_gid": 1895,
-    "supporting_evidence": "Discussion regarding Vervent's awareness of investigations and their affirmative decision to continue loan servicing and payment tracking for the PEAKS trust.",
+    "start_gid": 1789,
+    "end_gid": 1888,
+    "supporting_evidence": "Discussion of Vervent's decision to continue loan collections and their operational role in managing borrower data and payments.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
@@ -285,31 +304,12 @@
     ]
   },
   {
-    "topic": "Legal Enforceability of PEAKS Loans",
+    "topic": "Enforceability of PEAKS Loans",
     "start": "Page 83, Line 1",
-    "end": "Page 87, Line 2",
-    "start_gid": 1896,
-    "end_gid": 1997,
-    "supporting_evidence": "Inquiry into the timeline of when PEAKS loans were deemed unenforceable and whether such unenforceability existed from the loans' inception.",
-    "validation_status": "ALL_4_PILLARS_PASSED",
-    "audit_trail": [
-      {
-        "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
-      },
-      {
-        "stage": "REVALIDATION_GATE",
-        "verdict": "PASSED"
-      }
-    ]
-  },
-  {
-    "topic": "Expert Report Scope And Witness Recollection",
-    "start": "Page 87, Line 3",
-    "end": "Page 94, Line 28",
-    "start_gid": 1998,
-    "end_gid": 2137,
-    "supporting_evidence": "Discussion regarding the boundaries of the expert's report and the witness's inability to recall specific events outside that scope.",
+    "end": "Page 86, Line 18",
+    "start_gid": 1889,
+    "end_gid": 1981,
+    "supporting_evidence": "Testimony regarding the timeline of when the PEAKS loans were deemed unenforceable and the lack of prior governmental determinations.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {

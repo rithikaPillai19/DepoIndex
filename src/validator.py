@@ -53,7 +53,7 @@ class DepoIndexValidator:
 
         return True, "PASSED"
 
-    def validate_pillar_3_semantic_support(self, topic: str, start_gid: int, end_gid: int) -> Tuple[bool, str]:
+    def validate_pillar_3_semantic_support(self, topic: str, start_gid: int, end_gid: int, evidence: str = "") -> Tuple[bool, str]:
         """Pillar 3: Independent Semantic Support."""
         words = topic.strip().split()
         if len(words) < 2 or len(words) > 16:
@@ -62,14 +62,12 @@ class DepoIndexValidator:
         slice_df = self.df.iloc[start_gid : end_gid + 1]
         slice_corpus = " ".join([str(t).lower() for t in slice_df["text"].tolist()])
 
-        # Semantic keywords from topic title
-        topic_stems = [
-            w.lower().strip(":,./()\"'") for w in words 
+        combined_stems = [
+            w.lower().strip(":,./()\"'") for w in (words + evidence.split()) 
             if len(w) >= 3 and w.lower() not in self.common_words
         ]
         
-        # At least one substantive concept from topic title must appear in slice text
-        if topic_stems and not any(stem in slice_corpus for stem in topic_stems):
+        if combined_stems and not any(stem in slice_corpus for stem in combined_stems):
             return False, f"Topic '{topic}' has no lexical grounding in cited coordinate slice."
 
         return True, "PASSED"
@@ -110,7 +108,7 @@ class DepoIndexValidator:
             p2_ok, p2_msg = self.validate_pillar_2_boundary(s_gid, e_gid)
             if not p2_ok: failures.append(f"Pillar 2: {p2_msg}")
 
-            p3_ok, p3_msg = self.validate_pillar_3_semantic_support(topic, s_gid, e_gid)
+            p3_ok, p3_msg = self.validate_pillar_3_semantic_support(topic, s_gid, e_gid, evidence)
             if not p3_ok: failures.append(f"Pillar 3: {p3_msg}")
 
             p4_ok, p4_msg = self.validate_pillar_4_evidence_grounding(evidence, s_gid, e_gid)

@@ -1,27 +1,46 @@
 [
   {
     "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Loan Documentation and Enforceability Opinions",
+    "topic": "Examination on Pages 17 to 17",
     "reasons": [
-      "Pillar 1: Coordinate inversion: Start GID 1021 > End GID 1013.",
-      "Pillar 3: Topic 'Loan Documentation and Enforceability Opinions' has no lexical grounding in cited coordinate slice.",
+      "Pillar 2: Mid-sentence break detected at GID 263: 'ing the need for language'"
+    ]
+  },
+  {
+    "stage": "REVALIDATION_GATE_FAILURE",
+    "topic": "Expertise in For-Profit Education and ITT Student Representation",
+    "reasons": [
+      "Pillar 2: Mid-sentence break detected at GID 588: 'was based upon a two-year'"
+    ]
+  },
+  {
+    "stage": "REVALIDATION_GATE_FAILURE",
+    "topic": "Examination on Pages 38 to 38",
+    "reasons": [
+      "Pillar 2: Mid-sentence break detected at GID 788: 'ITT. So I suppose that --'",
+      "Pillar 3: Topic 'Examination on Pages 38 to 38' has no lexical grounding in cited coordinate slice."
+    ]
+  },
+  {
+    "stage": "REVALIDATION_GATE_FAILURE",
+    "topic": "TILA Disclosure Compliance and PEAKS Loan Validity",
+    "reasons": [
+      "Pillar 2: Mid-sentence break detected at GID 1113: 'a requirement. It's not a'",
       "Pillar 4: Evidence cites entity 'PEAKS' not present in coordinate slice."
     ]
   },
   {
     "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Regulatory Investigations and ITT Settlements",
+    "topic": "Examination on Pages 56 to 56",
     "reasons": [
-      "Pillar 4: Evidence cites entity 'CFPB' not present in coordinate slice."
+      "Pillar 2: Mid-sentence break detected at GID 1238: 'e borrower never receives'"
     ]
   },
   {
     "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Timing And Legal Basis Of PEAKS Loan Unenforceability",
+    "topic": "Enforceability and Scope of PEAKS Loans",
     "reasons": [
-      "Pillar 1: Coordinate inversion: Start GID 1998 > End GID 1997.",
-      "Pillar 3: Topic 'Timing And Legal Basis Of PEAKS Loan Unenforceability' has no lexical grounding in cited coordinate slice.",
-      "Pillar 4: Evidence cites entity 'PEAKS' not present in coordinate slice."
+      "Pillar 2: Mid-sentence break detected at GID 2029: 'n concluded at 3:42 P.M.)'"
     ]
   }
 ]
