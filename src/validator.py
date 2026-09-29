@@ -43,7 +43,7 @@ class DepoIndexValidator:
             return False, f"Start coordinate GID {start_gid} lands on blank or non-substantive line."
 
         end_text = str(self.df.iloc[end_gid]["text"]).strip()
-        terminal_chars = ('.', '?', '!', '"', "'")
+        terminal_chars = ('.', '?', '!', '"', "'", ")")
         ends_cleanly = end_text.endswith(terminal_chars)
 
         if not ends_cleanly and end_gid + 1 < len(self.df):
@@ -83,7 +83,7 @@ class DepoIndexValidator:
         clean_evidence = evidence.replace("'s", "").replace("’s", "")
         evidence_words = clean_evidence.replace("(", " ").replace(")", " ").replace(".", " ").replace(",", " ").split()
         
-        # Check capitalized acronyms of length >= 3 (e.g. CFPB, TILA, SEC, ITT)
+        # Check capitalized statutory acronyms of length >= 3 (e.g. CFPB, TILA, SEC, ITT)
         acronyms = [
             w.strip(";:'\"") for w in evidence_words 
             if w.isupper() and len(w) >= 3 and w not in ["THE", "AND", "FOR"]

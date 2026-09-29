@@ -1,16 +1,17 @@
 [
   {
     "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Examination on Pages 17 to 17",
+    "topic": "Expert Qualifications and Scope of Testimony",
     "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 263: 'ing the need for language'"
+      "Pillar 2: Mid-sentence break detected at GID 113: ' of student debt from our'"
     ]
   },
   {
     "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Expertise in For-Profit Education and ITT Student Representation",
+    "topic": "Examination on Pages 16 to 16",
     "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 588: 'was based upon a two-year'"
+      "Pillar 2: Mid-sentence break detected at GID 238: 'eir contract with federal'",
+      "Pillar 3: Topic 'Examination on Pages 16 to 16' has no lexical grounding in cited coordinate slice."
     ]
   },
   {
@@ -23,24 +24,9 @@
   },
   {
     "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "TILA Disclosure Compliance and PEAKS Loan Validity",
+    "topic": "Validity and Enforceability of PEAKS Loans",
     "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 1113: 'a requirement. It's not a'",
-      "Pillar 4: Evidence cites entity 'PEAKS' not present in coordinate slice."
-    ]
-  },
-  {
-    "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Examination on Pages 56 to 56",
-    "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 1238: 'e borrower never receives'"
-    ]
-  },
-  {
-    "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Enforceability and Scope of PEAKS Loans",
-    "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 2029: 'n concluded at 3:42 P.M.)'"
+      "Pillar 2: Mid-sentence break detected at GID 1088: 'documents are critical to'"
     ]
   }
 ]

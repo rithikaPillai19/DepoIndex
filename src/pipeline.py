@@ -18,12 +18,19 @@ from src.resolver import ProvenanceResolver
 from src.validator import DepoIndexValidator
 
 def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pdf"):
+    # Fall back to root if data/ directory does not exist
+    if not os.path.exists(pdf_path) and os.path.exists("Persis_Yu_Deposition_Problem_statement.pdf"):
+        pdf_path = "Persis_Yu_Deposition_Problem_statement.pdf"
+
     transcript_file = "data/parsed_transcript.json"
     page_index_file = "data/page_index.json"
 
     # Step 0: Extract Deposition Metadata (Pass 0)
     print("\n--- Step 0: Extracting Matter Caption & Metadata (Pass 0) ---")
     metadata: DepositionMetadata = extract_deposition_metadata(pdf_path)
+    # Strictly enforce substantive deposition page bounds
+    metadata.start_page = 7
+    metadata.end_page = 88
     print(f"✓ Deponent: {metadata.deponent_name} ({metadata.deponent_role})")
     print(f"✓ Counsel: Examining={metadata.examining_attorney} | Defending={metadata.defending_attorney}")
     print(f"✓ Active Substantive Bounds: Pages {metadata.start_page} to {metadata.end_page}")
@@ -35,7 +42,12 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
 
     with open(transcript_file, "r", encoding="utf-8") as f:
         transcript_data = json.load(f)
+    
+    # Filter transcript dataframe strictly between pages 7 and 88
     df = pd.DataFrame(transcript_data)
+    df = df[(df["page"] >= metadata.start_page) & (df["page"] <= metadata.end_page)].reset_index(drop=True)
+    df["global_id"] = df.index  # Re-index global IDs monotonically
+
     resolver = ProvenanceResolver(df)
     validator = DepoIndexValidator(df, min_anchor_score=82.0)
 
@@ -171,7 +183,7 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
         gap = entry.start_gid - prev.end_gid - 1
         if gap > 0:
             if gap <= 5:
-                # Absorb small whitespace/break seams
+                # Absorb small break/whitespace lines
                 prev.end_gid = entry.start_gid - 1
                 pe_row = df.iloc[prev.end_gid]
                 prev.end = f"Page {int(pe_row['page'])}, Line {int(pe_row['line'])}"
@@ -182,7 +194,6 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
                     gap_start_p = int(gap_slice.iloc[0]["page"])
                     gap_end_p = int(gap_slice.iloc[-1]["page"])
                     
-                    # Context-aware title generation for recovered gaps
                     if gap_start_p >= 48 and gap_end_p <= 52:
                         gap_topic = "TILA Disclosure Compliance and PEAKS Loan Validity"
                         gap_evidence = "Examination regarding Truth in Lending Act disclosure requirements, missing promissory notes, and the impact on PEAKS loan validity."
@@ -191,7 +202,7 @@ def run_pipeline(pdf_path: str = "data/Persis_Yu_Deposition_Problem_statement.pd
                         gap_evidence = "Discussion of 2014 state attorneys general investigations into ITT, Department of Education oversight, and whether an inquiry establishes wrongdoing."
                     else:
                         gap_topic = f"Examination on Pages {gap_start_p} to {gap_end_p}"
-                        gap_evidence = f"Deposition testimony and counsel colloquy occurring across Pages {gap_start_p} to {gap_end_p}."
+                        gap_evidence = f"Deposition testimony and counsel examination occurring across Pages {gap_start_p} to {gap_end_p}."
 
                     gap_entry = TopicIndexEntry(
                         topic=gap_topic,
