@@ -1,32 +1,18 @@
 [
   {
     "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Expert Qualifications and Scope of Testimony",
-    "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 113: ' of student debt from our'"
-    ]
-  },
-  {
-    "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Examination on Pages 16 to 16",
-    "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 238: 'eir contract with federal'",
-      "Pillar 3: Topic 'Examination on Pages 16 to 16' has no lexical grounding in cited coordinate slice."
-    ]
-  },
-  {
-    "stage": "REVALIDATION_GATE_FAILURE",
-    "topic": "Examination on Pages 38 to 38",
-    "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 788: 'ITT. So I suppose that --'",
-      "Pillar 3: Topic 'Examination on Pages 38 to 38' has no lexical grounding in cited coordinate slice."
-    ]
-  },
-  {
-    "stage": "REVALIDATION_GATE_FAILURE",
     "topic": "Validity and Enforceability of PEAKS Loans",
     "reasons": [
-      "Pillar 2: Mid-sentence break detected at GID 1088: 'documents are critical to'"
+      "Pillar 1: Coordinate inversion: Start GID 1014 > End GID 1012.",
+      "Pillar 3: Topic 'Validity and Enforceability of PEAKS Loans' lacks semantic grounding in cited lines (support ratio: 0.00 < 0.20).",
+      "Pillar 4: Hallucinated entity detected: 'PEAKS' does not appear in cited coordinates."
+    ]
+  },
+  {
+    "stage": "REVALIDATION_GATE_FAILURE",
+    "topic": "Witness Testimony Regarding Example",
+    "reasons": [
+      "Pillar 2: Mid-sentence break detected at GID 1082: 'defendants don't have the'"
     ]
   }
 ]

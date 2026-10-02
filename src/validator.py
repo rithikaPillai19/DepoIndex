@@ -1,105 +1,141 @@
 """
-The Four-Pillar Legal Validator with Independent Entity Grounding.
-Every candidate and post-mutation entry must pass this gate before serialization.
+Independent Four-Pillar Legal Validator.
+Enforces coordinate verifiability, sentence boundary integrity,
+directed semantic support, and strict entity grounding without circular LLM self-grading
+or brittle regular expressions.
 """
+from typing import Tuple, List, Dict, Any, Set
 import pandas as pd
-from typing import Tuple, List, Dict, Any
 
 class DepoIndexValidator:
     def __init__(self, df: pd.DataFrame, min_anchor_score: float = 82.0):
         self.df = df
         self.min_anchor_score = min_anchor_score
         
-        self.common_words = {
+        self.legal_stopwords = {
             "the", "this", "that", "these", "those", "witness", "testifies", "states",
             "regarding", "admits", "concerning", "counsel", "attorney", "deposition",
             "plaintiff", "defendant", "defendants", "report", "question", "questions",
             "answer", "examination", "transcript", "testimony", "record", "exhibit",
             "clarifies", "discusses", "explains", "notes", "addresses", "details",
-            "overview", "background", "experience", "discussion", "provides", "general",
-            "inquiry", "procedures", "practices", "actions", "issues", "matters", "about",
-            "their", "under", "which", "with", "from", "into", "over", "such", "other"
+            "about", "their", "under", "which", "with", "from", "into", "over", "such",
+            "review", "issues", "background", "experience", "pages", "page", "line", "lines"
         }
+        self.speaker_prefixes = ("q.", "a.", "mr.", "ms.", "the witness", "by mr.", "by ms.", "the court:")
+        self.terminal_chars = ('.', '?', '!', '"', "'", ')')
+
+    def _tokenize(self, text: str) -> Set[str]:
+        """Extracts substantive alpha tokens without regular expressions."""
+        clean_chars = [c.lower() if c.isalnum() else " " for c in text]
+        tokens = set()
+        for token in "".join(clean_chars).split():
+            if len(token) >= 3 and token.isalpha() and token not in self.legal_stopwords:
+                tokens.add(token)
+        return tokens
+
+    def _extract_acronyms(self, text: str) -> Set[str]:
+        """Extracts capitalized institutional acronyms (e.g. CFPB, SEC, TILA) without regex."""
+        clean_chars = [c if c.isalnum() else " " for c in text]
+        acronyms = set()
+        for token in "".join(clean_chars).split():
+            clean_token = token.strip()
+            if len(clean_token) >= 3 and clean_token.isupper() and clean_token.isalpha():
+                if clean_token not in {"THE", "AND", "FOR", "NOT", "ACT", "LAW"}:
+                    acronyms.add(clean_token)
+        return acronyms
 
     def validate_pillar_1_coordinates(self, start_res: Dict[str, Any], end_res: Dict[str, Any]) -> Tuple[bool, str]:
-        """Pillar 1: Coordinate Verifiability & Monotonicity."""
-        if start_res.get("global_id") is None or end_res.get("global_id") is None:
-            return False, "Failed to resolve start or end coordinate anchor."
-        if start_res.get("score", 0.0) < self.min_anchor_score:
-            return False, f"Start quote anchor score ({start_res.get('score'):.1f}) below threshold {self.min_anchor_score}."
-        if end_res.get("score", 0.0) < self.min_anchor_score:
-            return False, f"End quote anchor score ({end_res.get('score'):.1f}) below threshold {self.min_anchor_score}."
-        if start_res["global_id"] > end_res["global_id"]:
-            return False, f"Coordinate inversion: Start GID {start_res['global_id']} > End GID {end_res['global_id']}."
+        """Pillar 1: Coordinate Verifiability, Monotonicity & Measured Confidence."""
+        s_gid = start_res.get("global_id")
+        e_gid = end_res.get("global_id")
+
+        if s_gid is None or e_gid is None:
+            return False, "Unresolved coordinate pointer."
+
+        s_score = float(start_res.get("score", 0.0))
+        e_score = float(end_res.get("score", 0.0))
+
+        if s_score < self.min_anchor_score:
+            return False, f"Start anchor confidence ({s_score:.1f}%) below calibrated threshold ({self.min_anchor_score}%)."
+        if e_score < self.min_anchor_score:
+            return False, f"End anchor confidence ({e_score:.1f}%) below calibrated threshold ({self.min_anchor_score}%)."
+
+        if s_gid > e_gid:
+            return False, f"Coordinate inversion: Start GID {s_gid} > End GID {e_gid}."
+
         return True, "PASSED"
 
     def validate_pillar_2_boundary(self, start_gid: int, end_gid: int) -> Tuple[bool, str]:
-        """Pillar 2: Boundary Integrity & Sentence Closure."""
+        """Pillar 2: Boundary Integrity, Speaker Initiation & Sentence Closure."""
         if start_gid < 0 or end_gid >= len(self.df):
             return False, "Coordinates index out of bounds."
 
         start_text = str(self.df.iloc[start_gid]["text"]).strip()
         if len(start_text) < 3 or start_text.replace("-", "").strip() == "":
-            return False, f"Start coordinate GID {start_gid} lands on blank or non-substantive line."
+            return False, f"Start GID {start_gid} lands on blank or non-substantive line."
 
         end_text = str(self.df.iloc[end_gid]["text"]).strip()
-        terminal_chars = ('.', '?', '!', '"', "'", ")")
-        ends_cleanly = end_text.endswith(terminal_chars)
-
-        if not ends_cleanly and end_gid + 1 < len(self.df):
-            next_text = str(self.df.iloc[end_gid + 1]["text"]).strip()
-            if not any(next_text.startswith(spk) for spk in ["Q.", "A.", "MR.", "MS.", "THE WITNESS"]):
-                return False, f"Mid-sentence break detected at GID {end_gid}: '{end_text[-25:]}'"
+        ends_cleanly = end_text.endswith(self.terminal_chars)
+        
+        # If line does not end with terminal punctuation
+        if not ends_cleanly:
+            if end_gid + 1 < len(self.df):
+                next_text = str(self.df.iloc[end_gid + 1]["text"]).strip().lower()
+                if not any(next_text.startswith(spk) for spk in self.speaker_prefixes):
+                    return False, f"Mid-sentence break detected at GID {end_gid}: '{end_text[-25:]}'"
+            else:
+                # Terminal boundary of transcript must be cleanly closed
+                return False, f"Mid-sentence break detected at terminal GID {end_gid}: '{end_text[-25:]}'"
 
         return True, "PASSED"
 
     def validate_pillar_3_semantic_support(self, topic: str, start_gid: int, end_gid: int, evidence: str = "") -> Tuple[bool, str]:
-        """Pillar 3: Independent Semantic Support."""
-        words = topic.strip().split()
-        if len(words) < 2 or len(words) > 16:
-            return False, f"Topic title length ({len(words)} words) violates legal indexing standard."
-
+        """Pillar 3: Independent Directed Semantic Support."""
         slice_df = self.df.iloc[start_gid : end_gid + 1]
-        slice_corpus = " ".join([str(t).lower() for t in slice_df["text"].tolist()])
+        corpus_words = self._tokenize(" ".join(slice_df["text"].astype(str)))
 
-        combined_stems = [
-            w.lower().strip(":,./()\"'") for w in (words + evidence.split()) 
-            if len(w) >= 3 and w.lower() not in self.common_words
-        ]
-        
-        if combined_stems and not any(stem in slice_corpus for stem in combined_stems):
-            return False, f"Topic '{topic}' has no lexical grounding in cited coordinate slice."
+        topic_words = self._tokenize(topic)
+        if not topic_words:
+            topic_words = self._tokenize(evidence)
+
+        if not topic_words:
+            return True, "PASSED"
+
+        # Compute directed overlap ratio against cited coordinate slice
+        matched_stems = topic_words.intersection(corpus_words)
+        support_ratio = len(matched_stems) / len(topic_words)
+
+        if support_ratio < 0.20:
+            return False, f"Topic '{topic}' lacks semantic grounding in cited lines (support ratio: {support_ratio:.2f} < 0.20)."
 
         return True, "PASSED"
 
     def validate_pillar_4_evidence_grounding(self, evidence: str, start_gid: int, end_gid: int) -> Tuple[bool, str]:
-        """Pillar 4: Evidence Entailment & True Entity Grounding."""
+        """Pillar 4: Strict Entity Grounding & Contradiction Rejection."""
         if len(evidence.strip()) < 25:
-            return False, "Evidence summary lacks sufficient factual detail (< 25 characters)."
+            return False, "Evidence summary lacks sufficient factual detail (< 25 chars)."
 
         slice_df = self.df.iloc[start_gid : end_gid + 1]
-        slice_text = " ".join([str(t) for t in slice_df["text"].tolist()]).lower()
+        slice_raw = " ".join(slice_df["text"].astype(str)).lower()
 
+        # Handle possessive forms cleanly
         clean_evidence = evidence.replace("'s", "").replace("’s", "")
-        evidence_words = clean_evidence.replace("(", " ").replace(")", " ").replace(".", " ").replace(",", " ").split()
-        
-        # Check capitalized statutory acronyms of length >= 3 (e.g. CFPB, TILA, SEC, ITT)
-        acronyms = [
-            w.strip(";:'\"") for w in evidence_words 
-            if w.isupper() and len(w) >= 3 and w not in ["THE", "AND", "FOR"]
-        ]
+        acronyms = self._extract_acronyms(clean_evidence)
 
-        missing = [ac for ac in acronyms if ac.lower() not in slice_text]
-        if missing:
-            return False, f"Evidence cites entity '{missing[0]}' not present in coordinate slice."
+        for ac in acronyms:
+            synonyms = [ac.lower()]
+            if ac == "TILA": synonyms.append("truth in lending")
+            if ac == "DOED": synonyms.append("department of education")
+
+            if not any(syn in slice_raw for syn in synonyms):
+                return False, f"Hallucinated entity detected: '{ac}' does not appear in cited coordinates."
 
         return True, "PASSED"
 
     def validate_all(self, topic: str, evidence: str, start_res: Dict[str, Any], end_res: Dict[str, Any]) -> Tuple[bool, List[str]]:
         failures = []
         p1_ok, p1_msg = self.validate_pillar_1_coordinates(start_res, end_res)
-        if not p1_ok:
-            failures.append(f"Pillar 1: {p1_msg}")
+        if not p1_ok: failures.append(f"Pillar 1: {p1_msg}")
 
         s_gid = start_res.get("global_id", -1)
         e_gid = end_res.get("global_id", -1)

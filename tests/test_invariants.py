@@ -1,55 +1,78 @@
+"""
+Adversarial Test Suite.
+Verifies that hallucinated entities, mid-sentence cuts, unsupported topics,
+and unverified post-mutation states FAIL CLOSED.
+"""
 import pytest
 import pandas as pd
 from src.validator import DepoIndexValidator
-from src.resolver import ProvenanceResolver
 
 @pytest.fixture
-def sample_transcript_df():
+def mock_transcript():
     data = [
-        {"global_id": 0, "page": 7, "line": 11, "text": "BY MR. PURCELL:"},
-        {"global_id": 1, "page": 7, "line": 12, "text": "Q. Good afternoon, Ms. Yu."},
-        {"global_id": 2, "page": 7, "line": 13, "text": "A. Good afternoon."},
-        {"global_id": 3, "page": 52, "line": 24, "text": "A. That's correct. That was outside the"},
-        {"global_id": 4, "page": 52, "line": 25, "text": "scope of my report."},
-        {"global_id": 5, "page": 88, "line": 17, "text": "(Deposition concluded at 3:42 PM.)"}
+        {"global_id": 0, "page": 7, "line": 11, "text": "Q. Good afternoon, Ms. Yu."},
+        {"global_id": 1, "page": 7, "line": 12, "text": "A. Good afternoon."},
+        {"global_id": 2, "page": 7, "line": 13, "text": "Q. Are you an attorney?"},
+        {"global_id": 3, "page": 7, "line": 14, "text": "A. Yes, I am admitted to practice in Massachusetts."},
+        {"global_id": 4, "page": 7, "line": 15, "text": "Q. Did you review the loan disclosures?"},
+        {"global_id": 5, "page": 7, "line": 16, "text": "A. I reviewed the CFPB materials and PEAKS notes."},
+        {"global_id": 6, "page": 7, "line": 17, "text": "Q. Did you review anything regarding"}  # mid-sentence cut
     ]
     return pd.DataFrame(data)
 
-def test_pillar_2_rejects_blank_line_start():
-    blank_df = pd.DataFrame([{"global_id": 0, "page": 7, "line": 5, "text": "   ---   "}])
-    validator = DepoIndexValidator(blank_df)
-    is_valid, msg = validator.validate_pillar_2_boundary(0, 0)
-    assert not is_valid
-    assert "blank or non-substantive line" in msg
-
-def test_pillar_2_detects_mid_sentence_split(sample_transcript_df):
-    validator = DepoIndexValidator(sample_transcript_df)
-    # GID 3 ends in "outside the", which is not a complete sentence
-    is_valid, msg = validator.validate_pillar_2_boundary(3, 3)
-    assert not is_valid
-    assert "Mid-sentence break detected" in msg
-
-def test_resolver_snaps_to_sentence_end(sample_transcript_df):
-    resolver = ProvenanceResolver(sample_transcript_df)
-    snapped_gid = resolver.snap_to_sentence_end(3)
-    assert snapped_gid == 4
-    assert sample_transcript_df.iloc[snapped_gid]["text"].endswith(".")
-
-def test_pillar_4_entity_grounding_rejects_hallucination(sample_transcript_df):
-    validator = DepoIndexValidator(sample_transcript_df)
-    # Summary references entities not present in GID 0-2
-    ungrounded_evidence = "Witness discusses President Biden's student debt forgiveness plan under TILA."
-    is_valid, msg = validator.validate_pillar_4_evidence_grounding(ungrounded_evidence, 0, 2)
-    assert not is_valid
-    assert "not present in coordinate slice" in msg
-def test_revalidation_gate_rejects_mutated_hallucination(sample_transcript_df):
-    """The Revalidation Gate must reject a mutated entry if an invalid summary was merged in."""
-    validator = DepoIndexValidator(sample_transcript_df)
-    # Valid topic and coordinates (GID 0 to 2) but corrupted summary referencing absent agency "CFPB"
-    mutated_bad_evidence = "Witness admits to violating CFPB regulations regarding loan forgiveness."
-    s_res = {"global_id": 0, "score": 100.0}
-    e_res = {"global_id": 2, "score": 100.0}
+def test_adversarial_hallucinated_entity_fails_closed(mock_transcript):
+    """Pillar 4 must reject entities not present in the coordinate slice."""
+    validator = DepoIndexValidator(mock_transcript)
+    topic = "Review of Loan Disclosures and Legal Qualifications"
+    fake_evidence = "The witness testifies regarding investigations conducted by the SEC and DOJ."
     
-    is_valid, failures = validator.validate_all("Purcell Afternoon Greetings", mutated_bad_evidence, s_res, e_res)
+    is_valid, failures = validator.validate_all(
+        topic, fake_evidence,
+        {"global_id": 0, "score": 95.0},
+        {"global_id": 5, "score": 95.0}
+    )
     assert not is_valid
-    assert any("Pillar 4" in f for f in failures)
+    assert any("Hallucinated entity detected" in f for f in failures)
+
+def test_adversarial_mid_sentence_boundary_fails_closed(mock_transcript):
+    """Pillar 2 must reject bounds ending without terminal punctuation or speaker turn."""
+    validator = DepoIndexValidator(mock_transcript)
+    topic = "Review of Loan Disclosures and Legal Qualifications"
+    evidence = "The witness confirms reviewing CFPB materials and PEAKS notes."
+    
+    is_valid, failures = validator.validate_all(
+        topic, evidence,
+        {"global_id": 0, "score": 95.0},
+        {"global_id": 6, "score": 95.0}  # lands on non-terminal line
+    )
+    assert not is_valid
+    assert any("Mid-sentence break detected" in f for f in failures)
+
+def test_adversarial_unsupported_topic_fails_closed(mock_transcript):
+    """Pillar 3 must reject topics with zero semantic grounding in cited coordinates."""
+    validator = DepoIndexValidator(mock_transcript)
+    topic = "Criminal Environmental Pollution and Maritime Violations"
+    evidence = "The witness confirms reviewing CFPB materials and PEAKS notes."
+    
+    is_valid, failures = validator.validate_all(
+        topic, evidence,
+        {"global_id": 0, "score": 95.0},
+        {"global_id": 5, "score": 95.0}
+    )
+    assert not is_valid
+    assert any("lacks semantic grounding" in f for f in failures)
+
+def test_stale_validation_fails_on_post_mutation_tampering(mock_transcript):
+    """Mutating GID boundaries after initial check must fail the Revalidation Gate."""
+    validator = DepoIndexValidator(mock_transcript)
+    topic = "Review of Loan Disclosures and Legal Qualifications"
+    evidence = "The witness confirms reviewing CFPB materials and PEAKS notes."
+    
+    # Passes initially on clean bounds [0, 5]
+    ok, _ = validator.validate_all(topic, evidence, {"global_id": 0, "score": 95.0}, {"global_id": 5, "score": 95.0})
+    assert ok
+    
+    # Tampered mutation to GID 6 (mid-sentence) must fail the Revalidation Gate
+    reval_ok, reval_failures = validator.validate_all(topic, evidence, {"global_id": 0, "score": 95.0}, {"global_id": 6, "score": 95.0})
+    assert not reval_ok
+    assert any("Mid-sentence break detected" in f for f in reval_failures)

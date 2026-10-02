@@ -1,16 +1,37 @@
 [
   {
+    "topic": "Expert Qualifications and Scope of Testimony",
+    "start": "Page 7, Line 11",
+    "end": "Page 11, Line 21",
+    "start_gid": 0,
+    "end_gid": 109,
+    "supporting_evidence": "Establishment of witness credentials, professional background as an attorney, and scope of expert testimony.",
+    "validation_status": "ALL_4_PILLARS_PASSED",
+    "audit_trail": [
+      {
+        "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
+        "start_conf": 96.0,
+        "end_conf": 96.0
+      },
+      {
+        "stage": "REVALIDATION_GATE",
+        "verdict": "PASSED"
+      }
+    ]
+  },
+  {
     "topic": "Analysis of Student Loan Debt and Repayment Policies",
-    "start": "Page 12, Line 1",
+    "start": "Page 11, Line 22",
     "end": "Page 16, Line 19",
-    "start_gid": 114,
+    "start_gid": 110,
     "end_gid": 232,
     "supporting_evidence": "Examination of expert report content regarding student loan cancellation, income-driven repayment rules, and legislative impacts.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -20,16 +41,17 @@
   },
   {
     "topic": "Regulatory Oversight and Servicer Performance",
-    "start": "Page 17, Line 1",
+    "start": "Page 16, Line 20",
     "end": "Page 21, Line 23",
-    "start_gid": 239,
+    "start_gid": 233,
     "end_gid": 361,
     "supporting_evidence": "Discussion of student loan servicing standards, regulatory comments, congressional testimony, and industry transitions.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -48,7 +70,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -67,7 +90,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -78,15 +102,16 @@
   {
     "topic": "Allegations of Misrepresentation Regarding ITT Educational Outcomes",
     "start": "Page 34, Line 22",
-    "end": "Page 38, Line 19",
+    "end": "Page 38, Line 25",
     "start_gid": 685,
-    "end_gid": 782,
+    "end_gid": 788,
     "supporting_evidence": "Discussion of ITT's alleged misrepresentation of degree value, job placement rates, and salary expectations for graduates.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 86.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -105,7 +130,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 96.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -124,7 +150,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -134,16 +161,17 @@
   },
   {
     "topic": "Documentary Evidence and Compliance Review",
-    "start": "Page 51, Line 1",
+    "start": "Page 50, Line 20",
     "end": "Page 55, Line 25",
-    "start_gid": 1089,
+    "start_gid": 1083,
     "end_gid": 1213,
     "supporting_evidence": "Analysis of the documents available to Vervent and the witness's assessment of compliance with relevant laws.",
     "validation_status": "ALL_4_PILLARS_PASSED",
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -162,7 +190,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 96.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -181,7 +210,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -200,7 +230,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 96.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -219,7 +250,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -238,7 +270,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 96.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -257,7 +290,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 84.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
@@ -276,7 +310,8 @@
     "audit_trail": [
       {
         "stage": "INITIAL_RESOLUTION_AND_SNAPPING",
-        "result": "PASS"
+        "start_conf": 92.0,
+        "end_conf": 96.0
       },
       {
         "stage": "REVALIDATION_GATE",
