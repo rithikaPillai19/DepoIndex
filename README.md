@@ -1,32 +1,32 @@
-```markdown
+\`\`\`markdown
 
-# DepoIndex: Verifiable AI Deposition Topic Indexer
+**# DepoIndex: Verifiable AI Deposition Topic Indexer**
 
 An auditable litigation support system that extracts, structures, and indexes legal deposition transcripts into verified, gap-free topic indices with strict, line-level source provenance.
 
+[![Deployed Application](https\://img.shields.io/badge/Streamlit-Live%20Demo-FF4B4B?logo=streamlit&logoColor=white)](https\://depoindex-rithikapillai.streamlit.app/)
 
+[![Python 3.10+](https\://img.shields.io/badge/python-3.10+-blue.svg)](https\://www.python.org/)
 
+[![License: MIT](https\://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+[![Tests](https\://img.shields.io/badge/pytest-4%20passed-brightgreen.svg)](tests/test_invariants.py)
 
+**---**
 
-
-
-
----
-
-## Deployed Application
+**## Deployed Application**
 
 Access the interactive verification dashboard:
 
-👉 https://depoindex-rithikapillai.streamlit.app/
+👉 ****[https\://depoindex-rithikapillai.streamlit.app/](**https\://depoindex-rithikapillai.streamlit.app/**)****
 
----
+**---**
 
-## Technical Approach & Architecture
+**## Technical Approach & Architecture**
 
-Standard LLM pipelines fail on legal transcripts because language models hallucinate page and line boundaries across long token contexts. DepoIndex resolves this with a Two-Pass Hybrid Architecture combined with a strict, four-pillar validation suite and a post-mutation revalidation gate.
+Standard LLM pipelines fail on legal transcripts because language models hallucinate page and line boundaries across long token contexts. DepoIndex resolves this with a ****Two-Pass Hybrid Architecture**** combined with a strict, four-pillar validation suite and a post-mutation revalidation gate.
 
-```
+\`\`\`
 
 ┌────────────────────────────────────────────────────────────────────────┐
 
@@ -80,43 +80,45 @@ Standard LLM pipelines fail on legal transcripts because language models halluci
 
 └────────────────────────────────────────────────────────────────────────┘
 
-```
+\`\`\`
 
-Core Architecture Highlights
+### Core Architecture Highlights
 
-Pass 0 Metadata Extraction & Bound Clamping:
+1. **Pass 0 Metadata Extraction & Bound Clamping:**
 
    Automatically identifies examining/defending attorneys and deponent role while clamping processing strictly to substantive testimony (Page 7, Line 11 through Page 88, Line 17), excluding captions, errata sheets, and index concordances (Pages 89–94).
 
-Layout-Agnostic, Regex-Free Text Ingestion:
+2. **Layout-Agnostic, Regex-Free Text Ingestion:**
 
-   Extracts text using calibrated spatial Y-clustering ($\epsilon_y = 3.0\text{ pt}$), assigning monotonic Global IDs (`global_id`, `page`, `line`, `text`). The pipeline relies on set-based string parsing rather than brittle regex to handle varying court reporter layouts.
+   Extracts text using calibrated spatial Y-clustering ($\epsilon_y = 3.0\text{ pt}$), assigning monotonic Global IDs (\`global_id\`, \`page\`, \`line\`, \`text\`). The pipeline relies on set-based string parsing rather than brittle regex to handle varying court reporter layouts.
 
-Deterministic Anchor Resolution & Measured Snapping:
+3. **Deterministic Anchor Resolution & Measured Snapping:**
 
-   Initiating speaker turns (`Q.`, `A.`, `MR. PURCELL`) and clean sentence closures (`.`, `?`, `!`, `"`, `'`, `)`) are snapped before validation. Snap confidence is dynamically calculated using string similarity and distance penalties rather than hardcoding arbitrary `100.0` scores.
+   Initiating speaker turns (\`Q.\`, \`A.\`, \`MR. PURCELL\`) and clean sentence closures (\`.\`, \`?\`, \`!\`, \`"\`, \`'\`, \`)\`) are snapped before validation. Snap confidence is dynamically calculated using string similarity and distance penalties rather than hardcoding arbitrary \`100.0\` scores.
 
-The Four-Pillar Legal Validator:
+4. **The Four-Pillar Legal Validator:**
 
    Every topic entry must satisfy four non-permissive criteria:
 
-   * Pillar 1: Coordinate Verifiability & Monotonicity: $s\_gid \le e\_gid$ with measured match score $\ge 82.0\%$.
+   * **Pillar 1: Coordinate Verifiability & Monotonicity:** $s\\_gid \le e\\_gid$ with measured match score $\ge 82.0\\%$.
 
-   * Pillar 2: Boundary Integrity & Sentence Closure: Terminal punctuation validation without cutoffs.
+   * **Pillar 2: Boundary Integrity & Sentence Closure:** Terminal punctuation validation without cutoffs.
 
-   * Pillar 3: Independent Directed Semantic Support: Set-based keyword stem overlap ($\ge 20\%$) against the coordinate corpus.
+   * **Pillar 3: Independent Directed Semantic Support:** Set-based keyword stem overlap ($\ge 20\\%$) against the coordinate corpus.
 
-   * Pillar 4: Evidence & Entity Grounding: Statutory acronyms (`CFPB`, `TILA`, `SEC`, `ITT`, `PEAKS`) and proper nouns must appear within the coordinate slice.
+   * **Pillar 4: Evidence & Entity Grounding:** Statutory acronyms (\`CFPB\`, \`TILA\`, \`SEC\`, \`ITT\`, \`PEAKS\`) and proper nouns must appear within the coordinate slice.
 
-Mandatory Post-Mutation Revalidation Gate:
+5. **Mandatory Post-Mutation Revalidation Gate:**
 
    Any post-discovery modification (boundary snapping, duplicate merging, seam bridging, or gap recovery) strips the entry's verified status, requiring complete re-validation across all four pillars before export.
 
-Fail-Closed Auditing & Gap Recovery:
+6. **Fail-Closed Auditing & Gap Recovery:**
 
-   Unresolvable candidates are quarantined with detailed failure diagnostics in `output/quarantine_audit.json`. Multi-page omitted ranges (Pages 48–52 and Pages 74–78) are recovered via bounded synthesis to guarantee continuous, gap-free deposition coverage.
+   Unresolvable candidates are quarantined with detailed failure diagnostics in \`output/quarantine_audit.json\`. Multi-page omitted ranges (Pages 48–52 and Pages 74–78) are recovered via bounded synthesis to guarantee continuous, gap-free deposition coverage.
 
-Calibration & Empirical Benchmarks
+---
+
+## Calibration & Empirical Benchmarks
 
 Parameters were benchmarked against ground-truth deposition segments and court colloquy distractors:
 
@@ -124,35 +126,39 @@ Parameters were benchmarked against ground-truth deposition segments and court c
 
 | :--- | :---: | :--- |
 
-| Y-Clustering ($\epsilon_y$) | `3.0 pt` | Evaluated across 250 ground-truth transcript lines; achieves 100% visual line reconstruction without vertical line collisions. |
+| **Y-Clustering ($\epsilon_y$)** | \`3.0 pt\` | Evaluated across 250 ground-truth transcript lines; achieves 100% visual line reconstruction without vertical line collisions. |
 
-| Fuzzy Anchor Score ($\theta$) | `82.0%` | Benchmarked across 80 ground-truth quotes and 50 adversarial colloquy distractors ("Yes, sir", "Object to form"); achieves a False Acceptance Rate (FAR) of 0.0%. |
+| **Fuzzy Anchor Score ($\theta$)** | \`82.0%\` | Benchmarked across 80 ground-truth quotes and 50 adversarial colloquy distractors (*"Yes, sir"*, *"Object to form"*); achieves a False Acceptance Rate (FAR) of 0.0%. |
 
-| Minimum Anchor Length | `18 chars` | Filters out non-unique colloquy fragments during string recovery. |
+| **Minimum Anchor Length** | \`18 chars\` | Filters out non-unique colloquy fragments during string recovery. |
 
-| Seam Gap Absorption | `≤ 12 lines` | Safely bridges reporter notation, pauses, and brief transcript breaks without semantic drift. |
+| **Seam Gap Absorption** | \`≤ 12 lines\` | Safely bridges reporter notation, pauses, and brief transcript breaks without semantic drift. |
 
-Before vs. After System Comparison
+---
+
+## Before vs. After System Comparison
 
 | Dimension | Earlier Version | Revised Design |
 
 | :--- | :--- | :--- |
 
-| Opening Coverage | Started at Page 12 (dropping opening testimony due to unsnapped break). | Strictly starts at Page 7, Line 11; snapping occurs pre-validation. |
+| **Opening Coverage** | Started at Page 12 (dropping opening testimony due to unsnapped break). | Strictly starts at **Page 7, Line 11**; snapping occurs pre-validation. |
 
-| Downstream Mutation | Mutations (merging, snapping) were trusted directly into export without re-checking. | Mandatory Revalidation Gate re-validates 100% of post-mutation objects across all 4 pillars. |
+| **Downstream Mutation** | Mutations (merging, snapping) were trusted directly into export without re-checking. | **Mandatory Revalidation Gate** re-validates 100% of post-mutation objects across all 4 pillars. |
 
-| Confidence Scoring | Assigned hardcoded `100.0` score to snapped or recovered lines. | Dynamically measures confidence ($82.0\% - 96.0\%$) with distance penalties. |
+| **Confidence Scoring** | Assigned hardcoded \`100.0\` score to snapped or recovered lines. | Dynamically measures confidence ($82.0\\% - 96.0\\%$) with distance penalties. |
 
-| Semantic & Entity Grounding | Superficial token presence check. | Directed semantic coverage ratio ($\ge 20\%$) and statutory acronym grounding. |
+| **Semantic & Entity Grounding** | Superficial token presence check. | Directed semantic coverage ratio ($\ge 20\\%$) and statutory acronym grounding. |
 
-| Seam Continuity | Dropped 5-page gaps (Pages 48–52 and Pages 74–78). | 100% Line-Level Continuity; recovers gaps using grounded slice text. |
+| **Seam Continuity** | Dropped 5-page gaps (Pages 48–52 and Pages 74–78). | **100% Line-Level Continuity**; recovers gaps using grounded slice text. |
 
-| Terminal Invariant | Drifted into Page 94 (capturing errata sheets and index concordance tables). | Clamped strictly to deposition conclusion at Page 88, Line 17. |
+| **Terminal Invariant** | Drifted into Page 94 (capturing errata sheets and index concordance tables). | Clamped strictly to deposition conclusion at **Page 88, Line 17**. |
 
-Repository Structure
+---
 
-```
+## Repository Structure
+
+\`\`\`
 
 depo-index/
 
@@ -174,7 +180,7 @@ depo-index/
 
 ├── src/
 
-│   ├── init.py
+│   ├── ****init****.py
 
 │   ├── models.py                                   # Pydantic schemas (Pass 0 metadata, index entries)
 
@@ -210,65 +216,67 @@ depo-index/
 
 └── README.md                                       # System documentation
 
-```
+\`\`\`
 
-Setup & Reproduction
+---
 
-1. Prerequisites & Environment Setup
+## Setup & Reproduction
+
+### 1. Prerequisites & Environment Setup
 
 Clone the repository and install dependencies in a virtual environment:
 
-```bash
+\`\`\`bash
 
-Clone repository
+# Clone repository
 
-git clone https://github.com/your-username/depo-index.git
+git clone [https\://github.com/your-username/depo-index.git](https\://github.com/your-username/depo-index.git)
 
 cd depo-index
 
-Set up Python virtual environment
+# Set up Python virtual environment
 
 python -m venv venv
 
-Activate virtual environment
+# Activate virtual environment
 
-Windows (PowerShell):
+# Windows (PowerShell):
 
 .\venv\Scripts\Activate.ps1
 
-Linux / macOS:
+# Linux / macOS:
 
 source venv/bin/activate
 
-Install dependencies
+# Install dependencies
 
 pip install -r requirements.txt
 
-```
+\`\`\`
 
-### 2. Configure API Credentials
+**### 2. Configure API Credentials**
 
-Create a `.env` file in the root directory:
+Create a \`.env\` file in the root directory:
 
-```env
+\`\`\`env
 
 GEMINI_API_KEY="your-gemini-api-key-here"
 
-```
+\`\`\`
 
-### 3. Run Invariant Unit Tests
+**### 3. Run Invariant Unit Tests**
 
 Execute the adversarial unit test suite covering ungrounded entities, mid-sentence cuts, unsupported topics, and post-mutation tampering:
 
-```bash
+\`\`\`bash
 
 python -m pytest tests/test_invariants.py -v
 
-```
+\`\`\`
 
 Expected result:
 
-```text
+\`\`\`text
 
 tests/test_invariants.py::test_adversarial_hallucinated_entity_fails_closed PASSED
 
@@ -280,33 +288,33 @@ tests/test_invariants.py::test_stale_validation_fails_on_post_mutation_tampering
 
 ============================== 4 passed in 0.45s ==============================
 
-```
+\`\`\`
 
-### 4. Execute Production Indexing Pipeline
+**### 4. Execute Production Indexing Pipeline**
 
 Run the complete pipeline to extract metadata, parse coordinates, route topics, recover gaps, and enforce the revalidation gate:
 
-```bash
+\`\`\`bash
 
 Remove-Item -Path "data\parsed_transcript.json", "output\topic_index.json", "Persis_Yu_Topic_Index.csv" -ErrorAction SilentlyContinue
 
 python -m src.pipeline
 
-```
+\`\`\`
 
-### 5. Audit & Evaluate Pipeline Deliverables
+**### 5. Audit & Evaluate Pipeline Deliverables**
 
 Verify topic count, start/end bounds, and 100% line continuity:
 
-```bash
+\`\`\`bash
 
 python -m src.evaluate
 
-```
+\`\`\`
 
 Expected output:
 
-```text
+\`\`\`text
 
 =======================================================
 
@@ -326,38 +334,38 @@ Total Substantive Topics: 18 (or 19)
 
   ✓ Seam Continuity: 100% Contiguous across all pages. (0 gaps detected)
 
-```
+\`\`\`
 
-### 6. Run Multi-Run Stability Benchmark
+**### 6. Run Multi-Run Stability Benchmark**
 
 Evaluate stability across 3 consecutive pipeline iterations:
 
-```bash
+\`\`\`bash
 
 python -m src.stability_check
 
-```
+\`\`\`
 
-### 7. Launch Interactive Dashboard
+**### 7. Launch Interactive Dashboard**
 
 Run the Streamlit verification UI locally:
 
-```bash
+\`\`\`bash
 
 streamlit run app.py
 
-```
+\`\`\`
 
----
+**---**
 
-## Deliverables & Output Formats
+**## Deliverables & Output Formats**
 
-`Persis_Yu_Topic_Index.csv`: Production-ready, court-admissible topic index with columns `Topic`, `Start`, `End`, and `Supporting Evidence`.
+1. ****\`Persis_Yu_Topic_Index.csv\`****: Production-ready, court-admissible topic index with columns \`Topic\`, \`Start\`, \`End\`, and \`Supporting Evidence\`.
 
-`output/topic_index.json`: Machine-readable JSON export with coordinate IDs (`start_gid`, `end_gid`) and audit trails.
+2. ****\`output/topic_index.json\`****: Machine-readable JSON export with coordinate IDs (\`start_gid\`, \`end_gid\`) and audit trails.
 
-`output/quarantine_audit.json`: Fail-closed log detailing rejected candidates, recovery attempts, and failure reasons.
+3. ****\`output/quarantine_audit.json\`****: Fail-closed log detailing rejected candidates, recovery attempts, and failure reasons.
 
-```
+\`\`\`
 
-```
+\`\`\`
