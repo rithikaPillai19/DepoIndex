@@ -1,5 +1,3 @@
-\`\`\`markdown
-
 **# DepoIndex: Verifiable AI Deposition Topic Indexer**
 
 An auditable litigation support system that extracts, structures, and indexes legal deposition transcripts into verified, gap-free topic indices with strict, line-level source provenance.
@@ -366,6 +364,3 @@ streamlit run app.py
 
 3. ****\`output/quarantine_audit.json\`****: Fail-closed log detailing rejected candidates, recovery attempts, and failure reasons.
 
-\`\`\`
-
-\`\`\`
